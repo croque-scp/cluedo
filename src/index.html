@@ -62,8 +62,8 @@
       "use strict";
       /* global $, angular */
       (function(){
-        var maitreyaWrapper = angular
-          .module('maitreyaWrapper',[])
+        var cluedoWrapper = angular
+          .module('cluedoWrapper',[])
           .controller('WrapController',WrapController);
         WrapController.$inject = ['$scope'];
         function WrapController($scope){
@@ -93,7 +93,7 @@
       </form>
     <div id="container" ng-style="{'width': wrap.width, 'height': wrap.height}">
       <div id="interface">
-        <iframe src="maitreya.html"></iframe>
+        <iframe src="cluedo.html"></iframe>
       </div>
     </div>
   </body>
