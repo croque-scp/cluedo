@@ -1,7 +1,5 @@
-# Maitreya.js, the workhorse behind SCP-4000
+# cluedo.js, the workhorse behind SCP-5000
 # Written by Croquembouche, released under MIT
-#
-# Reminder to author: replace all 4000 with whatever number this ends up with
 
 "use strict"
 
