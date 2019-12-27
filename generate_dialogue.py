@@ -114,4 +114,56 @@ frames = frames_
 
 # Unlike maitreya, there is no dialogue associated with the option, only the
 # Line
-# However, both a Line and an Option can have an Appears If
+# However, only an Option can have an Appears If, but a Line will not appear if
+# it has no Options that appear
+
+# once
+'''
+getEvents = (aic) ->
+  events = {
+'''
+# per event:
+'''
+    {event_name}: {
+      precommand: (aic) ->
+        {precommands}
+      lines: [
+'''
+# per line:
+'''
+        {
+          delay: {line_delay}
+          duration: {line_duration}
+          text: """
+                {line_text}
+                """
+          options: [
+'''
+# per option in this line
+'''
+            {
+              text: """
+                    {option_text}
+                    """
+              destination: "{option_destination}"
+              opinion: {option_opinion}
+              condition: (aic) ->
+                {option_conditions}
+            }
+'''
+# per line:
+'''
+          ]
+        }
+'''
+# per event:
+'''
+      ]
+      postcommand: (aic) ->
+        {postcommands}
+    }
+'''
+# once
+'''
+  }
+'''
