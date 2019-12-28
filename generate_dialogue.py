@@ -2,6 +2,7 @@
 
 # Takes events.xlsx and prints dialogue.coffee to stdout.
 
+import sys
 import pandas as pd
 import numpy as np
 
@@ -14,7 +15,7 @@ dialogue_sheet = dialogue_sheet.drop(0)
 # Add a coloumn with the spreadsheet row number.
 dialogue_sheet['rowid'] = np.arange(3, len(dialogue_sheet) + 3)
 
-print(dialogue_sheet)
+print(dialogue_sheet, file=sys.stderr)
 
 # The columns are:
     # ID in
@@ -40,7 +41,7 @@ print(dialogue_sheet)
         # options which becomes the "next" button.
 
 # Split the dataframe into a list of FRAMES
-print("Splitting sheet into frames")
+print("Splitting sheet into frames", file=sys.stderr)
 frames = []
 frame = []
 for index,row in dialogue_sheet.iterrows():
@@ -62,8 +63,22 @@ assert len(dupe_frames) == 0, (
         ", ".join(["{} on row {}".format(frame['ID in'], frame['rowid'])
                    for frame in dupe_frames])))
 
+# Check that frames are accessible
+target_ids = [row['ID out'] for frame in frames for row in frame
+              if row['ID out'] is not np.nan]
+untargeted_ids = set(frame_ids) - set(target_ids)
+if len(untargeted_ids) > 0:
+    print("WARNING: The following frames are inaccessible: {}".format(
+        ", ".join(untargeted_ids)), file=sys.stderr)
+
+# Check that option targets exist
+unwritten_ids = set(target_ids) - set(frame_ids)
+if len(unwritten_ids) > 0:
+    print("WARNING: The following frames do not exist: {}".format(
+        ", ".join(unwritten_ids)), file=sys.stderr)
+
 # Solit each frame into a list of LINES
-print("Splitting frames into lines")
+print("Splitting frames into lines", file=sys.stderr)
 frames_ = []
 for frame in frames:
     lines = []
@@ -82,7 +97,7 @@ frames = frames_
 
 # Split each line into a list of OPTIONS
 # It is expected that the vast majority of lines will have one, empty option.
-print("Splitting lines into options")
+print("Splitting lines into options", file=sys.stderr)
 frames_ = []
 for frame in frames:
     lines_ = []
@@ -92,6 +107,8 @@ for frame in frames:
         # line is a list of pd.Series
         for row in line:
             option = row
+            if option['Lines'] is not np.nan:
+                option['Lines'] = option['Lines'].replace("\"", "\\\"")
             options.append(option)
         assert all([isinstance(o, pd.Series) for o in options])
         assert len(options) > 0
@@ -99,6 +116,12 @@ for frame in frames:
             assert all([o['Options'] is not np.nan for o in options]), (
                 "One of the options for {} (row {}) is missing text".format(
                     options[0]['ID in'], options[0]['rowid']))
+            assert all(o['precommands'] is np.nan for o in options[1:]), (
+                "precommands can only be on the first option of a frame ({}, "
+                "row {})".format(options[0]['ID in'], options[0]['rowid']))
+            assert all(o['postcommands'] is np.nan for o in options[1:]), (
+                "postcommands can only be on the first option of a frame ({}, "
+                "row {})".format(options[0]['ID in'], options[0]['rowid']))
         lines_.append(options)
     frames_.append(lines_)
 frames = frames_
@@ -117,53 +140,94 @@ frames = frames_
 # However, only an Option can have an Appears If, but a Line will not appear if
 # it has no Options that appear
 
-# once
-'''
+format = {
+    'start': '''\
 getEvents = (aic) ->
   events = {
-'''
-# per event:
-'''
-    {event_name}: {
-      precommand: (aic) ->
-        {precommands}
+''',
+    'event_start': '''\
+    {event_name}: {{
+      precommand: (aic) -> {precommands}
+      postcommand: (aic) -> {postcommands}
       lines: [
-'''
-# per line:
-'''
-        {
-          delay: {line_delay}
-          duration: {line_duration}
-          text: """
-                {line_text}
-                """
+''',
+    'precommand': "\n        {}",
+    'postcommand': "\n        {}",
+    'line_start': '''\
+        {{
+          delay: {delay}
+          duration: {duration}
+          text: "{text}"
           options: [
-'''
-# per option in this line
-'''
-            {
-              text: """
-                    {option_text}
-                    """
-              destination: "{option_destination}"
-              opinion: {option_opinion}
-              condition: (aic) ->
-                {option_conditions}
+''',
+    'option_start': '''\
+            {{
+              text: "{text}"
+              destination: "{destination}"
+              oncommand: (aic) -> {oncommands}
+              conditions: [{conditions}
+''',
+    # /\ TODO Note that maitreya would have opinion
+    'oncommand': "\n                {}",
+    'condition': "\n                (aic) -> {}",
+    'option_end': '''\
+              ]
             }
-'''
-# per line:
-'''
+''',
+    'line_end': '''\
           ]
         }
-'''
-# per event:
-'''
+''',
+    'event_end': '''\
       ]
-      postcommand: (aic) ->
-        {postcommands}
     }
-'''
-# once
-'''
+''',
+    'end': '''\
   }
 '''
+}
+
+final_output = format['start']
+for frame in frames:
+    precommands = frame[0][0]['precommands']
+    postcommands = frame[0][0]['postcommands']
+    event_output = format['event_start'].format(
+        event_name=frame[0][0]['ID in'],
+        # XXX the following doesn't preserve indent for multiline
+        precommands="return" if precommands is np.nan else
+                     "".join([format['precommand'].format(c)
+                              for c in precommands.splitlines()]),
+        postcommands="return" if postcommands is np.nan else
+                     "".join([format['postcommand'].format(c)
+                              for c in postcommands.splitlines()]))
+    for line in frame:
+        line_output = format['line_start'].format(
+            # TODO delay and duration
+            delay=0,
+            duration=0,
+            text="\\n".join(line[0]['Lines'].splitlines()))
+        for option in line:
+            oncommands = option['oncommands']
+            conditions = option['Appears If']
+            option_output = format['option_start'].format(
+                text="" if option['Options'] is np.nan
+                        else option['Options'],
+                destination="" if option['ID out'] is np.nan
+                               else option['ID out'],
+                # opinion=option['Opinion']
+                oncommands="return" if oncommands is np.nan else
+                             "".join([format['oncommand'].format(c)
+                                      for c in oncommands.splitlines()]),
+                conditions="" if conditions is np.nan else
+                             "".join([format['condition'].format(c)
+                                      for c in conditions.splitlines()]))
+            option_output += format['option_end']
+            line_output += option_output
+        line_output += format['line_end']
+        event_output += line_output
+    event_output += format['event_end']
+    final_output += event_output
+final_output += format['end']
+
+print("# Generated by generate_dialogue.py")
+print(final_output)
