@@ -2,8 +2,9 @@
 *.vim
 *.sw*
 
-# Temporary Excel files
+# Temporary files
 ~$*
+*.temp.*
 
 # Logs
 logs

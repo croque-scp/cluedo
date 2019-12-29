@@ -67,17 +67,22 @@ Should be good to go.
 To build everything from source, run the following from the project's
 directory:
 ```shell
+gulp events
 gulp js
 gulp css
-gulp py
+gulp static
 ```
-Or you can just do this, which will do all three of those in one:
+`gulp events` generates a temporary Coffeescript file, which is then processed
+by `gulp js`, so you have to do them in that order. The order of the rest
+doesn't matter.
+
+Or you can just do this, which will do all of that in one command:
 ```shell
 gulp
 ```
 This will completely rebuild everything from source.
 
-If you didn't create a Python environment, `gulp py` won't work and therefore
-`gulp` by itself won't work either. You'll have to run `gulp js` and `gulp css`
-by themselves. So long as you didn't delete the old `dist/lang.js`, that will
-be used instead.
+If you didn't create a Python environment, `gulp events` won't work and
+therefore `gulp` by itself won't work either. You'll have to run `gulp js`,
+`gulp css` and `gulp static` by themselves. `gulp events` only generates
+`dist/events.js`, so if you already have that, you don't need it.
