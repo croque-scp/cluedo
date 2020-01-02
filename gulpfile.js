@@ -12,6 +12,7 @@ const exec = require('child_process').exec;
 const through2 = require('through2');
 const gutil = require('gulp-util');
 const plumber = require('gulp-plumber');
+const path = require('path');
 
 gulp.task('events', function(done) {
   log("Handling events");
@@ -29,8 +30,8 @@ gulp.task('events', function(done) {
     .on('end', () => log("Processed sheet"))
     .pipe(rename("events.temp.coffee"))
     .pipe(gulp.dest('./src/js/'))
-    .on('end', () => log("Converted events sheet to coffeescript"));
-  done();
+    .on('end', () => log("Converted events sheet to coffeescript"))
+    .on('end', () => done());
 });
 
 gulp.task('js', function(done) {
@@ -41,13 +42,18 @@ gulp.task('js', function(done) {
     .on('end', () => log("Moved any JS files to dist"));
   // Convert coffee files
   gulp.src('./src/js/*.coffee', {sourcemaps: true})
+    .pipe(rename(function(path) {
+      if(path.basename === "events.temp") {
+        path.basename = "events";
+      };
+    }))
     .pipe(coffee({bare: true}))
     .on('end', () => log("Converted coffee to JS"))
     .pipe(babel({presets: ['env']}))
     .on('end', () => log("Piped coffee through Babel"))
     .pipe(gulp.dest('./dist/'))
-    .on('end', () => log("Finished processing JS"));
-  done();
+    .on('end', () => log("Finished processing JS"))
+    .on('end', () => done());
 });
 
 gulp.task('css', function(done) {
@@ -68,8 +74,8 @@ gulp.task('css', function(done) {
     .on('end', () => log("Post-processing CSS"))
     .pipe(rename("maitreya.css"))
     .pipe(gulp.dest('./dist/'))
-    .on('end', () => log("Finished processing CSS"));
-  done();
+    .on('end', () => log("Finished processing CSS"))
+    .on('end', () => done());
 });
 
 gulp.task('static', function(done) {
@@ -80,8 +86,8 @@ gulp.task('static', function(done) {
   gulp.src('./src/*.html')
     .pipe(gulp.dest('./dist/'));
   gulp.src('./src/js/*.json')
-    .pipe(gulp.dest('./dist/'));
-  done();
+    .pipe(gulp.dest('./dist/'))
+    .on('end', () => done());
 });
 
 gulp.task('default', gulp.series('events','js','css','static'));

@@ -85,4 +85,4 @@ This will completely rebuild everything from source.
 If you didn't create a Python environment, `gulp events` won't work and
 therefore `gulp` by itself won't work either. You'll have to run `gulp js`,
 `gulp css` and `gulp static` by themselves. `gulp events` only generates
-`dist/events.js`, so if you already have that, you don't need it.
+`src/js/events.temp.coffee`, and later `dist/events.js`, so if you already have that, you don't need it.
