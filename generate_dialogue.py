@@ -46,7 +46,7 @@ frames = []
 frame = []
 for index,row in dialogue_sheet.iterrows():
     # If there's an ID, start a new frame
-    if row['ID in'] is not np.nan and frame != []:
+    if pd.notna(row['ID in']) and frame != []:
         frames.append(frame)
         frame = []
     # Otherwise, add this row to the frame
@@ -65,7 +65,7 @@ assert len(dupe_frames) == 0, (
 
 # Check that frames are accessible
 target_ids = [row['ID out'] for frame in frames for row in frame
-              if row['ID out'] is not np.nan]
+              if pd.notna(row['ID out'])]
 untargeted_ids = set(frame_ids) - set(target_ids)
 if len(untargeted_ids) > 0:
     print("WARNING: The following frames are inaccessible: {}".format(
@@ -85,7 +85,7 @@ for frame in frames:
     line = []
     for row in frame:
         # If there's a LINE, start a new line
-        if row['Lines'] is not np.nan and line != []:
+        if pd.notna(row['Lines']) and line != []:
             lines.append(line)
             line = []
         # Otherwise, add this row to the line
@@ -107,19 +107,19 @@ for frame in frames:
         # line is a list of pd.Series
         for row in line:
             option = row
-            if option['Lines'] is not np.nan:
+            if pd.notna(option['Lines']):
                 option['Lines'] = option['Lines'].replace("\"", "\\\"")
             options.append(option)
         assert all([isinstance(o, pd.Series) for o in options])
         assert len(options) > 0
         if len(options) > 1:
-            assert all([o['Options'] is not np.nan for o in options]), (
+            assert all([pd.notna(o['Options']) for o in options]), (
                 "One of the options for {} (row {}) is missing text".format(
                     options[0]['ID in'], options[0]['rowid']))
-            assert all(o['precommands'] is np.nan for o in options[1:]), (
+            assert all(pd.isna(o['precommands']) for o in options[1:]), (
                 "precommands can only be on the first option of a frame ({}, "
                 "row {})".format(options[0]['ID in'], options[0]['rowid']))
-            assert all(o['postcommands'] is np.nan for o in options[1:]), (
+            assert all(pd.isna(o['postcommands']) for o in options[1:]), (
                 "postcommands can only be on the first option of a frame ({}, "
                 "row {})".format(options[0]['ID in'], options[0]['rowid']))
         lines_.append(options)
@@ -158,16 +158,18 @@ getEvents = (aic) ->
           delay: {delay}
           duration: {duration}
           text: "{text}"
+          style: [{style}]
           options: [
 ''',
     'option_start': '''\
             {{
               text: "{text}"
-              destination: "{destination}"
+              destination: '{destination}'
+              style: [{style}]
+              opinion: {opinion}
               oncommand: (aic) -> {oncommands}
               conditions: [{conditions}
 ''',
-    # /\ TODO Note that maitreya would have opinion
     'oncommand': "\n                {}",
     'condition': "\n                (aic) -> {}",
     'option_end': '''\
@@ -194,10 +196,10 @@ for frame in frames:
     event_output = format['event_start'].format(
         event_name=frame[0][0]['ID in'],
         # XXX the following doesn't preserve indent for multiline
-        precommands="return" if precommands is np.nan else
+        precommands="return" if pd.isna(precommands) else
                      "".join([format['precommand'].format(c)
                               for c in precommands.splitlines()]),
-        postcommands="return" if postcommands is np.nan else
+        postcommands="return" if pd.isna(postcommands) else
                      "".join([format['postcommand'].format(c)
                               for c in postcommands.splitlines()]))
     for line in frame:
@@ -205,22 +207,27 @@ for frame in frames:
             # TODO delay and duration
             delay=0,
             duration=0,
-            text="\\n".join(line[0]['Lines'].splitlines()))
+            text="" if pd.isna(line[0]['Lines']) else
+                 "\\n".join(line[0]['Lines'].splitlines()),
+            style="" if pd.isna(line[0]['lc']) else
+                  str(line[0]['lc'].splitlines())[1:-1])
         for option in line:
             oncommands = option['oncommands']
             conditions = option['Appears If']
             option_output = format['option_start'].format(
-                text="" if option['Options'] is np.nan
+                text="" if pd.isna(option['Options'])
                         else option['Options'],
-                destination="" if option['ID out'] is np.nan
+                destination="" if pd.isna(option['ID out'])
                                else option['ID out'],
-                # opinion=option['Opinion']
-                oncommands="return" if oncommands is np.nan else
-                             "".join([format['oncommand'].format(c)
-                                      for c in oncommands.splitlines()]),
-                conditions="" if conditions is np.nan else
-                             "".join([format['condition'].format(c)
-                                      for c in conditions.splitlines()]))
+                opinion=0,
+                style="" if pd.isna(option['oc']) else
+                      str(option['oc'].splitlines())[1:-1],
+                oncommands="return" if pd.isna(oncommands) else
+                           "".join([format['oncommand'].format(c)
+                                    for c in oncommands.splitlines()]),
+                conditions="" if pd.isna(conditions) else
+                           "".join([format['condition'].format(c)
+                                    for c in conditions.splitlines()]))
             option_output += format['option_end']
             line_output += option_output
         line_output += format['line_end']

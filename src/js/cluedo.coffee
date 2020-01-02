@@ -5,6 +5,10 @@
 
 ### global $, angular ###
 
+assert = (condition, message) ->
+  if not condition
+    throw new Error(message ? "AssertionError")
+
 # randomise an array
 shuffle = (array) ->
   m = array.length
@@ -19,7 +23,7 @@ shuffle = (array) ->
 
 do ->
 
-  MaitreyaController = ($scope, $timeout, LoopService, $sce, $http) ->
+  MaitreyaController = ($scope, $timeout, $sce, $http) ->
     aic = this
 
     LoopService.use $scope
@@ -54,229 +58,66 @@ do ->
     $(document).ready ->
       aic.onMobile = $('body').width() < 700
       $scope.$apply ->
-        aic = aic_init(aic)
-        aic.lang = getBaseLexicon(aic)['lang']
-        speech.merge getBaseLexicon(aic)['speech']
+        aic = aic_init(aic) # from init.js
+        aic.lang = getBaseLexicon(aic)['lang'] # from lang.coffee
+        speech.merge getBaseLexicon(aic)['speech'] # from lang.coffee
         speech.merge LoopService.dialogue
       preloadImage aic.lang.images.greyStripe
       console.log "Ready to go"
       return null
 
     # called when "BOOT UP" is clicked from preload
-    aic.bootUp = ->
+    aic.bootUp = =>
       console.log "Booting up..."
       aic.preload = false
-      # XXX shouldn't this use the same data picker as the first one?
-      aic.bootDate = new Date(Date.now())
-      # TODO: save/load
-      # also need to sort out the dates of the articles
-      for article of aic.lang.articles
-        if !!aic.lang.articles[article].revised and aic.lang.articles[article].revised < 0
-          aic.lang.articles[article].revised = Date.now() + aic.lang.articles[article].revised
       # Here we go boys
       aic.start[0] aic.start[1], aic.start[2]
       return null
 
-    aic.mainLoop = (bigSection, smallSection) ->
-      # So this is where the magic happens
-      # So here's one idea: bigSection and smallSection
-      # one big switch, many little switches
-      # smallSection would be the message IDs probably
-      # problem: do I really want to split my entire conversational tree into sections?
-      # Answer: hell yes I do
-      # pass sections to the func or use variables?
-      # pass to func for now
-      smallSection = smallSection.replace(/_*$/g, "")
-      console.log "Main - #{bigSection} - #{smallSection}"
-      # msg syntax IS NOT SUITABLE HERE! only for breach and alexandra!
-      delay = 0
-      switch bigSection
-        when 'INTRODUCTION'
-          switch smallSection
-            when 'startBoot'
-              delay = writeDialogue('terminal', speech[bigSection].terminal[smallSection])
-              aic.timers.terminal = $timeout((->
-                breachLoop 'INTRODUCTION', 'start'
-                return null
-              ), (delay - 1.5) * 1000)
-            else
-              throw new Error("#{smallSection} is not an event in #{bigSection}")
-        when 'ROOMS'
-          rooms = []
-          switch smallSection
-            when 'rebootRooms'
-              # this is issued when the user resets all the cameras
-              # first, turn them all off
-              # then turn them all back on, one by one
-              $timeout (->
-                aic.mainLoop 'ROOMS', 'unbootRoom'
-                return null
-              ), 200
-            when 'unbootRoom'
-              # rebootRooms calls this to unboot individual rooms
-              rooms = arguments[2] or Object.keys(aic.rooms)
-              if true
-                # all rooms must be turned off at this point
-                $scope.$apply ->
-                  aic.rooms[rooms[0]].error = true
-                  return null
-              # now check the next room
-              rooms.shift()
-              if rooms.length > 0
-                $timeout (->
-                  aic.mainLoop 'ROOMS', 'unbootRoom', rooms
-                  return null
-                ), Math.floor(Math.random() * 20)
-              else
-                $timeout (->
-                  aic.mainLoop 'ROOMS', 'bootRoom'
-                  return null
-                ), 2000
-            when 'bootRoom'
-              # rebootRooms calls this to reboot individual rooms
-              # arguments[2] is a random list of rooms
-              # arguments[3] is the delay
-              # only check the first room in the list
-              rooms = arguments[2] or shuffle(Object.keys(aic.rooms))
-              delay = arguments[3] - 20 or 600
-              if aic.rooms[rooms[0]].error == true and aic.vars.scp4000.location != rooms[0] and rooms[0] != 'toilet'
-                $scope.$apply ->
-                  aic.rooms[rooms[0]].error = false
-                  return null
-              # now check the next room
-              rooms.shift()
-              if rooms.length > 0
-                $timeout (->
-                  aic.mainLoop 'ROOMS', 'bootRoom', rooms, delay
-                  return null
-                ), Math.floor(Math.random() * delay)
-            else
-              throw new Error("#{smallSection} is not an event in #{bigSection}")
-        when 'misc'
-          switch smallSection
-            # pretty sure this only happens when skipping the intro, but whatever
-            when 'introSkipped'
-              delay = writeDialogue("terminal", speech[bigSection].terminal[smallSection])
-            else
-              throw new Error("#{smallSection} is not an event in #{bigSection}")
-        else
-          throw new Error("#{bigSection} is not an event")
-      return null
+    aic.mainLoop = (event_name) ->
+      # TODO add character/sheet property to events
+      event_name = event_name.replace(/_*$/g, "")
+      console.log "Event = #{event_name}"
 
-    breachLoop = (bigSection, smallSection) ->
-      # smallSection may have trailing underscores - clean these up
-      smallSection = smallSection.replace(/_*$/g, '')
-      console.log "Breach - #{bigSection} - #{smallSection}"
-      msg = undefined
-      try
-        msg = speech[bigSection].breach[smallSection]
-      catch error
-        throw new Error("#{smallSection} doesn't exist in Breach's #{bigSection}")
-      aic.ready.messages = true
-      aic.ready.breach = true
-      # breachLoop has been exported to LoopService
-      # check for events that we want to handle manually
-      switch bigSection
-        when 'MISC'
-          switch smallSection
-            when 'fillerQuestion'
-              #do stuff
-            else
-              throw new Error("Breach #{smallSection} is not an event in #{bigSection}")
-        else
-          # this event is not declared, so defer to LoopService
-          LoopService.breachLoop bigSection, smallSection, msg
-      return null
+      if event_name in aic.blacklist
+        throw new Error("#{event_name} is blacklisted")
 
-    alexandraLoop = (bigSection, smallSection) ->
-      # smallSection may have trailing underscores - clean these up
-      smallSection = smallSection.replace(/_*$/g, '')
-      console.log "Alexandra - #{bigSection} - #{smallSection}"
-      msg = undefined
-      # try
-      msg = speech[bigSection].alexandra[smallSection]
-      # catch error
-        # throw new Error("#{smallSection} doesn\'t exist in Alexandra\'s #{bigSection}")
-      aic.ready.messages = true
-      aic.ready.alexandra = true
-      # breachLoop has been exported to LoopService
-      LoopService.alexandraLoop bigSection, smallSection, msg
-      return null
+      if event_name of aic.events
+        execute_event aic.events[event_name]
+      else
+        throw new Error("#{event_name} is not an event")
 
-    endingLoop = (bigSection, smallSection, delay) ->
-      # smallSection may have trailing underscores - clean these up
-      if typeof smallSection == 'string'
-        # endingLoop"s smallSection is optional
-        smallSection = smallSection.replace(/_*$/g, "")
-      console.log "Ending - #{bigSection} - #{smallSection}"
-      delay = delay or 0
-      switch bigSection
-        when 'PUSHENDING'
-          $timeout (->
-            aic.currentEnding = aic.endingPositions[smallSection]
-            aic.vars.endingFractionText = aic.lang.endingFraction.replace('$1', aic.currentEnding + 1).replace('$2', aic.lang.endings.length)
-            aic.ready.ending = true
-            aic.vars.terminalEmphasis = false
-            aic.switchApp 'ending'
-            return null
-          ), delay * 1000, true
-        when 'ENDING'
-          switch smallSection
-            when 'pissOff'
-              aic.vars.terminalEmphasis = true
-              delay = writeDialogue('terminal', speech.misc.terminal.breachShutDown)
-              $timeout (->
-                endingLoop 'PUSHENDING', smallSection, 2
-                return null
-              ), delay * 1000
-            when 'example'
-              $timeout (->
-                endingLoop 'PUSHENDING', smallSection, 2
-                return null
-              ), delay * 1000
-            else
-              throw new Error("#{smallSection} is not an ending")
-        else
-          throw new Error("#{bigSection} is not an event")
-      return null
+    execute_event = (event) ->
+      # Function for executing a single event.
+      # Receives the event, not the name.
 
-    dynamicLoop = (character, bigSection, smallSection) ->
-      # this only gets called when a conversation is skipped, so we can probably unmark the skippo here
-      aic.isSkipping[character] = false
-      switch character
-        when 'breach'
-          breachLoop bigSection, smallSection
-        when 'alexandra'
-          alexandraLoop bigSection, smallSection
-        when 'terminal'
-          aic.mainLoop bigSection, smallSection
-        else
-          console.log character, bigSection, smallSection
-          throw new Error("Unexpected dynamic character: #{character}")
-      return null
+      # Work out which of the lines have options.
+      lines = []
+      for line in event['lines']
+        options = []
+        for option in line['options']
+          conditions = []
+          for condition in option['conditions']
+            conditions.push condition()
+          options.push conditions.every((v) => v is true)
+        if options.every((v) => v is true) then lines.push line
+      # lines is now all the lines that will appear
+      # write the lines, one by one, and display options of the final
+      render_lines lines
 
     ### PROCESSING FUNCTIONS ###
 
     # pass options to chatLog for presentation to the user
 
-    presentOptions = (conversation, bigSection, ids) ->
-      # conversation = string for the conversation
-      if !aic.speakerList.includes(conversation)
-        throw new Error("#{conversation} is not a conversation")
-      # options = array with each option
-      # each option is also an array, of the format:
-      # ["s:OPTION TEXT","OUTPUT TEXT"]
-      if !Array.isArray(ids) and ids != 'CLEAR'
-        throw new Error("options is not an array")
-      # this function needs to put stuff into aic.chatLog[conversation].options
+    presentOptions = (line) ->
+      # present the options for this line
+
       # options list may not be empty:
       aic.chatLog[conversation].options = []
       # if ids is "CLEAR", stop here, we only want to clear the array
       if ids == 'CLEAR'
         return null
-      # clear undefined from list of options (in case of false-less ifs)
-      ids = ids.filter(Boolean)
-      # is is very possible that certain actions will need to do things other than output text. we'll cross that bridge when we come to it
+
       options = []
       i = 0
       while i < ids.length
@@ -365,7 +206,7 @@ do ->
 
     # structure dialogue and calculate timing
 
-    writeDialogue = (conversation, dialogueList, speaker, smallSection) ->
+    writeDialogue = (conversation, dialogueList, speaker, event_name) ->
       # Take a name and an array (mixture of letters and numbers) and crank out that dialogue boy
       # Expected format: n n text n n text n n text repeating
       # Where n1 is missing, assume 0
@@ -374,7 +215,7 @@ do ->
       # During n2, must display a "typing" (except on terminal)
       # assume the current person is talking if no speaker is specified
       speaker = speaker or conversation
-      # smallSection is not always present, but we need it
+      # event_name is not always present, but we need it
       # it may be "undefined", deal with that later
       if !Array.isArray(dialogueList)
         console.error arguments
@@ -515,14 +356,14 @@ do ->
         else
           throw new Error("Dialogue not number or string")
         i++
-      pushToLog conversation, messages, smallSection
+      pushToLog conversation, messages, event_name
       # the total length of all messages gets passed back to the mainloop
       return totalDelay
 
     # push dialogue to chatLog for presentation to the user
     pushToLog = (conversation, messages, ID, thread) ->
       # TODO document what the fuck is in messages argument
-      # check the dialogue's ID (ie smallSection)
+      # check the dialogue's ID (ie event_name)
 
       ###if(!ID && conversation !== "terminal") {
       throw new Error("ID was not passed to pushToLog");
@@ -641,7 +482,7 @@ do ->
               # this fixes the above
           if ! !aic.isSkipping[conversation]
             # check to see if we're being interrupted
-            # the value of isSkipping[c] is either false or a character-bigSection-smallSection array indicating where to go afterwards
+            # the value of isSkipping[c] is either false or a character-bigSection-event_name array indicating where to go afterwards
             console.log "Now interrupting: #{conversation}"
             # loop through timeoutlist and kill all timeouts?
             # maybe associate each timeout with its conversation in the list so we can selectively kill them
@@ -683,7 +524,7 @@ do ->
 
                 aic.chatLog[conversation].log.unshift messages[0][2]
                 addNotification conversation
-                
+
                 # alex's pfp will change
                 if messages[0][2].speaker == 'alexandra'
                   aic.vars.alexandraLastEmotion = messages[0][2].emote
@@ -1219,7 +1060,7 @@ do ->
   maitreya = angular
     .module("maitreya", ['ngSanitize', 'ngAnimate'])
     .controller("MaitreyaController",
-                ['$scope', '$timeout', 'LoopService', '$sce', '$http',
+                ['$scope', '$timeout', '$sce', '$http',
                  MaitreyaController])
     .filter("encode", [EncodeURIComponentFilter])
 

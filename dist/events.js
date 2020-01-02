@@ -13,9 +13,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "Act 1 of 9\nIn which (??? this seems pretentious)",
+        style: [],
         options: [{
           text: "",
-          destination: "",
+          destination: '',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -23,9 +26,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "The evening is misty, foggy and cold.\nAnother long night of doing what you’re told.",
+        style: [],
         options: [{
           text: "",
-          destination: "drive_there",
+          destination: 'drive_there',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -38,9 +44,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "Your car starts slowly, its engine does sputter,\nYour exhausted complaint is barely a mutter.",
+        style: [],
         options: [{
           text: "",
-          destination: "",
+          destination: '',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -48,9 +57,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "The drive there is lonely. The sky’s growing dark.\nYou like it. The contrast with daytime is stark.",
+        style: [],
         options: [{
           text: "",
-          destination: "guard",
+          destination: 'guard',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -63,9 +75,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "Your card beeps at the gate, and though your face is glum,\nThe guard greets you with gusto. <char sky|\"Hi, Dr. Plum!\">",
+        style: [],
         options: [{
           text: "",
-          destination: "",
+          destination: '',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -73,9 +88,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "You nod a response and park up your car.\nFrom here to your office, the walk’s not that far.",
+        style: [],
         options: [{
           text: "",
-          destination: "sit_in_office",
+          destination: 'sit_in_office',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -88,9 +106,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "You open your door and put down your case.\nYou sit for a while, hands raised to your face.",
+        style: [],
         options: [{
           text: "",
-          destination: "",
+          destination: '',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -98,9 +119,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "...until your bladder speaks up. You need a piss.\nThe extra distraction would not go amiss.",
+        style: [],
         options: [{
           text: "",
-          destination: "discover_crime",
+          destination: 'discover_crime',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -113,9 +137,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "But while making your way through Site-39,\nYou discover the scene of a terrible crime!",
+        style: [],
         options: [{
           text: "",
-          destination: "find_body",
+          destination: 'find_body',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -128,9 +155,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "You see, near the basement, atop the staircase,\nThe lifeless frame of a featureless face.",
+        style: [],
         options: [{
           text: "",
-          destination: "",
+          destination: '',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -138,9 +168,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "A smoothened head with no mouth and no eyes,\nAn inhuman receptacle built to store lies.",
+        style: [],
         options: [{
           text: "",
-          destination: "",
+          destination: '',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -148,9 +181,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "It’s O5-1. The head of command,\nThe highest position this Foundation demands.",
+        style: [],
         options: [{
           text: "",
-          destination: "examine_body",
+          destination: 'examine_body',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -163,9 +199,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "Your heart skips a beat but your face doesn’t twitch.\nSurely no-one could have slain this witch?",
+        style: [],
         options: [{
           text: "",
-          destination: "",
+          destination: '',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -173,9 +212,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "And yet, here it is. The thing’s cold and dead.\nBut how could this happen? You look closely instead:",
+        style: [],
         options: [{
           text: "",
-          destination: "examine_body_2",
+          destination: 'examine_body_2',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -183,9 +225,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "The smooth face is... blue? Did it suffocate?\nYes! It choked on something, then met its fate.",
+        style: [],
         options: [{
           text: "",
-          destination: "examine_body_2",
+          destination: 'examine_body_2',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: [function (aic) {
             return aic.vars.murder_method === "choke";
@@ -195,9 +240,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "A spattering of dirt, and shards of ceramic,\nSomething hit it in the head - how tragic!",
+        style: [],
         options: [{
           text: "",
-          destination: "examine_body_2",
+          destination: 'examine_body_2',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: [function (aic) {
             return aic.vars.murder_method === "vase";
@@ -207,9 +255,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "...and find nothing at all. No hint, no trace,\nA smidgen’t of evidence as to what here took place.",
+        style: [],
         options: [{
           text: "",
-          destination: "examine_body_2",
+          destination: 'examine_body_2',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: [function (aic) {
             return aic.vars.murder_method === "bl";
@@ -219,9 +270,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "Its chest is collapsed. It was hit with great force!\nBy an object far larger than it, of course.",
+        style: [],
         options: [{
           text: "",
-          destination: "examine_body_2",
+          destination: 'examine_body_2',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: [function (aic) {
             return aic.vars.murder_method === "car";
@@ -231,9 +285,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "Its stomach is swollen and seems to have burst.\nIt’s been pumped full of something. Must be the worst.",
+        style: [],
         options: [{
           text: "",
-          destination: "examine_body_2",
+          destination: 'examine_body_2',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: [function (aic) {
             return aic.vars.murder_method === "pizza";
@@ -243,9 +300,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "Its hands are missing, shorn off at the wrist,\nYou wonder who took them, or why they did this.",
+        style: [],
         options: [{
           text: "",
-          destination: "examine_body_2",
+          destination: 'examine_body_2',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: [function (aic) {
             return aic.vars.murder_method === "bear";
@@ -260,9 +320,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "But how could this happen? You look side to side,\nAnd see a faint path of blood, one body wide.",
+        style: [],
         options: [{
           text: "",
-          destination: "",
+          destination: '',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -270,9 +333,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "You follow it back to whence it once came.\nAnd find, to your utmost horror and shame...",
+        style: [],
         options: [{
           text: "",
-          destination: "trail_to_office",
+          destination: 'trail_to_office',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: [function (aic) {
             return aic.vars.murder_location === "office";
@@ -282,9 +348,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "You follow it back to whence it once came.\nAnd find, to your utmost horror and shame...",
+        style: [],
         options: [{
           text: "",
-          destination: "trail_to_cafeteria",
+          destination: 'trail_to_cafeteria',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: [function (aic) {
             return aic.vars.murder_location === "cafeteria";
@@ -294,9 +363,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "You follow it back to whence it once came.\nAnd find, to your utmost horror and shame...",
+        style: [],
         options: [{
           text: "",
-          destination: "trail_to_containment",
+          destination: 'trail_to_containment',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: [function (aic) {
             return aic.vars.murder_location === "containment";
@@ -306,9 +378,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "You follow it back to whence it once came.\nAnd find, to your utmost horror and shame...",
+        style: [],
         options: [{
           text: "",
-          destination: "trail_to_carpark",
+          destination: 'trail_to_carpark',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: [function (aic) {
             return aic.vars.murder_location === "carpark";
@@ -318,9 +393,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "You follow it back to whence it once came.\nAnd find, to your utmost horror and shame...",
+        style: [],
         options: [{
           text: "",
-          destination: "trail_to_corridor",
+          destination: 'trail_to_corridor',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: [function (aic) {
             return aic.vars.murder_location === "corridor";
@@ -330,9 +408,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "You follow it back to whence it once came.\nAnd find, to your utmost horror and shame...",
+        style: [],
         options: [{
           text: "",
-          destination: "trail_to_study",
+          destination: 'trail_to_study',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: [function (aic) {
             return aic.vars.murder_location === "study";
@@ -347,9 +428,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "Your own office! Its door still ajar,\nYou can’t believe you didn’t see it before.",
+        style: [],
         options: [{
           text: "",
-          destination: "",
+          destination: '',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -357,9 +441,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "They’ll think it was you. But no, that can’t be!\nYou couldn’t do this. Could you? We’ll see.",
+        style: [],
         options: [{
           text: "",
-          destination: "alert_everyone",
+          destination: 'alert_everyone',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -372,9 +459,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "The Site cafeteria! An odd choice for killing,\nThe public space would make it a little too thrilling?",
+        style: [],
         options: [{
           text: "",
-          destination: "",
+          destination: '',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -382,9 +472,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "Yet the blood starts here, and it’s more than a hunch.\nYou mentally note to go elsewhere for lunch.",
+        style: [],
         options: [{
           text: "",
-          destination: "alert_everyone",
+          destination: 'alert_everyone',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -397,9 +490,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "Containment Cell 8, door locked tightly shut.\nThe trail of blood leads underneath the door’s butt.",
+        style: [],
         options: [{
           text: "",
-          destination: "",
+          destination: '',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -407,9 +503,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "With no access card, you’ve no way of knowing\nWhich SCP hides here, and no clue is showing.",
+        style: [],
         options: [{
           text: "",
-          destination: "alert_everyone",
+          destination: 'alert_everyone',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -422,9 +521,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "car park",
+        style: [],
         options: [{
           text: "",
-          destination: "alert_everyone",
+          destination: 'alert_everyone',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -437,9 +539,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "corridor",
+        style: [],
         options: [{
           text: "",
-          destination: "alert_everyone",
+          destination: 'alert_everyone',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -452,9 +557,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "reading room",
+        style: [],
         options: [{
           text: "",
-          destination: "alert_everyone",
+          destination: 'alert_everyone',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -467,9 +575,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "You shake from your stupor. No time to waste,\nYou retrieve your phone and bring it to your face.",
+        style: [],
         options: [{
           text: "",
-          destination: "",
+          destination: '',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -477,9 +588,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "<char plum|\"O5-1 is dead,\"> you say, a little too eager,\nYour voice is repeated over the Site’s speakers.",
+        style: [],
         options: [{
           text: "",
-          destination: "",
+          destination: '',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -487,9 +601,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "<char plum|\"Lock down the Site and come to the staircase.\nWe need to know who performed this disgrace.\">",
+        style: [],
         options: [{
           text: "Gather everyone",
-          destination: "night_sky",
+          destination: 'night_sky',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -502,9 +619,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "It's still early evening. Most workers are gone.\nOf those employed here, only six stayed long.",
+        style: [],
         options: [{
           text: "",
-          destination: "",
+          destination: '',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -512,9 +632,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "(Except for you, of course, you've just arrived.\nYou find that you work much better at night.)",
+        style: [],
         options: [{
           text: "",
-          destination: "gathering_corpse",
+          destination: 'gathering_corpse',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -527,9 +650,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "The body's surrounded by six owls of night.\nThe entire population of this blasted Site.",
+        style: [],
         options: [{
           text: "",
-          destination: "",
+          destination: '',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -537,9 +663,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "(Learn these names, for this is the cast.\nWhen this is done you'll forget them quite fast.)",
+        style: [],
         options: [{
           text: "",
-          destination: "blood_corpse",
+          destination: 'blood_corpse',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -552,9 +681,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "The first's the new intern, <char blood|Jamey-James Blood!>\nThe young Operator's a bit of a spud.",
+        style: [],
         options: [{
           text: "",
-          destination: "",
+          destination: '',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -562,9 +694,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "He commands operations out in the field,\nBetween there and the office, he acts as a shield.",
+        style: [],
         options: [{
           text: "",
-          destination: "",
+          destination: '',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -572,9 +707,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "He struggles with focus, and at his job he's bad,\nHe's lost every MTF that he's had.",
+        style: [],
         options: [{
           text: "",
-          destination: "clementine_corpse",
+          destination: 'clementine_corpse',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -587,9 +725,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "The second is <char clem|Mr Andrew Clementine>.\nA man known for spotting details most fine.",
+        style: [],
         options: [{
           text: "",
-          destination: "",
+          destination: '',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -597,9 +738,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "You've never seen him without his coffee cup.\nOr asleep, for that matter. He's constantly up.",
+        style: [],
         options: [{
           text: "",
-          destination: "",
+          destination: '',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -607,9 +751,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "He's eyeing you up with wisdom and rigour.\nA skill he requires as HMCL Supervisor.",
+        style: [],
         options: [{
           text: "",
-          destination: "ochre_corpse",
+          destination: 'ochre_corpse',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -622,9 +769,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "The third is - you shudder - the Site Director.\nThe antithesis of a conscientious objector.",
+        style: [],
         options: [{
           text: "",
-          destination: "",
+          destination: '',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -632,9 +782,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "She's really good fun, a practical joker!\n**NOT**. One does //not// fuck with <char ochre|S.D. Molly Ochre>.",
+        style: [],
         options: [{
           text: "",
-          destination: "",
+          destination: '',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -642,9 +795,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "They say just one glare is enough to dissever.\nA \"trip\" to her office will change you forever.",
+        style: [],
         options: [{
           text: "",
-          destination: "green_corpse",
+          destination: 'green_corpse',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -657,9 +813,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "The fourth's... you're not sure. One of the twins.\nEither Barry or Gary. Does it matter? They're kin.",
+        style: [],
         options: [{
           text: "",
-          destination: "",
+          destination: '',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -667,9 +826,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "<char green|Researcher Green> - his name's that, you're sure -\nEither's described as a workaholic bore.",
+        style: [],
         options: [{
           text: "",
-          destination: "",
+          destination: '',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -677,9 +839,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "They're both due promotions, en route to the top.\nYou remember when Gary's job was a mop.",
+        style: [],
         options: [{
           text: "",
-          destination: "sky_corpse",
+          destination: 'sky_corpse',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -692,9 +857,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "The fifth's <char sky|Leia Sky>, the security guard.\nShe always greets you when you beep your card.",
+        style: [],
         options: [{
           text: "",
-          destination: "",
+          destination: '',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -702,9 +870,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "Her visor obscures her, but just underneath\nYou know there's a cheery smile rearing its teeth.",
+        style: [],
         options: [{
           text: "",
-          destination: "",
+          destination: '',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -712,9 +883,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "Whoever killed it - O5-1 - it's not her.\nA dark enough day just cannot occur.",
+        style: [],
         options: [{
           text: "",
-          destination: "plum_corpse",
+          destination: 'plum_corpse',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -727,9 +901,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "Sixth but not least is yourself, <char plum|Dr. Plum>.\nPersonal problems not yet overcome.",
+        style: [],
         options: [{
           text: "",
-          destination: "",
+          destination: '',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -737,9 +914,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "A cranial injury binds you to your job.\nYou can't be promoted. What else did it rob?",
+        style: [],
         options: [{
           text: "",
-          destination: "",
+          destination: '',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -747,9 +927,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "You're confined to the dullest, menial tasks.\nThings you're ashamed to admit - but nobody asks.",
+        style: [],
         options: [{
           text: "",
-          destination: "wait_on_ochre",
+          destination: 'wait_on_ochre',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -762,9 +945,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "The group remains silent, waiting on Ochre\nTo decide when this dark lull will be over.",
+        style: [],
         options: [{
           text: "",
-          destination: "ochre_panic",
+          destination: 'ochre_panic',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -777,9 +963,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "She snaps. <char ochre|\"What the FUCK happened here?\">\nNobody answers, stricken with fear.",
+        style: [],
         options: [{
           text: "",
-          destination: "",
+          destination: '',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -787,9 +976,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "<char ochre|\"The O5s are gods. Far beyond one of us.\nHow the fuck'd someone throw it under the bus?\">",
+        style: [],
         options: [{
           text: "",
-          destination: "",
+          destination: '',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -797,9 +989,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "Her eyes pan the group and settle on you.\n<char ochre|\"Plum, you found it. What did you do?\">",
+        style: [],
         options: [{
           text: "",
-          destination: "plum_defend",
+          destination: 'plum_defend',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -812,9 +1007,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "You try not to stutter, nor hold your breath.\n<char plum|\"I only found it. I did not cause its death.\">",
+        style: [],
         options: [{
           text: "",
-          destination: "",
+          destination: '',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -822,9 +1020,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "She snorts, a sound of derisive disgust.\nShe'll never believe you. You're unsure she //can// trust.",
+        style: [],
         options: [{
           text: "",
-          destination: "alex_appear",
+          destination: 'alex_appear',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -837,9 +1038,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "<char ochre|\"Alex!\"> she shouts, to the Site's AIC,\nAn artificial intelligence whose face we now see.",
+        style: [],
         options: [{
           text: "",
-          destination: "",
+          destination: '',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -847,9 +1051,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "<char alex|\"Yes, Site Director?\"> replies her lilting voice.\n<char ochre|\"Tell me what happened. At once! You've no choice!\">",
+        style: [],
         options: [{
           text: "",
-          destination: "",
+          destination: '',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -857,9 +1064,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "<char alex|\"Very well, Site Director. Based on the evidence,\nI.... uh. Hm.\"> This is unusual hesitance.",
+        style: [],
         options: [{
           text: "",
-          destination: "alex_explain_1",
+          destination: 'alex_explain_1',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -872,9 +1082,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "<char ochre|\"What's wrong?\"> demands Ochre, eyes full of rage.\nAlexandra sighs. <char alex|\"My explanation will not assuage…>",
+        style: [],
         options: [{
           text: "",
-          destination: "",
+          destination: '',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -882,9 +1095,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "<char alex|I can narrow it down to six possibilities.\nIt's up to you to determine which one it be.>",
+        style: [],
         options: [{
           text: "",
-          destination: "alex_explain_2",
+          destination: 'alex_explain_2',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -897,9 +1113,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "The first: O5-1 was hit by a car.\nThe simplest explanation I have by far.",
+        style: [],
         options: [{
           text: "",
-          destination: "",
+          destination: '',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -907,9 +1126,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "The second: it was hit on the head by a vase\nWith more injuries caused by the shattering glass.",
+        style: [],
         options: [{
           text: "",
-          destination: "",
+          destination: '',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -917,9 +1139,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "The third: exposure to something you can't comprehend.\nBerryman-Langford brings a swift end.",
+        style: [],
         options: [{
           text: "",
-          destination: "",
+          destination: '',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -927,9 +1152,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "The fourth: a teddy bear came, seeking new parts\nFor a child it was making by a gruesome art.",
+        style: [],
         options: [{
           text: "",
-          destination: "",
+          destination: '',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -937,9 +1165,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "The fifth: SOMETHING ABOUT PIZZA",
+        style: [],
         options: [{
           text: "",
-          destination: "",
+          destination: '',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -947,9 +1178,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "The sixth: it choked on a piece of SCP-5000.\nBut I can't rhyme with that, because it's not the final number.",
+        style: [],
         options: [{
           text: "",
-          destination: "",
+          destination: '',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -957,9 +1191,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "My quantum computing makes it impossible to see\nWhich of these choices matches reality.\"",
+        style: [],
         options: [{
           text: "",
-          destination: "choose_method",
+          destination: 'choose_method',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -972,44 +1209,57 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "Ochre turns to you. <char ochre|\"Well? Which will it be?\nWhich of those choices looks best to ye?\">",
+        style: [],
         options: [{
           text: "Vehicular manslaughter",
-          destination: "ochre_confirm",
+          destination: 'ochre_confirm',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {
             return aic.aic.vars.chosen_method = "car";
           },
           conditions: []
         }, {
           text: "Blunt force injury",
-          destination: "ochre_confirm",
+          destination: 'ochre_confirm',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {
             return aic.aic.vars.chosen_method = "vase";
           },
           conditions: []
         }, {
           text: "Fatal exposure to a memetic agent",
-          destination: "ochre_confirm",
+          destination: 'ochre_confirm',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {
             return aic.aic.vars.chosen_method = "bl";
           },
           conditions: []
         }, {
           text: "Reassembled into a child's toy",
-          destination: "ochre_confirm",
+          destination: 'ochre_confirm',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {
             return aic.aic.vars.chosen_method = "bear";
           },
           conditions: []
         }, {
           text: "Force-fed pizza",
-          destination: "ochre_confirm",
+          destination: 'ochre_confirm',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {
             return aic.aic.vars.chosen_method = "pizza";
           },
           conditions: []
         }, {
           text: "Choked on a small object",
-          destination: "ochre_confirm",
+          destination: 'ochre_confirm',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {
             return aic.aic.vars.chosen_method = "choke";
           },
@@ -1026,9 +1276,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "<char ochre|\"Obviously right. The chest has been crushed,\nThe bones and organs inside have been mushed.>",
+        style: [],
         options: [{
           text: "",
-          destination: "",
+          destination: '',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: [function (aic) {
             return aic.vars.murder_method === "car";
@@ -1040,9 +1293,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "<char ochre|As if O5-1 had been pinned to a wall,\nWhile someone in front put the pedal to floor.\">",
+        style: [],
         options: [{
           text: "",
-          destination: "",
+          destination: '',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: [function (aic) {
             return aic.vars.murder_method === "car";
@@ -1054,9 +1310,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "<char ochre|\"Obviously right. There's shards everywhere,\nAnd dirt, too - there was a plant somewhere.\">",
+        style: [],
         options: [{
           text: "",
-          destination: "",
+          destination: '',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: [function (aic) {
             return aic.vars.murder_method === "vase";
@@ -1068,9 +1327,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "<char ochre|\"Obviously right. There's no sign of damage.\nOnly mental injuries are this hard to manage.\">",
+        style: [],
         options: [{
           text: "",
-          destination: "",
+          destination: '',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: [function (aic) {
             return aic.vars.murder_method === "bl";
@@ -1082,9 +1344,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "<char ochre|\"Obviously right. It's missing its hands.\nStolen to fuel 1048's demands.\">",
+        style: [],
         options: [{
           text: "",
-          destination: "",
+          destination: '',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: [function (aic) {
             return aic.vars.murder_method === "bear";
@@ -1096,9 +1361,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "<char green|\"I think I saw a hand-based teddy somewhere!\">\nSays Barry (or Gary). Ochre doesn't care.",
+        style: [],
         options: [{
           text: "",
-          destination: "",
+          destination: '',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: [function (aic) {
             return aic.vars.murder_method === "bear";
@@ -1110,9 +1378,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "<char ochre|\"Obviously right. Its stomach's exploded.\nThe digestive system has been overloaded.\">",
+        style: [],
         options: [{
           text: "",
-          destination: "",
+          destination: '',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: [function (aic) {
             return aic.vars.murder_method === "pizza";
@@ -1124,9 +1395,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "<char ochre|\"Obviously right SOMETHING ABOUT CHOKING>",
+        style: [],
         options: [{
           text: "",
-          destination: "",
+          destination: '',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: [function (aic) {
             return aic.vars.murder_method === "choke";
@@ -1138,9 +1412,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "Ochre's glare narrows to a fearsome ray.\nShe thinks for a moment, then says <char ochre|\"Okay.\">",
+        style: [],
         options: [{
           text: "",
-          destination: "",
+          destination: '',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: [function (aic) {
             return aic.vars.chosen_method !== aic.vars.murder_method;
@@ -1150,9 +1427,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "She points to the body. <char ochre|\"It wasn't killed there.\nPlum, you were the first - this blood trail leads where?\">",
+        style: [],
         options: [{
           text: "",
-          destination: "plum_location",
+          destination: 'plum_location',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -1165,9 +1445,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "!!\nSomething about each location\n!!",
+        style: [],
         options: [{
           text: "",
-          destination: "ochre_ok_loc",
+          destination: 'ochre_ok_loc',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -1180,9 +1463,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "She nods. <char ochre|\"Very well. Thanks for the recap and\nWe can decisively say that that's where it happened.\">",
+        style: [],
         options: [{
           text: "",
-          destination: "",
+          destination: '',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: [function (aic) {
             return aic.vars.murder_method === aic.vars.chosen_method;
@@ -1192,9 +1478,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "She nods. <char ochre|\"Very well. And let's all agree\nThat it was killed there without further enquiry.>",
+        style: [],
         options: [{
           text: "",
-          destination: "",
+          destination: '',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: [function (aic) {
             return aic.vars.murder_method !== aic.vars.chosen_method;
@@ -1204,9 +1493,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "<char ochre|Because apparently some of us turn a blind eye\nTo evidence that's obvious. I don't know why.\">",
+        style: [],
         options: [{
           text: "",
-          destination: "",
+          destination: '',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: [function (aic) {
             return aic.vars.murder_method !== aic.vars.chosen_method;
@@ -1216,9 +1508,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "She looks right at you and a chill chills your spine.\nYou have a feeling she's talking about you this time.",
+        style: [],
         options: [{
           text: "",
-          destination: "",
+          destination: '',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: [function (aic) {
             return aic.vars.murder_method !== aic.vars.chosen_method;
@@ -1228,9 +1523,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "<char ochre|\"We know //how// and //where//. What question remains?\nWe need the //who//. And //why//, if it's not inane.\">",
+        style: [],
         options: [{
           text: "",
-          destination: "group_accept",
+          destination: 'group_accept',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -1243,9 +1541,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "Her face pans the group. All gazes align.\n<char ochre|\"Someone here knows they committed this crime.\">",
+        style: [],
         options: [{
           text: "",
-          destination: "",
+          destination: '',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -1253,9 +1554,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "It's true. The killer is one of the six.\nBut there's no possible way to know which.",
+        style: [],
         options: [{
           text: "",
-          destination: "",
+          destination: '',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -1263,9 +1567,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "Everyone knows it. Glances are shared.\nBut someone's deceit is as yet undeclared.",
+        style: [],
         options: [{
           text: "",
-          destination: "ochre_queue",
+          destination: 'ochre_queue',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -1278,9 +1585,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "Ochre instructs <char ochre|\"Everyone, form a queue.\nThen one by one I will interview you.\">",
+        style: [],
         options: [{
           text: "",
-          destination: "",
+          destination: '',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -1288,9 +1598,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "Blood stammers out <char blood|\"B-but what if it's you?\nA one-sided debate won't tell us the truth.\">",
+        style: [],
         options: [{
           text: "",
-          destination: "",
+          destination: '',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -1298,9 +1611,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "<char ochre|\"You DARE defy your Site Director?\">\nBlood's face turns to that of a spectre. ",
+        style: [],
         options: [{
           text: "",
-          destination: "clem_support",
+          destination: 'clem_support',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -1313,9 +1629,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "<char clem|\"The lad has a point.\"> agrees Clementine.\n<char clem|\"Assumed innocence puts us all on the line.\">",
+        style: [],
         options: [{
           text: "",
-          destination: "",
+          destination: '',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -1323,9 +1642,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "Ochre's face ripples but she doesn't complain.\n<char ochre|\"Very well. I suppose we can make this a game.>",
+        style: [],
         options: [{
           text: "",
-          destination: "",
+          destination: '',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -1333,9 +1655,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "<char ochre|You will all speak to everyone who isn't you. \nThen we'll work out who’s to be accused.\">",
+        style: [],
         options: [{
           text: "",
-          destination: "ochre_ask_plum",
+          destination: 'ochre_ask_plum',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -1348,9 +1673,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "Everyone nods. This seems like it's fair.\nBlood is still shaking from avoiding her snare. ",
+        style: [],
         options: [{
           text: "",
-          destination: "",
+          destination: '',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -1358,9 +1686,12 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "<char ochre|\"Good,\"> says Ochre. <char ochre|\"Plum, you can go first.\nYou found the body so you likely feel worst.\">",
+        style: [],
         options: [{
           text: "",
-          destination: "",
+          destination: '',
+          style: [],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]
@@ -1368,24 +1699,33 @@ getEvents = function getEvents(aic) {
         delay: 0,
         duration: 0,
         text: "<char plum|\"Thanks,\"> you say, though that seems an excuse. \nYou eye up your options. Who will you choose?",
+        style: [],
         options: [{
           text: "Operator Jamey-James Blood",
-          destination: "int_blood_start",
+          destination: 'int_blood_start',
+          style: ['blood'],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }, {
           text: "HMCL Supervisor Andrew Clementine",
-          destination: "int_clem_start",
+          destination: 'int_clem_start',
+          style: ['clem'],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }, {
           text: "Site Director Molly Ochre",
-          destination: "int_ochre_start",
+          destination: 'int_ochre_start',
+          style: ['ochre'],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }, {
           text: "Researcher Barry/Gary Green",
-          destination: "int_barry_start",
+          destination: 'int_barry_start',
+          style: ['green'],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: [function (aic) {
             return aic.vars.know_green_id === false;
@@ -1394,7 +1734,9 @@ getEvents = function getEvents(aic) {
           }]
         }, {
           text: "Researcher Barry/Gary Green",
-          destination: "int_gary_start",
+          destination: 'int_gary_start',
+          style: ['green'],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: [function (aic) {
             return aic.vars.know_green_id === false;
@@ -1403,7 +1745,9 @@ getEvents = function getEvents(aic) {
           }]
         }, {
           text: "Researcher Barry Green",
-          destination: "int_barry_start",
+          destination: 'int_barry_start',
+          style: ['green'],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: [function (aic) {
             return aic.vars.know_green_id === true;
@@ -1412,7 +1756,9 @@ getEvents = function getEvents(aic) {
           }]
         }, {
           text: "Researcher Gary Green",
-          destination: "int_gary_start",
+          destination: 'int_gary_start',
+          style: ['green'],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: [function (aic) {
             return aic.vars.know_green_id === true;
@@ -1421,12 +1767,16 @@ getEvents = function getEvents(aic) {
           }]
         }, {
           text: "Security Guard Leia Sky",
-          destination: "int_sky_start",
+          destination: 'int_sky_start',
+          style: ['sky'],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }, {
           text: "I need some time to myself",
-          destination: "int_plum_start",
+          destination: 'int_plum_start',
+          style: ['plum'],
+          opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
         }]

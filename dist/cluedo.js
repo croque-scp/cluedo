@@ -1,13 +1,21 @@
 // cluedo.js, the workhorse behind SCP-5000
 // Written by Croquembouche, released under MIT
 "use strict";
+/* global $, angular */
 
 function _typeof(obj) { if (typeof Symbol === "function" && _typeof(Symbol.iterator) === "symbol") { _typeof = function (_typeof2) { function _typeof(_x) { return _typeof2.apply(this, arguments); } _typeof.toString = function () { return _typeof2.toString(); }; return _typeof; }(function (obj) { return typeof obj === "undefined" ? "undefined" : _typeof(obj); }); } else { _typeof = function (_typeof3) { function _typeof(_x2) { return _typeof3.apply(this, arguments); } _typeof.toString = function () { return _typeof3.toString(); }; return _typeof; }(function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof(obj); }); } return _typeof(obj); }
 
-var shuffle,
-    hasProp = {}.hasOwnProperty;
-/* global $, angular */
-// randomise an array
+var assert,
+    shuffle,
+    hasProp = {}.hasOwnProperty,
+    indexOf = [].indexOf;
+
+assert = function assert(condition, message) {
+  if (!condition) {
+    throw new Error(message != null ? message : "AssertionError");
+  }
+}; // randomise an array
+
 
 shuffle = function shuffle(array) {
   var i, m, t;
@@ -28,8 +36,8 @@ shuffle = function shuffle(array) {
 (function () {
   var EncodeURIComponentFilter, MaitreyaController, maitreya;
 
-  MaitreyaController = function MaitreyaController($scope, $timeout, LoopService, $sce, $http) {
-    var addNotification, aic, alexandraLoop, auto, breachLoop, commandsUsedIterator, dynamicLoop, _endingLoop, preloadAlexandraFaces, preloadImage, presentOptions, _pushToLog, speech, writeDialogue;
+  MaitreyaController = function MaitreyaController($scope, $timeout, $sce, $http) {
+    var addNotification, aic, auto, commandsUsedIterator, execute_event, preloadAlexandraFaces, preloadImage, presentOptions, _pushToLog, speech, writeDialogue;
 
     aic = this;
     LoopService.use($scope); // give BreachLoopService our scope
@@ -75,7 +83,8 @@ shuffle = function shuffle(array) {
     $(document).ready(function () {
       aic.onMobile = $('body').width() < 700;
       $scope.$apply(function () {
-        aic = aic_init(aic);
+        aic = aic_init(aic); // from init.js
+
         aic.lang = getBaseLexicon(aic)['lang'];
         speech.merge(getBaseLexicon(aic)['speech']);
         return speech.merge(LoopService.dialogue);
@@ -86,312 +95,81 @@ shuffle = function shuffle(array) {
     }); // called when "BOOT UP" is clicked from preload
 
     aic.bootUp = function () {
-      var article;
       console.log("Booting up...");
-      aic.preload = false; // XXX shouldn't this use the same data picker as the first one?
-
-      aic.bootDate = new Date(Date.now()); // TODO: save/load
-      // also need to sort out the dates of the articles
-
-      for (article in aic.lang.articles) {
-        if (!!aic.lang.articles[article].revised && aic.lang.articles[article].revised < 0) {
-          aic.lang.articles[article].revised = Date.now() + aic.lang.articles[article].revised;
-        }
-      } // Here we go boys
-
+      aic.preload = false; // Here we go boys
 
       aic.start[0](aic.start[1], aic.start[2]);
       return null;
     };
 
-    aic.mainLoop = function (bigSection, smallSection) {
-      var delay, rooms; // So this is where the magic happens
-      // So here's one idea: bigSection and smallSection
-      // one big switch, many little switches
-      // smallSection would be the message IDs probably
-      // problem: do I really want to split my entire conversational tree into sections?
-      // Answer: hell yes I do
-      // pass sections to the func or use variables?
-      // pass to func for now
+    aic.mainLoop = function (event_name) {
+      // TODO add character/sheet property to events
+      event_name = event_name.replace(/_*$/g, "");
+      console.log("Event = " + event_name);
 
-      smallSection = smallSection.replace(/_*$/g, "");
-      console.log("Main - " + bigSection + " - " + smallSection); // msg syntax IS NOT SUITABLE HERE! only for breach and alexandra!
-
-      delay = 0;
-
-      switch (bigSection) {
-        case 'INTRODUCTION':
-          switch (smallSection) {
-            case 'startBoot':
-              delay = writeDialogue('terminal', speech[bigSection].terminal[smallSection]);
-              aic.timers.terminal = $timeout(function () {
-                breachLoop('INTRODUCTION', 'start');
-                return null;
-              }, (delay - 1.5) * 1000);
-              break;
-
-            default:
-              throw new Error(smallSection + " is not an event in " + bigSection);
-          }
-
-          break;
-
-        case 'ROOMS':
-          rooms = [];
-
-          switch (smallSection) {
-            case 'rebootRooms':
-              // this is issued when the user resets all the cameras
-              // first, turn them all off
-              // then turn them all back on, one by one
-              $timeout(function () {
-                aic.mainLoop('ROOMS', 'unbootRoom');
-                return null;
-              }, 200);
-              break;
-
-            case 'unbootRoom':
-              // rebootRooms calls this to unboot individual rooms
-              rooms = arguments[2] || Object.keys(aic.rooms);
-
-              if (true) {
-                // all rooms must be turned off at this point
-                $scope.$apply(function () {
-                  aic.rooms[rooms[0]].error = true;
-                  return null;
-                });
-              } // now check the next room
-
-
-              rooms.shift();
-
-              if (rooms.length > 0) {
-                $timeout(function () {
-                  aic.mainLoop('ROOMS', 'unbootRoom', rooms);
-                  return null;
-                }, Math.floor(Math.random() * 20));
-              } else {
-                $timeout(function () {
-                  aic.mainLoop('ROOMS', 'bootRoom');
-                  return null;
-                }, 2000);
-              }
-
-              break;
-
-            case 'bootRoom':
-              // rebootRooms calls this to reboot individual rooms
-              // arguments[2] is a random list of rooms
-              // arguments[3] is the delay
-              // only check the first room in the list
-              rooms = arguments[2] || shuffle(Object.keys(aic.rooms));
-              delay = arguments[3] - 20 || 600;
-
-              if (aic.rooms[rooms[0]].error === true && aic.vars.scp4000.location !== rooms[0] && rooms[0] !== 'toilet') {
-                $scope.$apply(function () {
-                  aic.rooms[rooms[0]].error = false;
-                  return null;
-                });
-              } // now check the next room
-
-
-              rooms.shift();
-
-              if (rooms.length > 0) {
-                $timeout(function () {
-                  aic.mainLoop('ROOMS', 'bootRoom', rooms, delay);
-                  return null;
-                }, Math.floor(Math.random() * delay));
-              }
-
-              break;
-
-            default:
-              throw new Error(smallSection + " is not an event in " + bigSection);
-          }
-
-          break;
-
-        case 'misc':
-          switch (smallSection) {
-            // pretty sure this only happens when skipping the intro, but whatever
-            case 'introSkipped':
-              delay = writeDialogue("terminal", speech[bigSection].terminal[smallSection]);
-              break;
-
-            default:
-              throw new Error(smallSection + " is not an event in " + bigSection);
-          }
-
-          break;
-
-        default:
-          throw new Error(bigSection + " is not an event");
+      if (indexOf.call(aic.blacklist, event_name) >= 0) {
+        throw new Error(event_name + " is blacklisted");
       }
 
-      return null;
+      if (event_name in aic.events) {
+        return execute_event(aic.events[event_name]);
+      } else {
+        throw new Error(event_name + " is not an event");
+      }
     };
 
-    breachLoop = function breachLoop(bigSection, smallSection) {
-      var error, msg; // smallSection may have trailing underscores - clean these up
+    execute_event = function execute_event(event) {
+      var condition, conditions, k, l, len, len1, len2, line, lines, n, option, options, ref, ref1, ref2; // Function for executing a single event.
+      // Receives the event, not the name.
+      // Work out which of the lines have options.
 
-      smallSection = smallSection.replace(/_*$/g, '');
-      console.log("Breach - " + bigSection + " - " + smallSection);
-      msg = void 0;
+      lines = [];
+      ref = event['lines'];
 
-      try {
-        msg = speech[bigSection].breach[smallSection];
-      } catch (error1) {
-        error = error1;
-        throw new Error(smallSection + " doesn't exist in Breach's " + bigSection);
-      }
+      for (k = 0, len = ref.length; k < len; k++) {
+        line = ref[k];
+        options = [];
+        ref1 = line['options'];
 
-      aic.ready.messages = true;
-      aic.ready.breach = true; // breachLoop has been exported to LoopService
-      // check for events that we want to handle manually
+        for (l = 0, len1 = ref1.length; l < len1; l++) {
+          option = ref1[l];
+          conditions = [];
+          ref2 = option['conditions'];
 
-      switch (bigSection) {
-        case 'MISC':
-          switch (smallSection) {
-            case 'fillerQuestion':
-              break;
-
-            default:
-              //do stuff
-              throw new Error("Breach " + smallSection + " is not an event in " + bigSection);
+          for (n = 0, len2 = ref2.length; n < len2; n++) {
+            condition = ref2[n];
+            conditions.push(condition());
           }
 
-          break;
+          options.push(conditions.every(function (v) {
+            return v === true;
+          }));
+        }
 
-        default:
-          // this event is not declared, so defer to LoopService
-          LoopService.breachLoop(bigSection, smallSection, msg);
-      }
+        if (options.every(function (v) {
+          return v === true;
+        })) {
+          lines.push(line);
+        }
+      } // lines is now all the lines that will appear
+      // write the lines, one by one, and display options of the final
 
-      return null;
-    };
 
-    alexandraLoop = function alexandraLoop(bigSection, smallSection) {
-      var msg; // smallSection may have trailing underscores - clean these up
-
-      smallSection = smallSection.replace(/_*$/g, '');
-      console.log("Alexandra - " + bigSection + " - " + smallSection);
-      msg = void 0; // try
-
-      msg = speech[bigSection].alexandra[smallSection]; // catch error
-      // throw new Error("#{smallSection} doesn\'t exist in Alexandra\'s #{bigSection}")
-
-      aic.ready.messages = true;
-      aic.ready.alexandra = true; // breachLoop has been exported to LoopService
-
-      LoopService.alexandraLoop(bigSection, smallSection, msg);
-      return null;
-    };
-
-    _endingLoop = function endingLoop(bigSection, smallSection, delay) {
-      // smallSection may have trailing underscores - clean these up
-      if (typeof smallSection === 'string') {
-        // endingLoop"s smallSection is optional
-        smallSection = smallSection.replace(/_*$/g, "");
-      }
-
-      console.log("Ending - " + bigSection + " - " + smallSection);
-      delay = delay || 0;
-
-      switch (bigSection) {
-        case 'PUSHENDING':
-          $timeout(function () {
-            aic.currentEnding = aic.endingPositions[smallSection];
-            aic.vars.endingFractionText = aic.lang.endingFraction.replace('$1', aic.currentEnding + 1).replace('$2', aic.lang.endings.length);
-            aic.ready.ending = true;
-            aic.vars.terminalEmphasis = false;
-            aic.switchApp('ending');
-            return null;
-          }, delay * 1000, true);
-          break;
-
-        case 'ENDING':
-          switch (smallSection) {
-            case 'pissOff':
-              aic.vars.terminalEmphasis = true;
-              delay = writeDialogue('terminal', speech.misc.terminal.breachShutDown);
-              $timeout(function () {
-                _endingLoop('PUSHENDING', smallSection, 2);
-
-                return null;
-              }, delay * 1000);
-              break;
-
-            case 'example':
-              $timeout(function () {
-                _endingLoop('PUSHENDING', smallSection, 2);
-
-                return null;
-              }, delay * 1000);
-              break;
-
-            default:
-              throw new Error(smallSection + " is not an ending");
-          }
-
-          break;
-
-        default:
-          throw new Error(bigSection + " is not an event");
-      }
-
-      return null;
-    };
-
-    dynamicLoop = function dynamicLoop(character, bigSection, smallSection) {
-      // this only gets called when a conversation is skipped, so we can probably unmark the skippo here
-      aic.isSkipping[character] = false;
-
-      switch (character) {
-        case 'breach':
-          breachLoop(bigSection, smallSection);
-          break;
-
-        case 'alexandra':
-          alexandraLoop(bigSection, smallSection);
-          break;
-
-        case 'terminal':
-          aic.mainLoop(bigSection, smallSection);
-          break;
-
-        default:
-          console.log(character, bigSection, smallSection);
-          throw new Error("Unexpected dynamic character: " + character);
-      }
-
-      return null;
+      return render_lines(lines);
     };
     /* PROCESSING FUNCTIONS */
     // pass options to chatLog for presentation to the user
 
 
-    presentOptions = function presentOptions(conversation, bigSection, ids) {
-      var dialogueList, error, i, j, opinion, optionType, options;
-
-      if (!aic.speakerList.includes(conversation)) {
-        throw new Error(conversation + " is not a conversation");
-      }
-
-      if (!Array.isArray(ids) && ids !== 'CLEAR') {
-        throw new Error("options is not an array");
-      } // this function needs to put stuff into aic.chatLog[conversation].options
+    presentOptions = function presentOptions(line) {
+      var dialogueList, error, i, j, opinion, optionType, options; // present the options for this line
       // options list may not be empty:
-
 
       aic.chatLog[conversation].options = []; // if ids is "CLEAR", stop here, we only want to clear the array
 
       if (ids === 'CLEAR') {
         return null;
-      } // clear undefined from list of options (in case of false-less ifs)
-
-
-      ids = ids.filter(Boolean); // is is very possible that certain actions will need to do things other than output text. we'll cross that bridge when we come to it
+      }
 
       options = [];
       i = 0;
@@ -503,7 +281,7 @@ shuffle = function shuffle(array) {
     }; // structure dialogue and calculate timing
 
 
-    writeDialogue = function writeDialogue(conversation, dialogueList, speaker, smallSection) {
+    writeDialogue = function writeDialogue(conversation, dialogueList, speaker, event_name) {
       var cssClass, emote, force, i, j, maitreyaMessages, messages, mode, n1, n2, text, totalDelay; // Take a name and an array (mixture of letters and numbers) and crank out that dialogue boy
       // Expected format: n n text n n text n n text repeating
       // Where n1 is missing, assume 0
@@ -708,7 +486,7 @@ shuffle = function shuffle(array) {
         i++;
       }
 
-      _pushToLog(conversation, messages, smallSection); // the total length of all messages gets passed back to the mainloop
+      _pushToLog(conversation, messages, event_name); // the total length of all messages gets passed back to the mainloop
 
 
       return totalDelay;
@@ -717,7 +495,7 @@ shuffle = function shuffle(array) {
 
     _pushToLog = function pushToLog(conversation, messages, ID, thread) {
       var n1, n2, timeOut1; // TODO document what the fuck is in messages argument
-      // check the dialogue's ID (ie smallSection)
+      // check the dialogue's ID (ie event_name)
 
       /*if(!ID && conversation !== "terminal") {
       throw new Error("ID was not passed to pushToLog");
@@ -834,7 +612,7 @@ shuffle = function shuffle(array) {
 
           if (!!aic.isSkipping[conversation]) {
             // check to see if we're being interrupted
-            // the value of isSkipping[c] is either false or a character-bigSection-smallSection array indicating where to go afterwards
+            // the value of isSkipping[c] is either false or a character-bigSection-event_name array indicating where to go afterwards
             console.log("Now interrupting: " + conversation); // loop through timeoutlist and kill all timeouts?
             // maybe associate each timeout with its conversation in the list so we can selectively kill them
 
@@ -1531,7 +1309,7 @@ shuffle = function shuffle(array) {
     aic.presentOptions = presentOptions;
     aic.breachLoop = breachLoop;
     aic.alexandraLoop = alexandraLoop;
-    aic.endingLoop = _endingLoop;
+    aic.endingLoop = endingLoop;
     aic.dynamicLoop = dynamicLoop;
     aic.preloadAlexandraFaces = preloadAlexandraFaces;
 
@@ -1571,7 +1349,7 @@ shuffle = function shuffle(array) {
     return window.encodeURIComponent;
   };
 
-  maitreya = angular.module("maitreya", ['ngSanitize', 'ngAnimate']).controller("MaitreyaController", ['$scope', '$timeout', 'LoopService', '$sce', '$http', MaitreyaController]).filter("encode", [EncodeURIComponentFilter]);
+  maitreya = angular.module("maitreya", ['ngSanitize', 'ngAnimate']).controller("MaitreyaController", ['$scope', '$timeout', '$sce', '$http', MaitreyaController]).filter("encode", [EncodeURIComponentFilter]);
   return null;
 })(); // prototype functuon to turn kebab-case to camelCase
 
