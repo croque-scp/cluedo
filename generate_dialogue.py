@@ -147,6 +147,7 @@ getEvents = (aic) ->
 ''',
     'event_start': '''\
     {event_name}: {{
+      speaker: '{speaker}'
       precommand: (aic) -> {precommands}
       postcommand: (aic) -> {postcommands}
       lines: [
@@ -195,6 +196,7 @@ for frame in frames:
     postcommands = frame[0][0]['postcommands']
     event_output = format['event_start'].format(
         event_name=frame[0][0]['ID in'],
+        speaker="default",
         # XXX the following doesn't preserve indent for multiline
         precommands="return" if pd.isna(precommands) else
                      "".join([format['precommand'].format(c)
@@ -205,8 +207,8 @@ for frame in frames:
     for line in frame:
         line_output = format['line_start'].format(
             # TODO delay and duration
-            delay=0,
-            duration=0,
+            delay="auto",
+            duration="auto",
             text="" if pd.isna(line[0]['Lines']) else
                  "\\n".join(line[0]['Lines'].splitlines()),
             style="" if pd.isna(line[0]['lc']) else

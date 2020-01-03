@@ -7,6 +7,7 @@ getEvents = function getEvents(aic) {
   var events;
   return events = {
     wake_up: {
+      speaker: 'default',
       precommand: function precommand(aic) {},
       postcommand: function postcommand(aic) {},
       lines: [{
@@ -38,6 +39,7 @@ getEvents = function getEvents(aic) {
       }]
     },
     drive_there: {
+      speaker: 'default',
       precommand: function precommand(aic) {},
       postcommand: function postcommand(aic) {},
       lines: [{
@@ -69,6 +71,7 @@ getEvents = function getEvents(aic) {
       }]
     },
     guard: {
+      speaker: 'default',
       precommand: function precommand(aic) {},
       postcommand: function postcommand(aic) {},
       lines: [{
@@ -100,6 +103,7 @@ getEvents = function getEvents(aic) {
       }]
     },
     sit_in_office: {
+      speaker: 'default',
       precommand: function precommand(aic) {},
       postcommand: function postcommand(aic) {},
       lines: [{
@@ -131,6 +135,7 @@ getEvents = function getEvents(aic) {
       }]
     },
     discover_crime: {
+      speaker: 'default',
       precommand: function precommand(aic) {},
       postcommand: function postcommand(aic) {},
       lines: [{
@@ -149,6 +154,7 @@ getEvents = function getEvents(aic) {
       }]
     },
     find_body: {
+      speaker: 'default',
       precommand: function precommand(aic) {},
       postcommand: function postcommand(aic) {},
       lines: [{
@@ -193,6 +199,7 @@ getEvents = function getEvents(aic) {
       }]
     },
     examine_body: {
+      speaker: 'default',
       precommand: function precommand(aic) {},
       postcommand: function postcommand(aic) {},
       lines: [{
@@ -314,6 +321,7 @@ getEvents = function getEvents(aic) {
       }]
     },
     examine_body_2: {
+      speaker: 'default',
       precommand: function precommand(aic) {},
       postcommand: function postcommand(aic) {},
       lines: [{
@@ -422,6 +430,7 @@ getEvents = function getEvents(aic) {
       }]
     },
     trail_to_office: {
+      speaker: 'default',
       precommand: function precommand(aic) {},
       postcommand: function postcommand(aic) {},
       lines: [{
@@ -453,6 +462,7 @@ getEvents = function getEvents(aic) {
       }]
     },
     trail_to_cafeteria: {
+      speaker: 'default',
       precommand: function precommand(aic) {},
       postcommand: function postcommand(aic) {},
       lines: [{
@@ -484,6 +494,7 @@ getEvents = function getEvents(aic) {
       }]
     },
     trail_to_containment: {
+      speaker: 'default',
       precommand: function precommand(aic) {},
       postcommand: function postcommand(aic) {},
       lines: [{
@@ -515,6 +526,7 @@ getEvents = function getEvents(aic) {
       }]
     },
     trail_to_carpark: {
+      speaker: 'default',
       precommand: function precommand(aic) {},
       postcommand: function postcommand(aic) {},
       lines: [{
@@ -533,6 +545,7 @@ getEvents = function getEvents(aic) {
       }]
     },
     trail_to_corridor: {
+      speaker: 'default',
       precommand: function precommand(aic) {},
       postcommand: function postcommand(aic) {},
       lines: [{
@@ -551,6 +564,7 @@ getEvents = function getEvents(aic) {
       }]
     },
     trail_to_study: {
+      speaker: 'default',
       precommand: function precommand(aic) {},
       postcommand: function postcommand(aic) {},
       lines: [{
@@ -569,6 +583,7 @@ getEvents = function getEvents(aic) {
       }]
     },
     alert_everyone: {
+      speaker: 'default',
       precommand: function precommand(aic) {},
       postcommand: function postcommand(aic) {},
       lines: [{
@@ -613,6 +628,7 @@ getEvents = function getEvents(aic) {
       }]
     },
     night_sky: {
+      speaker: 'default',
       precommand: function precommand(aic) {},
       postcommand: function postcommand(aic) {},
       lines: [{
@@ -644,6 +660,7 @@ getEvents = function getEvents(aic) {
       }]
     },
     gathering_corpse: {
+      speaker: 'default',
       precommand: function precommand(aic) {},
       postcommand: function postcommand(aic) {},
       lines: [{
@@ -675,6 +692,7 @@ getEvents = function getEvents(aic) {
       }]
     },
     blood_corpse: {
+      speaker: 'default',
       precommand: function precommand(aic) {},
       postcommand: function postcommand(aic) {},
       lines: [{
@@ -719,6 +737,7 @@ getEvents = function getEvents(aic) {
       }]
     },
     clementine_corpse: {
+      speaker: 'default',
       precommand: function precommand(aic) {},
       postcommand: function postcommand(aic) {},
       lines: [{
@@ -763,6 +782,7 @@ getEvents = function getEvents(aic) {
       }]
     },
     ochre_corpse: {
+      speaker: 'default',
       precommand: function precommand(aic) {},
       postcommand: function postcommand(aic) {},
       lines: [{
@@ -807,6 +827,7 @@ getEvents = function getEvents(aic) {
       }]
     },
     green_corpse: {
+      speaker: 'default',
       precommand: function precommand(aic) {},
       postcommand: function postcommand(aic) {},
       lines: [{
@@ -851,6 +872,7 @@ getEvents = function getEvents(aic) {
       }]
     },
     sky_corpse: {
+      speaker: 'default',
       precommand: function precommand(aic) {},
       postcommand: function postcommand(aic) {},
       lines: [{
@@ -895,6 +917,7 @@ getEvents = function getEvents(aic) {
       }]
     },
     plum_corpse: {
+      speaker: 'default',
       precommand: function precommand(aic) {},
       postcommand: function postcommand(aic) {},
       lines: [{
@@ -939,6 +962,7 @@ getEvents = function getEvents(aic) {
       }]
     },
     wait_on_ochre: {
+      speaker: 'default',
       precommand: function precommand(aic) {},
       postcommand: function postcommand(aic) {},
       lines: [{
@@ -957,6 +981,7 @@ getEvents = function getEvents(aic) {
       }]
     },
     ochre_panic: {
+      speaker: 'default',
       precommand: function precommand(aic) {},
       postcommand: function postcommand(aic) {},
       lines: [{
@@ -1001,6 +1026,7 @@ getEvents = function getEvents(aic) {
       }]
     },
     plum_defend: {
+      speaker: 'default',
       precommand: function precommand(aic) {},
       postcommand: function postcommand(aic) {},
       lines: [{
@@ -1032,6 +1058,7 @@ getEvents = function getEvents(aic) {
       }]
     },
     alex_appear: {
+      speaker: 'default',
       precommand: function precommand(aic) {},
       postcommand: function postcommand(aic) {},
       lines: [{
@@ -1076,6 +1103,7 @@ getEvents = function getEvents(aic) {
       }]
     },
     alex_explain_1: {
+      speaker: 'default',
       precommand: function precommand(aic) {},
       postcommand: function postcommand(aic) {},
       lines: [{
@@ -1107,6 +1135,7 @@ getEvents = function getEvents(aic) {
       }]
     },
     alex_explain_2: {
+      speaker: 'default',
       precommand: function precommand(aic) {},
       postcommand: function postcommand(aic) {},
       lines: [{
@@ -1203,6 +1232,7 @@ getEvents = function getEvents(aic) {
       }]
     },
     choose_method: {
+      speaker: 'default',
       precommand: function precommand(aic) {},
       postcommand: function postcommand(aic) {},
       lines: [{
@@ -1268,6 +1298,7 @@ getEvents = function getEvents(aic) {
       }]
     },
     ochre_confirm: {
+      speaker: 'default',
       precommand: function precommand(aic) {
         return aic.chosen;
       },
@@ -1439,6 +1470,7 @@ getEvents = function getEvents(aic) {
       }]
     },
     plum_location: {
+      speaker: 'default',
       precommand: function precommand(aic) {},
       postcommand: function postcommand(aic) {},
       lines: [{
@@ -1457,6 +1489,7 @@ getEvents = function getEvents(aic) {
       }]
     },
     ochre_ok_loc: {
+      speaker: 'default',
       precommand: function precommand(aic) {},
       postcommand: function postcommand(aic) {},
       lines: [{
@@ -1535,6 +1568,7 @@ getEvents = function getEvents(aic) {
       }]
     },
     group_accept: {
+      speaker: 'default',
       precommand: function precommand(aic) {},
       postcommand: function postcommand(aic) {},
       lines: [{
@@ -1579,6 +1613,7 @@ getEvents = function getEvents(aic) {
       }]
     },
     ochre_queue: {
+      speaker: 'default',
       precommand: function precommand(aic) {},
       postcommand: function postcommand(aic) {},
       lines: [{
@@ -1623,6 +1658,7 @@ getEvents = function getEvents(aic) {
       }]
     },
     clem_support: {
+      speaker: 'default',
       precommand: function precommand(aic) {},
       postcommand: function postcommand(aic) {},
       lines: [{
@@ -1667,6 +1703,7 @@ getEvents = function getEvents(aic) {
       }]
     },
     choose_int_1: {
+      speaker: 'default',
       precommand: function precommand(aic) {},
       postcommand: function postcommand(aic) {},
       lines: [{

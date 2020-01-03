@@ -162,127 +162,25 @@ shuffle = function shuffle(array) {
 
 
     presentOptions = function presentOptions(line) {
-      var dialogueList, error, i, j, opinion, optionType, options; // present the options for this line
+      // present the options for this line
       // options list may not be empty:
-
       aic.chatLog[conversation].options = []; // if ids is "CLEAR", stop here, we only want to clear the array
 
-      if (ids === 'CLEAR') {
+      if (line === 'CLEAR') {
         return null;
-      }
-
-      options = [];
-      i = 0;
-
-      while (i < ids.length) {
-        try {
-          // we're now looking at individual options.
-          // deep copy the speech into the option
-          options[i] = speech[bigSection].maitreya[ids[i]].slice();
-        } catch (error1) {
-          error = error1; // this can only fail if the option doesn't exist
-
-          throw new Error("Option " + ids[i] + " doesn't exist");
-        }
-
-        if (!Array.isArray(options[i])) {
-          console.log("ids: ", ids);
-          console.log("i: ", i);
-          throw new Error("option " + options[i] + " is not an array");
-        } // first we work out what sort of action this is
+      } //$scope.$apply(() ->
 
 
-        optionType = void 0;
-
-        if (options[i][0].charAt(1) === ":") {
-          switch (options[i][0].charAt(0)) {
-            case 's':
-              optionType = 'speech';
-              break;
-
-            case 'a':
-              optionType = 'action';
-              break;
-
-            default:
-              throw new Error("Unknown option type");
-          }
-
-          options[i][0] = options[i][0].substring(2);
-        } else {
-          // no option type was declared, assume speech
-          optionType = 'speech';
-        } // we have the option type and the option text
-        // next job is to get the dialogue text
-        // we can probably let the event handler deal with that?
-        // still need to actually get that info to the handler tho
-
-
-        dialogueList = [];
-        opinion = 0;
-        j = 0;
-
-        while (j < options[i].length) {
-          // we need to skip over [0]
-          // this is because we've already handled the control statement
-          if (j === 0) {
-            // two possibilities: this is the only parameter, or there is also an opinion modifier
-            if (typeof options[i][1] === 'undefined') {
-              // this is the only parameter
-              // set the first dialogue to the option text
-              dialogueList[0] = options[i][0];
-            } else if (typeof options[i][1] === 'number' && typeof options[i][2] === 'undefined') {
-              // of course, if the 2nd value is a number, then it won't return undefined
-              // but if that number is also the LAST value, then it's an opinion, and doesn't count as dialogue
-              // so we need to detect this scenario and do the same as above
-              dialogueList[0] = options[i][0];
-              opinion = options[i][1];
-            } // we're not skipping the loop, so the opinion will be set again, but who cares lmao
-
-          } else if (j + 1 === options[i].length) {
-            // check the last value - if it's a number, this is an opinion
-            if (typeof options[i][j] === 'number') {
-              // it's an opinion modifier
-              opinion = options[i][j];
-            } else {
-              // if it's not an opinion, it must be text, so treat it as text (see below)
-              dialogueList[j - 1] = options[i][j];
-            }
-          } else {
-            // all other values must be text (hopefully)
-            dialogueList[j - 1] = options[i][j];
-          }
-
-          j++;
-        } // dialogueList now contains the list of dialogue to output FOR THIS ONE OPTION
-
-
-        options[i] = {
-          id: ids[i],
-          optionType: optionType,
-          text: options[i][0].format(),
-          opinion: opinion,
-          dialogue: dialogueList,
-          bigSection: bigSection
-        }; // ok cool
-        // move onto the next option?
-
-        i++;
-      }
-      /*$scope.$apply(function() {*/
-      //aic.chatLog[conversation].options.push(...options);
-
-
-      aic.chatLog[conversation].options = options; // this is probably better tbh
-
-      /*});*/
+      aic.chatLog[conversation].options = line['options']; //)
 
       return null;
     }; // structure dialogue and calculate timing
+    // writeDialogue = (conversation, dialogueList, speaker, event_name) ->
 
 
-    writeDialogue = function writeDialogue(conversation, dialogueList, speaker, event_name) {
-      var cssClass, emote, force, i, j, maitreyaMessages, messages, mode, n1, n2, text, totalDelay; // Take a name and an array (mixture of letters and numbers) and crank out that dialogue boy
+    writeDialogue = function writeDialogue(event) {
+      var cssClass, dialogueList, emote, force, i, j, maitreyaMessages, messages, mode, n1, n2, speaker, text, totalDelay; //# An event is a list of lines
+      // Take a name and an array (mixture of letters and numbers) and crank out that dialogue boy
       // Expected format: n n text n n text n n text repeating
       // Where n1 is missing, assume 0
       // Where n2 is missing, calculate it based on length of phrase being typed
@@ -290,13 +188,9 @@ shuffle = function shuffle(array) {
       // During n2, must display a "typing" (except on terminal)
       // assume the current person is talking if no speaker is specified
 
-      speaker = speaker || conversation;
-
-      if (!Array.isArray(dialogueList)) {
-        console.error(arguments);
-        throw new Error("dialogueList is not an array (probably does not exist)");
-      } // deep copy the dialogue to protect the original
-
+      speaker = event['speaker']; // event_name is not always present, but we need it
+      // it may be "undefined", deal with that later
+      // deep copy the dialogue to protect the original
 
       dialogueList = dialogueList.slice();
       n1 = void 0;
@@ -397,74 +291,23 @@ shuffle = function shuffle(array) {
 
           cssClass = '';
           mode = void 0;
-          text = dialogueList[i];
+          text = dialogueList[i]; //# TODO if typed in style then n2 *= 2 and cssClass = typed and mode
+          //= typing
+          //# TODO alex's emotions are not css classes (ng-src):
+          // if speaker == 'alexandra' and text.length > 0
+          //   if !!/(^\w*?):/.exec(text)
+          //     emote = /(^\w*?):/.exec(text)[1]
+          //     if !aic.alexandraEmotionList.includes(emote)
+          //       throw new Error("Alexandra is experiencing an invalid emotion: #{emote}")
+          //     text = text.substring(emote.length + 1)
+          //   else
+          //     # if no emotion is specified, maintain the last one, or default
+          //     emote = emote ? aic.alexandraEmotionList[0]
 
-          if (text.charAt(1) === ':') {
-            switch (text.charAt(0)) {
-              case 'e':
-                // terminal error
-                cssClass = 'error';
-                break;
-
-              case 'w':
-                // terminal warning
-                cssClass = 'warning';
-                break;
-
-              case 'i':
-                // terminal info
-                cssClass = 'info';
-                break;
-
-              case 'm':
-                // make maitreya talk
-                force = 'maitreya';
-                break;
-
-              case 'c':
-                // make the current speaker talk
-                force = conversation;
-                break;
-
-              case 'n':
-                // 592 narration
-                force = 'narrator';
-                break;
-              // quiet, but might not implement this
-
-              case 't':
-                // message is typed, not spoken
-                n2 *= 2;
-                mode = 'typing';
-                cssClass = 'typed';
-                break;
-
-              default:
-                throw new Error("Unknown dialogue type: " + text.charAt(0));
-            }
-
-            text = text.substring(2);
-          }
-
-          if (speaker === 'alexandra' && text.length > 0) {
-            if (!!/(^\w*?):/.exec(text)) {
-              emote = /(^\w*?):/.exec(text)[1];
-
-              if (!aic.alexandraEmotionList.includes(emote)) {
-                throw new Error("Alexandra is experiencing an invalid emotion: " + emote);
-              }
-
-              text = text.substring(emote.length + 1);
-            } else {
-              // if no emotion is specified, maintain the last one, or default
-              emote = emote != null ? emote : aic.alexandraEmotionList[0];
-            }
-          }
-
-          messages.push([n1, n2, {
+          messages.push([delay, duration, {
             speaker: force != null ? force : speaker,
             cssClass: cssClass,
-            text: text.format(),
+            text: text.wikidot_format(),
             mode: mode != null ? mode : 'default',
             emote: emote
           }]);
@@ -792,7 +635,7 @@ shuffle = function shuffle(array) {
 
 
     aic.Actor = function (name, role, location) {
-      var me;
+      var me, ref, ref1, ref2;
       me = this;
 
       if (Array.isArray(name)) {
@@ -803,27 +646,27 @@ shuffle = function shuffle(array) {
         me.name = name;
       }
 
-      me.location = location;
+      me.location = location; // role is an object and expects id, status, allegiance, type
 
-      if (!role.id || !role.status || !role.allegiance || !role.type) {
+      if (!(role.id != null && role.status != null && role.allegiance != null && role.type != null)) {
         throw new Error(me.name + " is missing role info");
       }
 
       me.id = role.id;
 
-      if (['ok', 'dead'].includes(role.status)) {
+      if ((ref = role.status) === 'ok' || ref === 'dead') {
         me.status = role.status;
       } else {
         throw new Error(me.name + " has an invalid role status");
       }
 
-      if (['scp', '4000', 'ci'].includes(role.allegiance)) {
+      if ((ref1 = role.allegiance) === 'scp' || ref1 === '4000' || ref1 === 'ci') {
         me.allegiance = role.allegiance;
       } else {
         throw new Error(me.name + " has an invalid role allegiance");
       }
 
-      if (['dr', 'aic', 'scp', 'd'].includes(role.type)) {
+      if ((ref2 = role.type) === 'dr' || ref2 === 'aic' || ref2 === 'scp' || ref2 === 'd') {
         me.type = role.type;
       } else {
         throw new Error(me.name + " has an invalid role type");
@@ -831,80 +674,65 @@ shuffle = function shuffle(array) {
 
       switch (me.type) {
         case 'aic':
-          me.opinion = 5;
-          break;
+          return me.opinion = 5;
 
         case 'd':
-          me.opinion = -5;
-          break;
+          return me.opinion = -5;
 
         default:
-          me.opinion = 0;
+          return me.opinion = 0;
       }
-
-      return null;
     };
 
     preloadAlexandraFaces = function preloadAlexandraFaces() {
-      var _, ref, source;
+      var _, ref, results, source;
 
       ref = aic.lang.images.alexandraLogo;
+      results = [];
 
       for (_ in ref) {
         source = ref[_];
-        preloadImage(source);
+        results.push(preloadImage(source));
       }
 
-      return null;
+      return results;
     };
 
     preloadImage = function preloadImage(source) {
       var image;
       image = new Image();
-      image.src = source;
-      return null;
+      return image.src = source;
     }; // called when user switches app via buttons or terminal
 
 
-    aic.switchApp = function (app) {
-      if (app === aic.selectedApp) {// this is already the selected app, do nothing
-      } else if (aic.ready[app] === false) {// this app is disabled, do nothing
-      } else if (aic.appList.includes(app)) {
-        // also need to clear this app's notifications
-        if (app === 'messages') {
+    aic.switchApp = function (app_name) {
+      if (app_name === aic.selectedApp) {} else if (!aic.ready[app_name]) {} else if (indexOf.call(aic.appList, app_name) >= 0) {
+        if (app_name === 'messages') {
           aic.notifications[aic.selectedSpeaker] = 0;
         } else {
-          aic.notifications[app] = 0;
+          aic.notifications[app_name] = 0;
         }
 
-        aic.vars[app + "Emphasis"] = false;
-        aic.selectedApp = app; // then, if the app is terminal, focus the input
+        aic.vars[app_name + "Emphasis"] = false;
+        aic.selectedApp = app_name;
 
-        if (app === 'terminal') {
-          $timeout(function () {
-            $('#terminal-input')[0].focus();
-            return null;
+        if (app_name === 'terminal') {
+          // this doesn't work if it's executed instantly
+          return $timeout(function () {
+            return $('#terminal-input')[0].focus();
           }, 100);
         }
       } else {
-        // Why does this need to be in a timeout? No clue.
-        throw new Error("Invalid app specified -- terminal / messages / database / run");
+        throw new Error("Tried to switch to unknown app " + app_name);
       }
-
-      return null;
     }; // called when the user switches speaker in the messages app
 
 
     aic.switchSpeaker = function (speaker) {
-      if (speaker === aic.selectedSpeaker) {// this is already the selected speaker, do nothing
-      } else if (aic.ready[speaker] === false) {} else {
-        // this speaker is disabled, do nothing
-        aic.selectedSpeaker = speaker; // also need to clear this speaker's notifications
-
-        aic.notifications[speaker] = 0;
+      if (speaker === aic.selectedSpeaker) {} else if (!aic.ready[speaker]) {} else {
+        aic.selectedSpeaker = speaker;
+        return aic.notifications[speaker] = 0;
       }
-
-      return null;
     }; // called when the user switches operations in the run app
 
 
@@ -963,7 +791,7 @@ shuffle = function shuffle(array) {
           i = 0;
 
           while (i < aic.lang.articles[article].text.length) {
-            aic.selectedArticleData.content.push(aic.lang.articles[article].text[i].format());
+            aic.selectedArticleData.content.push(aic.lang.articles[article].text[i].wikidot_format());
             i++;
           }
         } else {
@@ -983,6 +811,7 @@ shuffle = function shuffle(array) {
       var error, m, phrases;
 
       if (aic.terminalInput.length > 0) {
+        //# TODO make this compatible with new lines
         writeDialogue('terminal', [0, 0, aic.terminalInput], 'input');
         phrases = aic.terminalInput.split(aic.lang.commands.separator);
 
@@ -1145,41 +974,31 @@ shuffle = function shuffle(array) {
       var room;
       room = this.getAttribute('data-room-name');
       $scope.$apply(function () {
-        aic.vars.hoveredRoom = room;
-        return null;
+        return aic.vars.hoveredRoom = room;
       });
-      aic.vars.doingRoom = true;
-      return null;
+      return aic.vars.doingRoom = true;
     });
     $('.sitemap').on('mouseleave', '.room', function () {
       if (aic.vars.doingRoom) {
         $scope.$apply(function () {
-          aic.vars.hoveredRoom = 'none';
-          return null;
+          return aic.vars.hoveredRoom = 'none';
         });
-        aic.vars.doingRoom = false;
+        return aic.vars.doingRoom = false;
       }
-
-      return null;
     }); // make the bouncy effect on the article selectors persist when the mouse is moved off them too quickly
 
     $('.articles-list').on('mouseenter', '.article-selector', function () {
-      var article; // this event only fires when the mouse is moved onto a selector.
-
+      var article;
       article = this.getAttribute('data-article');
 
       if (!Number.isInteger(aic.lang.articles[article].cantUnhoverUntil)) {
         $timeout.cancel(aic.lang.articles[article].cantUnhoverUntil);
-      } // mark this selector as HOVERED
-
+      }
 
       $scope.$apply(function () {
-        aic.lang.articles[article].hovered = true;
-        return null;
-      }); // set the time at which this article can be safely unhovered
-
-      aic.lang.articles[article].cantUnhoverUntil = Date.now() + 675;
-      return null;
+        return aic.lang.articles[article].hovered = true;
+      });
+      return aic.lang.articles[article].cantUnhoverUntil = Date.now() + 675;
     });
     $('.articles-list').on('mouseleave', '.article-selector', function () {
       var article, timeRemaining; // this event only fires when the mouse is moved off a selector.
@@ -1191,8 +1010,7 @@ shuffle = function shuffle(array) {
       if (timeRemaining < 0) {
         // if we're out of time, mark as UNHOVERED, no questions asked
         $scope.$apply(function () {
-          aic.lang.articles[article].hovered = false;
-          return null;
+          return aic.lang.articles[article].hovered = false;
         });
       } else {
         // if there's still time remaining, set a timer to mark it as UNHOVERED once the timer has expired
@@ -1200,21 +1018,16 @@ shuffle = function shuffle(array) {
           aic.lang.articles[article].hovered = false;
 
           if (!Number.isInteger(aic.lang.articles[article].cantUnhoverUntil)) {
-            aic.lang.articles[article].cantUnhoverUntil = void 0;
+            return aic.lang.articles[article].cantUnhoverUntil = void 0;
           }
-
-          return null;
         }, timeRemaining, true);
       }
 
-      $scope.$apply(function () {
+      return $scope.$apply(function () {
         if (Date.now() - aic.lang.articles[article].hoveredAt > 675) {
-          aic.lang.articles[article].hovered = false;
+          return aic.lang.articles[article].hovered = false;
         }
-
-        return null;
       });
-      return null;
     }); // event handler for clicking rooms
 
     aic.selectRoom = function (room) {
@@ -1222,8 +1035,7 @@ shuffle = function shuffle(array) {
         // minimise the map, display room info
         aic.vars.minimiseMap = true;
         $timeout(function () {
-          aic.vars.selectedRoom = room;
-          return null;
+          return aic.vars.selectedRoom = room;
         }, aic.vars.selectedRoom === 'none' ? 1000 : 0, true);
       }
 
@@ -1235,8 +1047,7 @@ shuffle = function shuffle(array) {
 
 
     aic.rebootRooms = function () {
-      aic.mainLoop('ROOMS', 'rebootRooms');
-      return null;
+      return aic.mainLoop('ROOMS', 'rebootRooms');
     };
     /* PLOT FUNCTIONS */
     // event handler for option selection - effectively maitreyaLoop()
@@ -1258,8 +1069,7 @@ shuffle = function shuffle(array) {
         case 'breach':
           delay = writeDialogue(conversation, option.dialogue, 'maitreya', option.id);
           $timeout(function () {
-            breachLoop(option.bigSection, option.id);
-            return null;
+            return breachLoop(option.bigSection, option.id);
           }, delay * 1000 + aic.maitreyaDelay * 1000);
           aic.vars.people[conversation].opinion += option.opinion;
           break;
@@ -1267,8 +1077,7 @@ shuffle = function shuffle(array) {
         case 'alexandra':
           delay = writeDialogue(conversation, option.dialogue, 'maitreya', option.id);
           $timeout(function () {
-            alexandraLoop(option.bigSection, option.id);
-            return null;
+            return alexandraLoop(option.bigSection, option.id);
           }, delay * 1000 + aic.maitreyaDelay * 1000);
           aic.vars.people[conversation].opinion += option.opinion;
           break;
@@ -1278,10 +1087,9 @@ shuffle = function shuffle(array) {
       } // obviously we don't need the old options anymore
 
 
-      aic.chatLog[conversation].options = []; // save to cookie?
+      return aic.chatLog[conversation].options = [];
+    }; // save to cookie?
 
-      return null;
-    };
 
     aic.Actor.prototype.move = function (destination, continuous) {
       var me, validRooms; // called when an actor moves from one room to another. they can only move to adjacent rooms
@@ -1361,9 +1169,11 @@ String.prototype.toCamelCase = function () {
 }; // prototype function to format dialogue strings from wikidot format to HTML
 
 
-String.prototype.format = function () {
+String.prototype.wikidot_format = function () {
   // pass article argument only if this is an article
-  return this.replace(/\|\|\|\|/g, "<br>").replace(/\*\*(.*?)\*\*/g, "<b>$1</b>").replace(/\/\/(.*?)\/\//g, "<i>$1</i>").replace(/{{(.*?)}}/g, "<tt>$1</tt>").replace(/\^\^(.*?)\^\^/g, "<sup>$1</sup>").replace(/\?\?(.*?)\?\?/g, "<span dynamic class=\'statement false\' data-bool=\'TRUE\'>$1</span>").replace(/!!(.*?)!!/g, "<span class=\'statement true\' data-bool=\'FALSE\'>$1</span>").replace(/^-{3,}$/g, "<hr>").replace(/--/g, "—").replace(/^=\s(.*)$/g, "<div style=\'text-align: center;\'>$1</div>").replace(/(^|>)\!\s([^<]*)/g, "$1<div class=\'fake-title\'>$2</div>").replace(/(^|>)\+{3}\s([^<]*)/g, "$1<h3>$2</h3>").replace(/(^|>)\+{2}\s([^<]*)/g, "$1<h2>$2</h2>").replace(/(^|>)\+{1}\s([^<]*)/g, "$1<h1>$2</h1>").replace(/^\[\[IMAGE\]\]\s([^\s]*)\s(.*)$/g, "<div class=\'scp-image-block block-right\'><img src=\'$1\'><div class=\'scp-image-caption\'><p>$2</p></div></div>").replace(/\[{3}(.*?)\|(.*?)\]{3}/, function (match, article, text) {
+  // .replace(/\?\?(.*?)\?\?/g, "<span dynamic class=\'statement false\' data-bool=\'TRUE\'>$1</span>")
+  // .replace(/!!(.*?)!!/g, "<span class=\'statement true\' data-bool=\'FALSE\'>$1</span>")
+  return this.replace(/\|\|\|\|/g, "<br>").replace(/\*\*(.*?)\*\*/g, "<b>$1</b>").replace(/\/\/(.*?)\/\//g, "<i>$1</i>").replace(/{{(.*?)}}/g, "<tt>$1</tt>").replace(/\^\^(.*?)\^\^/g, "<sup>$1</sup>").replace(/^-{3,}$/g, "<hr>").replace(/--/g, "—").replace(/^=\s(.*)$/g, "<div style='text-align: center;'>$1</div>").replace(/(>|^)\!\s([^<]*)/g, "$1<div class='fake-title'>$2</div>").replace(/(>|^)\+{3}\s([^<]*)/g, "$1<h3>$2</h3>").replace(/(>|^)\+{2}\s([^<]*)/g, "$1<h2>$2</h2>").replace(/(>|^)\+{1}\s([^<]*)/g, "$1<h1>$2</h1>").replace(/<([\w\s])|(.*?)>/g, "<span class='$1'>$2</span>").replace(/^\[\[IMAGE\]\]\s([^\s]*)\s(.*)$/g, "<div class=\'scp-image-block block-right\'><img src=\'$1\'><div class=\'scp-image-caption\'><p>$2</p></div></div>").replace(/\[{3}(.*?)\|(.*?)\]{3}/, function (match, article, text) {
     // please ready your butts for the single worst line of code I have ever written
     angular.element(document.documentElement).scope().aic.lang.articles[article].available = true;
     return "<span class='article-link'>" + text + "</span>";
