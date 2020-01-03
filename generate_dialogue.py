@@ -7,7 +7,7 @@ import pandas as pd
 import numpy as np
 
 # Load the dialogue sheet as a dateframe.
-dialogue_sheet = pd.read_excel("src/events.xlsx")
+dialogue_sheet = pd.read_excel("src/events.xlsm")
 
 # Scrap the first row, it's a description of each header.
 dialogue_sheet = dialogue_sheet.drop(0)
