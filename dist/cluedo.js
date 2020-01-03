@@ -119,25 +119,25 @@ shuffle = function shuffle(array) {
     };
 
     execute_event = function execute_event(event) {
-      var condition, conditions, k, l, len, len1, len2, line, lines, n, option, options, ref, ref1, ref2; // Function for executing a single event.
+      var condition, conditions, j, k, l, len, len1, len2, line, lines, option, options, ref, ref1, ref2; // Function for executing a single event.
       // Receives the event, not the name.
       // Work out which of the lines have options.
 
       lines = [];
       ref = event['lines'];
 
-      for (k = 0, len = ref.length; k < len; k++) {
-        line = ref[k];
+      for (j = 0, len = ref.length; j < len; j++) {
+        line = ref[j];
         options = [];
         ref1 = line['options'];
 
-        for (l = 0, len1 = ref1.length; l < len1; l++) {
-          option = ref1[l];
+        for (k = 0, len1 = ref1.length; k < len1; k++) {
+          option = ref1[k];
           conditions = [];
           ref2 = option['conditions'];
 
-          for (n = 0, len2 = ref2.length; n < len2; n++) {
-            condition = ref2[n];
+          for (l = 0, len2 = ref2.length; l < len2; l++) {
+            condition = ref2[l];
             conditions.push(condition());
           }
 
@@ -179,14 +179,7 @@ shuffle = function shuffle(array) {
 
 
     writeDialogue = function writeDialogue(event) {
-      var cssClass, dialogueList, emote, force, i, j, maitreyaMessages, messages, mode, n1, n2, speaker, text, totalDelay; //# An event is a list of lines
-      // Take a name and an array (mixture of letters and numbers) and crank out that dialogue boy
-      // Expected format: n n text n n text n n text repeating
-      // Where n1 is missing, assume 0
-      // Where n2 is missing, calculate it based on length of phrase being typed
-      // During n1, nothing
-      // During n2, must display a "typing" (except on terminal)
-      // assume the current person is talking if no speaker is specified
+      var cssClass, delay, dialogueList, duration, j, len, line, messages, n1, n2, ref, speaker, totalDelay; //# An event is a list of lines
 
       speaker = event['speaker']; // event_name is not always present, but we need it
       // it may be "undefined", deal with that later
@@ -197,139 +190,72 @@ shuffle = function shuffle(array) {
       n2 = void 0;
       messages = [];
       totalDelay = 0;
-      force = void 0;
-      emote = void 0;
-      i = 0;
+      ref = event['lines']; // emote = undefined
 
-      while (i < dialogueList.length) {
-        if (typeof dialogueList[i] === 'number') {
-          if (typeof n1 === 'number') {
-            n2 = dialogueList[i];
-          } else {
-            n1 = dialogueList[i];
-          } // if the number is the last item, it's the opinion modifier
+      for (j = 0, len = ref.length; j < len; j++) {
+        line = ref[j];
+        delay = line['delay'];
+        duration = line['duration'];
 
-
-          if (i + 1 === dialogueList.length) {
-            aic.vars.people[conversation].opinion += dialogueList[i];
-          }
-
-          i++;
-          continue;
-        } else if (typeof dialogueList[i] === 'string') {
-          if (dialogueList[i] === 'auto') {
-            if (typeof n1 === 'number') {
-              n2 = dialogueList[i];
-            } else {
-              n1 = dialogueList[i];
-            }
-
-            i++;
-            continue;
-          } // the final piece in the n n text triplet
-          // we have n1 and n2 to assign
-          // if only one number is present, it is n1, there is no n2
-          // default n1 is 0
-          // default n2 is calculated based on string length
-
-
-          if (typeof n1 !== 'number') {
-            n1 = aic.typingDelay;
-          }
-
-          if (typeof n2 !== 'number') {
-            n2 = aic.typingSpeed * dialogueList[i].length;
-          } // obviously maitreya also always speaks instantly
-          // correction: maitreya does not speak instantly, because that fucking sucks
-
-
-          if (speaker === 'maitreya') {
-            // but we want the first message to be instant
-            if (i === 0) {
-              n2 = 0;
-            } else if (n2 > 1) {
-              // and then make her speak a little bit faster anyway
-              n2 *= 0.5;
-            }
-          } else {
-            /*n2 = 0;*/
-            if (aic.vars.lastSpeaker === 'maitreya' && n1 < 1) {
-              // if maitreya was last to speak, we want to make it look like the other person is reading our message for a moment
-              // but if it's a really short message, then it doesn't matter too much
-              // so what we'll do is delay the next message by 0.5s for each message that maitreya sent
-              // so we need to query the number of messages sent by maitreya and multiply it by 0.5 and make n1 that
-              maitreyaMessages = 0;
-              j = 0;
-
-              while (j < aic.chatLog[conversation].log.length) {
-                if (aic.chatLog[conversation].log[j].speaker === 'maitreya') {
-                  maitreyaMessages++;
-                } else {
-                  break;
-                }
-
-                j++;
-              } // we already know that the last speaker is maitreya, so it is impossible for this value to be 0
-
-
-              if (maitreyaMessages === 0) {
-                /*throw new Error("maitreyaMessages is 0");*/
-                // except sometimes we reach this point anyway, and I have no idea why, so there"s no point breaking the flow lmao
-                console.error("maitreyaMessages is 0");
-              }
-
-              n1 = maitreyaMessages * 0.5;
-            }
-          } // if the cheat is on, everyone speaks instantly
-
-
-          if (aic.cheats.impatientMode) {
-            n1 = 0;
-            n2 = 0.1;
-          } // we need a small amount of delay otherwise messages end up in the wrong order
-
-
-          cssClass = '';
-          mode = void 0;
-          text = dialogueList[i]; //# TODO if typed in style then n2 *= 2 and cssClass = typed and mode
-          //= typing
-          //# TODO alex's emotions are not css classes (ng-src):
-          // if speaker == 'alexandra' and text.length > 0
-          //   if !!/(^\w*?):/.exec(text)
-          //     emote = /(^\w*?):/.exec(text)[1]
-          //     if !aic.alexandraEmotionList.includes(emote)
-          //       throw new Error("Alexandra is experiencing an invalid emotion: #{emote}")
-          //     text = text.substring(emote.length + 1)
-          //   else
-          //     # if no emotion is specified, maintain the last one, or default
-          //     emote = emote ? aic.alexandraEmotionList[0]
-
-          messages.push([delay, duration, {
-            speaker: force != null ? force : speaker,
-            cssClass: cssClass,
-            text: text.wikidot_format(),
-            mode: mode != null ? mode : 'default',
-            emote: emote
-          }]);
-          totalDelay += n1 + n2; // record the previous speaker, but only if there was actually a message
-
-          if (text.length > 0) {
-            aic.vars.lastSpeaker = force || speaker;
-          } // reset everything for the next iteration
-
-
-          n1 = void 0;
-          n2 = void 0;
-          force = void 0;
-          mode = 'default';
-        } else {
-          throw new Error("Dialogue not number or string");
+        if (delay === 'auto') {
+          delay = aic.typingDelay;
         }
 
-        i++;
-      }
+        if (duration === 'auto') {
+          duration = aic.typingSpeed * line['text'].length;
+        }
 
-      _pushToLog(conversation, messages, event_name); // the total length of all messages gets passed back to the mainloop
+        assert(typeof delay === 'number' && typeof duration === 'number'); //# XXX check that opinion is propagated, may have just deleted the logic
+        // obviously maitreya also always speaks instantly
+        // correction: maitreya does not speak instantly, because that fucking sucks
+        //# TODO XXX TODO XXX TODO change 'maitreya' to 'player' or similar
+
+        if (speaker === 'maitreya') {
+          // but we want the first message to be instant
+          if (i === 0) {
+            duration = 0;
+          } else if (duration > 1) {
+            // and then make her speak a little bit faster anyway
+            duration *= 0.5;
+          }
+        } // if the cheat is on, everyone speaks instantly
+
+
+        if (aic.cheats.impatientMode) {
+          delay = 0;
+          duration = 0.1; // if 0 then messages appear in wrong order
+        }
+
+        cssClass = line['style']; // mode = undefined
+        //# TODO if typed in style then n2 *= 2 and cssClass = typed and mode = typing
+        //# TODO alex's emotions are not css classes (ng-src):
+        // if speaker == 'alexandra' and text.length > 0
+        //   if !!/(^\w*?):/.exec(text)
+        //     emote = /(^\w*?):/.exec(text)[1]
+        //     if !aic.alexandraEmotionList.includes(emote)
+        //       throw new Error("Alexandra is experiencing an invalid emotion: #{emote}")
+        //     text = text.substring(emote.length + 1)
+        //   else
+        //     # if no emotion is specified, maintain the last one, or default
+        //     emote = emote ? aic.alexandraEmotionList[0]
+
+        messages.push([delay, duration, {
+          speaker: typeof force !== "undefined" && force !== null ? force : speaker,
+          cssClass: cssClass,
+          text: line['text'].wikidot_format()
+        }]); // mode: mode ? 'default'
+        // emote: emote
+
+        totalDelay += delay + duration; // record the previous speaker, but only if there was actually a message
+
+        if (text.length > 0) {
+          aic.vars.lastSpeaker = force || speaker;
+        }
+      } // reset everything for the next iteration
+      // mode = 'default'
+
+
+      _pushToLog(event['speaker'], messages, event_name); // the total length of all messages gets passed back to the mainloop
 
 
       return totalDelay;
@@ -441,7 +367,7 @@ shuffle = function shuffle(array) {
             aic.isSpeaking[conversation] = false; // check if the next message is ours for marker smoothness
 
             if (messages.length > 1) {
-              if (messages[1][2].speaker !== 'maitreya') {
+              if (messages[1][2].speaker === !'maitreya') {
                 aic.isProcessing[conversation] = false;
               }
             } else {
@@ -468,7 +394,7 @@ shuffle = function shuffle(array) {
               // skip ahead to the requested conversation section
               //TODO: if the (dialogue that's being interrupted) has already queued the next line (ie loopThrough==true), then the current dialogue will be cancelled but the upcoming dialogue will not
 
-              if (ID !== void 0) {
+              if (ID === !void 0) {
                 aic.blacklist.push(ID);
                 console.log("Blacklisting " + ID + " (via pushToLog)");
               } else {
@@ -560,11 +486,11 @@ shuffle = function shuffle(array) {
     addNotification = function addNotification(target) {
       // accepts apps as well as conversations as targets
       if (aic.speakerList.includes(target)) {
-        if (aic.selectedApp !== 'messages' || aic.selectedSpeaker !== target) {
+        if (aic.selectedApp === !'messages' || aic.selectedSpeaker === !target) {
           aic.notifications[target]++;
         }
       } else {
-        if (aic.selectedApp !== target) {
+        if (aic.selectedApp === !target) {
           aic.notifications[target]++;
         }
       }
@@ -950,7 +876,7 @@ shuffle = function shuffle(array) {
           commandsUsedIterator++;
         }
 
-        if (aic.terminalInput !== aic.commandsUsed[commandsUsedIterator]) {
+        if (aic.terminalInput === !aic.commandsUsed[commandsUsedIterator]) {
           aic.terminalInput = aic.commandsUsed[commandsUsedIterator];
         }
       } else if (event.key === 'ArrowDown' || event.keyCode === 40 || event.which === 40) {
@@ -958,7 +884,7 @@ shuffle = function shuffle(array) {
           commandsUsedIterator--;
         }
 
-        if (aic.terminalInput !== aic.commandsUsed[commandsUsedIterator]) {
+        if (aic.terminalInput === !aic.commandsUsed[commandsUsedIterator]) {
           aic.terminalInput = aic.commandsUsed[commandsUsedIterator];
         }
       } else {
