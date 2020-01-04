@@ -36,7 +36,8 @@ do ->
     $scope.trustAsHtml = (string) ->
       $sce.trustAsHtml string
 
-    aic.lang = {} # This object contains all strings that aren't dialogue
+    aic.lang = {} # All strings that aren't dialogue
+    aic.events = {} # All events
 
     aic.typingDelay = 0.3
     aic.typingSpeed = 0.04 # seconds per letter
@@ -44,6 +45,10 @@ do ->
     aic.timeOutList = {}
     aic.isSpeaking = {}
     aic.isProcessing = {}
+    ## XXX what actually is the difference between isSpeaking and isProcessing?
+    # theory: speaking is for characters, processing is for the player
+    # if true: "processing" should just be the speaking for the player
+    # character
     aic.notifications = {}
     aic.timers = {} # holds special timers for events and the like
     aic.chatLog = {} # should be added to in reverse order
@@ -55,9 +60,9 @@ do ->
       aic.onMobile = $('body').width() < 700
       $scope.$apply ->
         aic = aic_init(aic) # from init.js
-        aic.lang = getBaseLexicon(aic)['lang'] # from lang.coffee
+        aic.lang = getBaseLexicon(aic)['lang'] # from lang.js
+        aic.events = getEvents() # from events.js
       console.log "Ready to go"
-      return null
 
     # called when "BOOT UP" is clicked from preload
     aic.bootUp = =>
@@ -67,20 +72,10 @@ do ->
       aic.start[0] aic.start[1], aic.start[2]
       return null
 
-    aic.mainLoop = (event_name) ->
-      # TODO add character/sheet property to events
-      event_name = event_name.replace(/_*$/g, "")
-      console.log "Event = #{event_name}"
-
-      if event_name of aic.events
-        execute_event aic.events[event_name]
-      else
-        throw new Error("#{event_name} is not an event")
-
     execute_event = (event_name) ->
       # Function for executing a single event.
       console.log "Event: #{event_name}"
-      event = aic.getEvents()['event_name']
+      event = aic.events['event_name']
 
       # Work out which of the lines have options.
       lines = []
@@ -94,7 +89,7 @@ do ->
         if options.every((v) => v is true) then lines.push line
       # lines is now all the lines that will appear
       # write the lines, one by one, and display options of the final
-      render_lines event_name, lines
+      writeDialogue event_name, lines
 
     ### PROCESSING FUNCTIONS ###
 
@@ -114,16 +109,14 @@ do ->
 
     # structure dialogue and calculate timing
     # writeDialogue = (conversation, dialogueList, speaker, event_name) ->
-    writeDialogue = (event) ->
+    writeDialogue = (event_name, lines) ->
       ## An event is a list of lines
-      speaker = event['speaker']
-      # event_name is not always present, but we need it
-      # it may be "undefined", deal with that later
-      # deep copy the dialogue to protect the original
+      event = aic.events['event_name']
+      conversation = event['conversation']
       messages = []
       totalDelay = 0
       # emote = undefined
-      for line in event['lines']
+      for line in lines
         delay = line['delay']
         duration = line['duration']
         if delay is 'auto' then delay = aic.typingDelay
@@ -163,14 +156,14 @@ do ->
           # speaker: force ? speaker
           # cssClass: cssClass # deprecated in favour of line['style']
           # text: line['text'].wikidot_format()
-          mode: mode ? 'default'
+          # mode: mode ? 'default' # TODO mode can be a class, html pickup
           # emote: emote
           line: line
         }
         totalDelay += delay + duration
         # record the previous speaker, but only if there was actually a message
         if text.length > 0
-          aic.vars.lastSpeaker = event['speaker']
+          aic.vars.lastSpeaker = event['conversation']
       pushToLog event_name, messages
       # the total length of all messages gets passed back to the mainloop
       return totalDelay
@@ -179,19 +172,20 @@ do ->
     #pushToLog = (conversation, messages, ID, thread) ->
     pushToLog = (event_name, messages) ->
       # messages: a list of dicts:
-      # delay: time before message, int, seconds
-      # duration: time before message with indicator, int, seconds
-      # line: the line of this message, dict
+        # delay: time before message, int, seconds
+        # duration: time before message with indicator, int, seconds
+        # line: the line of this message, dict
 
       # pushToLog is recursive: processes the first message only
 
-      event = getEvents()['event_name']
+      event = aic.events['event_name']
+      conversation = event['conversation']
 
       delay = messages[0]['delay']
       duration = messages[0]['duration']
 
       timeOut1 = $timeout((->
-        aic.timeOutList[event['speaker']].remove(timeOut1)
+        aic.timeOutList[conversation].remove(timeOut1)
 
         if duration > 0
           # we only want to trigger the wait at all if duration > 0
@@ -204,7 +198,7 @@ do ->
             if messages[0][2].speaker is 'breach'
               aic.vars.breachEntryMode = messages[0][2].mode or 'speaking'
         timeOut2 = $timeout((->
-          aic.timeOutList[event['speaker']].remove(timeOut2)
+          aic.timeOutList[conversation].remove(timeOut2)
           # now we need to check to see if any other messages are still coming through (HINT: they shouldn't be, but just in case)
           if aic.timeOutList[conversation].length is 0
             aic.isSpeaking[conversation] = false

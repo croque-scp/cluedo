@@ -12,7 +12,6 @@ reimplemented pending a re-think of how the mechanism should work.
 
 var assert,
     shuffle,
-    hasProp = {}.hasOwnProperty,
     indexOf = [].indexOf;
 
 assert = function assert(condition, message) {
@@ -42,48 +41,18 @@ shuffle = function shuffle(array) {
   var EncodeURIComponentFilter, MaitreyaController, maitreya;
 
   MaitreyaController = function MaitreyaController($scope, $timeout, $sce, $http) {
-    var aic, auto, execute_event, presentOptions, _pushToLog, speech, writeDialogue;
+    var aic, execute_event, presentOptions, _pushToLog, writeDialogue;
 
     aic = this;
-    LoopService.use($scope); // give BreachLoopService our scope
-    // the LoopService service (from LoopService.js) contains the interactions for Breach, Alexandra and D-Class generated from the spreadsheet
 
     $scope.trustAsHtml = function (string) {
       return $sce.trustAsHtml(string);
     };
 
-    aic.bootDate = new Date(new Date(Date.now()).setFullYear(2018));
-    auto = 'auto';
-    aic.lang = {}; // This object contains all strings that aren't dialogue
+    aic.lang = {}; // All strings that aren't dialogue
 
-    speech = {
-      // This object contains all dialogue strings
-      merge: function merge(dialogue) {
-        var bigSection, section, speaker; // merges dialogue from LoopService into this variable
+    aic.events = {}; // All events
 
-        console.log("Merging dialogue...");
-
-        for (bigSection in dialogue) {
-          if (!hasProp.call(dialogue, bigSection)) continue;
-          section = dialogue[bigSection];
-
-          if (this.hasOwnProperty(bigSection)) {
-            for (speaker in section) {
-              if (!hasProp.call(section, speaker)) continue;
-              console.log("..." + bigSection + " of " + speaker);
-              this[bigSection][speaker] = dialogue[bigSection][speaker];
-            }
-          } else {
-            // if speech does not have the bigSection, hell yeah let's
-            // overwrite that shit
-            console.log("...new " + bigSection);
-            this[bigSection] = dialogue[bigSection];
-          }
-        }
-
-        return null;
-      }
-    };
     aic.typingDelay = 0.3;
     aic.typingSpeed = 0.04; // seconds per letter
 
@@ -91,7 +60,11 @@ shuffle = function shuffle(array) {
 
     aic.timeOutList = {};
     aic.isSpeaking = {};
-    aic.isProcessing = {};
+    aic.isProcessing = {}; //# XXX what actually is the difference between isSpeaking and isProcessing?
+    // theory: speaking is for characters, processing is for the player
+    // if true: "processing" should just be the speaking for the player
+    // character
+
     aic.notifications = {};
     aic.timers = {}; // holds special timers for events and the like
 
@@ -106,12 +79,9 @@ shuffle = function shuffle(array) {
         aic = aic_init(aic); // from init.js
 
         aic.lang = getBaseLexicon(aic)['lang'];
-        speech.merge(getBaseLexicon(aic)['speech']);
-        return speech.merge(LoopService.dialogue);
+        return aic.events = getEvents(); // from events.js
       });
-      preloadImage(aic.lang.images.greyStripe);
-      console.log("Ready to go");
-      return null;
+      return console.log("Ready to go");
     }); // called when "BOOT UP" is clicked from preload
 
     aic.bootUp = function () {
@@ -122,23 +92,11 @@ shuffle = function shuffle(array) {
       return null;
     };
 
-    aic.mainLoop = function (event_name) {
-      // TODO add character/sheet property to events
-      event_name = event_name.replace(/_*$/g, "");
-      console.log("Event = " + event_name);
-
-      if (event_name in aic.events) {
-        return execute_event(aic.events[event_name]);
-      } else {
-        throw new Error(event_name + " is not an event");
-      }
-    };
-
     execute_event = function execute_event(event_name) {
       var condition, conditions, event, j, k, l, len, len1, len2, line, lines, option, options, ref, ref1, ref2; // Function for executing a single event.
 
       console.log("Event: " + event_name);
-      event = aic.getEvents()['event_name']; // Work out which of the lines have options.
+      event = aic.events['event_name']; // Work out which of the lines have options.
 
       lines = [];
       ref = event['lines'];
@@ -172,7 +130,7 @@ shuffle = function shuffle(array) {
       // write the lines, one by one, and display options of the final
 
 
-      return render_lines(event_name, lines);
+      return writeDialogue(event_name, lines);
     };
     /* PROCESSING FUNCTIONS */
     // pass options to chatLog for presentation to the user
@@ -194,19 +152,16 @@ shuffle = function shuffle(array) {
     // writeDialogue = (conversation, dialogueList, speaker, event_name) ->
 
 
-    writeDialogue = function writeDialogue(event) {
-      var delay, duration, j, len, line, messages, mode, ref, speaker, totalDelay; //# An event is a list of lines
+    writeDialogue = function writeDialogue(event_name, lines) {
+      var conversation, delay, duration, event, j, len, line, messages, mode, totalDelay; //# An event is a list of lines
 
-      speaker = event['speaker']; // event_name is not always present, but we need it
-      // it may be "undefined", deal with that later
-      // deep copy the dialogue to protect the original
-
+      event = aic.events['event_name'];
+      conversation = event['conversation'];
       messages = [];
-      totalDelay = 0;
-      ref = event['lines']; // emote = undefined
+      totalDelay = 0; // emote = undefined
 
-      for (j = 0, len = ref.length; j < len; j++) {
-        line = ref[j];
+      for (j = 0, len = lines.length; j < len; j++) {
+        line = lines[j];
         delay = line['delay'];
         duration = line['duration'];
 
@@ -261,14 +216,14 @@ shuffle = function shuffle(array) {
           // speaker: force ? speaker
           // cssClass: cssClass # deprecated in favour of line['style']
           // text: line['text'].wikidot_format()
-          mode: mode != null ? mode : 'default',
+          // mode: mode ? 'default' # TODO mode can be a class, html pickup
           // emote: emote
           line: line
         });
         totalDelay += delay + duration; // record the previous speaker, but only if there was actually a message
 
         if (text.length > 0) {
-          aic.vars.lastSpeaker = event['speaker'];
+          aic.vars.lastSpeaker = event['conversation'];
         }
       }
 
@@ -281,18 +236,19 @@ shuffle = function shuffle(array) {
 
 
     _pushToLog = function pushToLog(event_name, messages) {
-      var delay, duration, event, timeOut1; // messages: a list of dicts:
+      var conversation, delay, duration, event, timeOut1; // messages: a list of dicts:
       // delay: time before message, int, seconds
       // duration: time before message with indicator, int, seconds
       // line: the line of this message, dict
       // pushToLog is recursive: processes the first message only
 
-      event = getEvents()['event_name'];
+      event = aic.events['event_name'];
+      conversation = event['conversation'];
       delay = messages[0]['delay'];
       duration = messages[0]['duration'];
       timeOut1 = $timeout(function () {
         var timeOut2;
-        aic.timeOutList[event['speaker']].remove(timeOut1);
+        aic.timeOutList[conversation].remove(timeOut1);
 
         if (duration > 0) {
           // we only want to trigger the wait at all if duration > 0
@@ -309,7 +265,7 @@ shuffle = function shuffle(array) {
         }
 
         timeOut2 = $timeout(function () {
-          aic.timeOutList[event['speaker']].remove(timeOut2); // now we need to check to see if any other messages are still coming through (HINT: they shouldn't be, but just in case)
+          aic.timeOutList[conversation].remove(timeOut2); // now we need to check to see if any other messages are still coming through (HINT: they shouldn't be, but just in case)
 
           if (aic.timeOutList[conversation].length === 0) {
             aic.isSpeaking[conversation] = false; // check if the next message is ours for marker smoothness
