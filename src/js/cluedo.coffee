@@ -33,33 +33,10 @@ do ->
   MaitreyaController = ($scope, $timeout, $sce, $http) ->
     aic = this
 
-    LoopService.use $scope
-    # give BreachLoopService our scope
-    # the LoopService service (from LoopService.js) contains the interactions for Breach, Alexandra and D-Class generated from the spreadsheet
-
     $scope.trustAsHtml = (string) ->
       $sce.trustAsHtml string
 
-    aic.bootDate = new Date(new Date(Date.now()).setFullYear(2018))
-    auto = 'auto'
     aic.lang = {} # This object contains all strings that aren't dialogue
-    speech = # This object contains all dialogue strings
-      merge: (dialogue) ->
-        # merges dialogue from LoopService into this variable
-        console.log "Merging dialogue..."
-        for own bigSection,section of dialogue
-          if this.hasOwnProperty(bigSection)
-            # if speech already has the bigSection, we can't overwrite it, we
-            # just need to dupe its inner values
-            for own speaker of section
-              console.log "...#{bigSection} of #{speaker}"
-              this[bigSection][speaker] = dialogue[bigSection][speaker]
-          else
-            # if speech does not have the bigSection, hell yeah let's
-            # overwrite that shit
-            console.log "...new #{bigSection}"
-            this[bigSection] = dialogue[bigSection]
-        return null
 
     aic.typingDelay = 0.3
     aic.typingSpeed = 0.04 # seconds per letter
@@ -79,9 +56,6 @@ do ->
       $scope.$apply ->
         aic = aic_init(aic) # from init.js
         aic.lang = getBaseLexicon(aic)['lang'] # from lang.coffee
-        speech.merge getBaseLexicon(aic)['speech'] # from lang.coffee
-        speech.merge LoopService.dialogue
-      preloadImage aic.lang.images.greyStripe
       console.log "Ready to go"
       return null
 
