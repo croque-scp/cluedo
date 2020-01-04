@@ -27,6 +27,7 @@
 
     <script src="lang.js" type="text/javascript"></script>
     <script src="init.js" type="text/javascript"></script>
+    <script src="events.js" type="text/javascript"></script>
     <script src="cluedo.js" type="text/javascript"></script>
     <!-- <script src="LoopService.js" type="text/javascript"></script> -->
     <link href="cluedo.css" rel="stylesheet">
@@ -34,6 +35,14 @@
   <body style="padding: 0;">
     <div id="container">
 
+      <div id="frame">
+        <div class="background"></div>
+        <div class="line"
+             ng-repeat="line in aic.chatLog['default'].log"
+             ng-class="line['cssClass']">
+          <p class="text" ng-bind-html="{line['text']}"></p>
+        </div>
+      </div>
 
     </div>
   </body>

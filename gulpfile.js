@@ -17,7 +17,7 @@ const path = require('path');
 gulp.task('events', function(done) {
   log("Handling events");
   // Convert spreadsheet to events
-  gulp.src('./src/events.xlsx')
+  gulp.src('./src/events.xlsm')
     .pipe(plumber())
     .on('end', () => log("Found sheet"))
     .pipe(through2.obj((file, enc, cb) => {
