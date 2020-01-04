@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html ng-app="maitreyaWrapper" ng-controller="WrapController as wrap">
+<html ng-app="wrapper" ng-controller="WrapController as wrap">
   <head>
     <title>SCP-4000</title>
     <meta charset="UTF-8">
@@ -62,8 +62,8 @@
       "use strict";
       /* global $, angular */
       (function(){
-        var cluedoWrapper = angular
-          .module('cluedoWrapper',[])
+        var wrapper = angular
+          .module('wrapper',[])
           .controller('WrapController',WrapController);
         WrapController.$inject = ['$scope'];
         function WrapController($scope){
