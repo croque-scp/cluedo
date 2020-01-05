@@ -1,6 +1,10 @@
 # cluedo
 A murder mystery.
 
+Prebuilt distributions are contained in this repository:
+* https://rossjrw.github.io/cluedo/dist/
+* https://rossjrw.github.io/cluedo/dist/cluedo.html
+
 ## Building
 
 Pre-built distributions can be found in `dist/`, but you might want to build
