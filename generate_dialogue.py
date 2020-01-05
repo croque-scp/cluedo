@@ -162,7 +162,7 @@ get_events = (aic) ->
     'option_start': '''\
             {{
               text: {text}
-              destination: '{destination}'
+              destination: {destination}
               style: [{style}]
               opinion: {opinion}
               oncommand: (aic) -> {oncommands}
@@ -216,8 +216,8 @@ for frame in frames:
             option_output = format['option_start'].format(
                 text="null" if pd.isna(option['Options']) else
                      "\"{}\"".format(option['Options']),
-                destination="" if pd.isna(option['ID out'])
-                               else option['ID out'],
+                destination="null" if pd.isna(option['ID out']) else
+                            "'{}'".format(option['ID out']),
                 opinion=0,
                 style="" if pd.isna(option['oc']) else
                       str(option['oc'].splitlines())[1:-1],

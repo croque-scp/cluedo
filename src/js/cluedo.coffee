@@ -56,7 +56,10 @@ do ->
     aic.cheats = {} # possibly merge with vars
     aic.start = null
 
-    aic.wipe_between_events = false
+    aic.config = {
+      clear_log_between_events: false
+      add_to_log_in_reverse_order: true
+    }
 
     aic.chatLog = {
       log: []
@@ -100,6 +103,10 @@ do ->
         # XXX pretty sure this removes lines where ANY option is false
         if options.every((v) => v is true) then lines.push line
       # lines is now all the lines that will appear
+      # If the option is given, clear the message log
+      if aic.config['clear_log_between_events']
+        aic.chatLog.log = aic.chatLog.log.filter (line) =>
+          line['conversation'] isnt event['conversation']
       # write the lines, one by one, and display options of the final
       writeDialogue event_name, lines
 
@@ -118,6 +125,7 @@ do ->
         return null
 
       # TODO skip this if option is null and skip is true
+      # TODO null destination should not present options
       for option in line['options']
         # Modify the option so that it knows its context
         option_modifier = {
@@ -132,7 +140,8 @@ do ->
       event_name = option['event_name']
       # Clear remaining options for this conversation
       aic.present_options event_name, 'CLEAR'
-      # Execute oncommands TODO
+      # Execute oncommands
+      option['oncommand'] aic
       # Call the next event
       aic.execute_event option['destination']
 
@@ -246,11 +255,15 @@ do ->
           if text.length > 0
             # don't push the message if it's empty
 
-            aic.chatLog.log.unshift {
+            log = {
               conversation: conversation
               cssClass: message['cssClass']
               text: text.wikidot_format()
             }
+            if aic.config['add_to_log_in_reverse_order']
+              aic.chatLog.log.unshift log
+            else
+              aic.chatLog.log.push log
 
           if messages.length > 0
             # send the next message
@@ -318,3 +331,6 @@ Array::remove = (thing) ->
   index = this.indexOf thing
   if index > -1
       this.splice index, 1
+
+Array::sample = ->
+  this[Math.floor(Math.random()*this.length)]

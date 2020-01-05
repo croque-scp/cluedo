@@ -17,7 +17,7 @@ get_events = function get_events(aic) {
         style: [],
         options: [{
           text: null,
-          destination: '',
+          destination: null,
           style: [],
           opinion: 0,
           oncommand: function oncommand(aic) {},
@@ -49,7 +49,7 @@ get_events = function get_events(aic) {
         style: [],
         options: [{
           text: null,
-          destination: '',
+          destination: null,
           style: [],
           opinion: 0,
           oncommand: function oncommand(aic) {},
@@ -81,7 +81,7 @@ get_events = function get_events(aic) {
         style: [],
         options: [{
           text: null,
-          destination: '',
+          destination: null,
           style: [],
           opinion: 0,
           oncommand: function oncommand(aic) {},
@@ -113,7 +113,7 @@ get_events = function get_events(aic) {
         style: [],
         options: [{
           text: null,
-          destination: '',
+          destination: null,
           style: [],
           opinion: 0,
           oncommand: function oncommand(aic) {},
@@ -164,7 +164,7 @@ get_events = function get_events(aic) {
         style: [],
         options: [{
           text: null,
-          destination: '',
+          destination: null,
           style: [],
           opinion: 0,
           oncommand: function oncommand(aic) {},
@@ -177,7 +177,7 @@ get_events = function get_events(aic) {
         style: [],
         options: [{
           text: null,
-          destination: '',
+          destination: null,
           style: [],
           opinion: 0,
           oncommand: function oncommand(aic) {},
@@ -209,7 +209,7 @@ get_events = function get_events(aic) {
         style: [],
         options: [{
           text: null,
-          destination: '',
+          destination: null,
           style: [],
           opinion: 0,
           oncommand: function oncommand(aic) {},
@@ -331,7 +331,7 @@ get_events = function get_events(aic) {
         style: [],
         options: [{
           text: null,
-          destination: '',
+          destination: null,
           style: [],
           opinion: 0,
           oncommand: function oncommand(aic) {},
@@ -350,7 +350,7 @@ get_events = function get_events(aic) {
         style: [],
         options: [{
           text: null,
-          destination: '',
+          destination: null,
           style: [],
           opinion: 0,
           oncommand: function oncommand(aic) {},
@@ -459,7 +459,7 @@ get_events = function get_events(aic) {
         style: [],
         options: [{
           text: null,
-          destination: '',
+          destination: null,
           style: [],
           opinion: 0,
           oncommand: function oncommand(aic) {},
@@ -491,7 +491,7 @@ get_events = function get_events(aic) {
         style: [],
         options: [{
           text: null,
-          destination: '',
+          destination: null,
           style: [],
           opinion: 0,
           oncommand: function oncommand(aic) {},
@@ -523,7 +523,7 @@ get_events = function get_events(aic) {
         style: [],
         options: [{
           text: null,
-          destination: '',
+          destination: null,
           style: [],
           opinion: 0,
           oncommand: function oncommand(aic) {},
@@ -612,7 +612,7 @@ get_events = function get_events(aic) {
         style: [],
         options: [{
           text: null,
-          destination: '',
+          destination: null,
           style: [],
           opinion: 0,
           oncommand: function oncommand(aic) {},
@@ -625,7 +625,7 @@ get_events = function get_events(aic) {
         style: [],
         options: [{
           text: null,
-          destination: '',
+          destination: null,
           style: [],
           opinion: 0,
           oncommand: function oncommand(aic) {},
@@ -657,7 +657,7 @@ get_events = function get_events(aic) {
         style: [],
         options: [{
           text: null,
-          destination: '',
+          destination: null,
           style: [],
           opinion: 0,
           oncommand: function oncommand(aic) {},
@@ -689,7 +689,7 @@ get_events = function get_events(aic) {
         style: [],
         options: [{
           text: null,
-          destination: '',
+          destination: null,
           style: [],
           opinion: 0,
           oncommand: function oncommand(aic) {},
@@ -721,7 +721,7 @@ get_events = function get_events(aic) {
         style: [],
         options: [{
           text: null,
-          destination: '',
+          destination: null,
           style: [],
           opinion: 0,
           oncommand: function oncommand(aic) {},
@@ -734,7 +734,7 @@ get_events = function get_events(aic) {
         style: [],
         options: [{
           text: null,
-          destination: '',
+          destination: null,
           style: [],
           opinion: 0,
           oncommand: function oncommand(aic) {},
@@ -766,7 +766,7 @@ get_events = function get_events(aic) {
         style: [],
         options: [{
           text: null,
-          destination: '',
+          destination: null,
           style: [],
           opinion: 0,
           oncommand: function oncommand(aic) {},
@@ -779,7 +779,7 @@ get_events = function get_events(aic) {
         style: [],
         options: [{
           text: null,
-          destination: '',
+          destination: null,
           style: [],
           opinion: 0,
           oncommand: function oncommand(aic) {},
@@ -811,7 +811,7 @@ get_events = function get_events(aic) {
         style: [],
         options: [{
           text: null,
-          destination: '',
+          destination: null,
           style: [],
           opinion: 0,
           oncommand: function oncommand(aic) {},
@@ -824,7 +824,7 @@ get_events = function get_events(aic) {
         style: [],
         options: [{
           text: null,
-          destination: '',
+          destination: null,
           style: [],
           opinion: 0,
           oncommand: function oncommand(aic) {},
@@ -856,7 +856,7 @@ get_events = function get_events(aic) {
         style: [],
         options: [{
           text: null,
-          destination: '',
+          destination: null,
           style: [],
           opinion: 0,
           oncommand: function oncommand(aic) {},
@@ -869,7 +869,7 @@ get_events = function get_events(aic) {
         style: [],
         options: [{
           text: null,
-          destination: '',
+          destination: null,
           style: [],
           opinion: 0,
           oncommand: function oncommand(aic) {},
@@ -901,7 +901,7 @@ get_events = function get_events(aic) {
         style: [],
         options: [{
           text: null,
-          destination: '',
+          destination: null,
           style: [],
           opinion: 0,
           oncommand: function oncommand(aic) {},
@@ -914,7 +914,7 @@ get_events = function get_events(aic) {
         style: [],
         options: [{
           text: null,
-          destination: '',
+          destination: null,
           style: [],
           opinion: 0,
           oncommand: function oncommand(aic) {},
@@ -946,7 +946,7 @@ get_events = function get_events(aic) {
         style: [],
         options: [{
           text: null,
-          destination: '',
+          destination: null,
           style: [],
           opinion: 0,
           oncommand: function oncommand(aic) {},
@@ -959,7 +959,7 @@ get_events = function get_events(aic) {
         style: [],
         options: [{
           text: null,
-          destination: '',
+          destination: null,
           style: [],
           opinion: 0,
           oncommand: function oncommand(aic) {},
@@ -1010,7 +1010,7 @@ get_events = function get_events(aic) {
         style: [],
         options: [{
           text: null,
-          destination: '',
+          destination: null,
           style: [],
           opinion: 0,
           oncommand: function oncommand(aic) {},
@@ -1023,7 +1023,7 @@ get_events = function get_events(aic) {
         style: [],
         options: [{
           text: null,
-          destination: '',
+          destination: null,
           style: [],
           opinion: 0,
           oncommand: function oncommand(aic) {},
@@ -1055,7 +1055,7 @@ get_events = function get_events(aic) {
         style: [],
         options: [{
           text: null,
-          destination: '',
+          destination: null,
           style: [],
           opinion: 0,
           oncommand: function oncommand(aic) {},
@@ -1087,7 +1087,7 @@ get_events = function get_events(aic) {
         style: [],
         options: [{
           text: null,
-          destination: '',
+          destination: null,
           style: [],
           opinion: 0,
           oncommand: function oncommand(aic) {},
@@ -1100,7 +1100,7 @@ get_events = function get_events(aic) {
         style: [],
         options: [{
           text: null,
-          destination: '',
+          destination: null,
           style: [],
           opinion: 0,
           oncommand: function oncommand(aic) {},
@@ -1132,7 +1132,7 @@ get_events = function get_events(aic) {
         style: [],
         options: [{
           text: null,
-          destination: '',
+          destination: null,
           style: [],
           opinion: 0,
           oncommand: function oncommand(aic) {},
@@ -1164,7 +1164,7 @@ get_events = function get_events(aic) {
         style: [],
         options: [{
           text: null,
-          destination: '',
+          destination: null,
           style: [],
           opinion: 0,
           oncommand: function oncommand(aic) {},
@@ -1177,7 +1177,7 @@ get_events = function get_events(aic) {
         style: [],
         options: [{
           text: null,
-          destination: '',
+          destination: null,
           style: [],
           opinion: 0,
           oncommand: function oncommand(aic) {},
@@ -1190,7 +1190,7 @@ get_events = function get_events(aic) {
         style: [],
         options: [{
           text: null,
-          destination: '',
+          destination: null,
           style: [],
           opinion: 0,
           oncommand: function oncommand(aic) {},
@@ -1203,7 +1203,7 @@ get_events = function get_events(aic) {
         style: [],
         options: [{
           text: null,
-          destination: '',
+          destination: null,
           style: [],
           opinion: 0,
           oncommand: function oncommand(aic) {},
@@ -1216,7 +1216,7 @@ get_events = function get_events(aic) {
         style: [],
         options: [{
           text: null,
-          destination: '',
+          destination: null,
           style: [],
           opinion: 0,
           oncommand: function oncommand(aic) {},
@@ -1229,7 +1229,7 @@ get_events = function get_events(aic) {
         style: [],
         options: [{
           text: null,
-          destination: '',
+          destination: null,
           style: [],
           opinion: 0,
           oncommand: function oncommand(aic) {},
@@ -1329,7 +1329,7 @@ get_events = function get_events(aic) {
         style: [],
         options: [{
           text: null,
-          destination: '',
+          destination: null,
           style: [],
           opinion: 0,
           oncommand: function oncommand(aic) {},
@@ -1346,7 +1346,7 @@ get_events = function get_events(aic) {
         style: [],
         options: [{
           text: null,
-          destination: '',
+          destination: null,
           style: [],
           opinion: 0,
           oncommand: function oncommand(aic) {},
@@ -1363,7 +1363,7 @@ get_events = function get_events(aic) {
         style: [],
         options: [{
           text: null,
-          destination: '',
+          destination: null,
           style: [],
           opinion: 0,
           oncommand: function oncommand(aic) {},
@@ -1380,7 +1380,7 @@ get_events = function get_events(aic) {
         style: [],
         options: [{
           text: null,
-          destination: '',
+          destination: null,
           style: [],
           opinion: 0,
           oncommand: function oncommand(aic) {},
@@ -1397,7 +1397,7 @@ get_events = function get_events(aic) {
         style: [],
         options: [{
           text: null,
-          destination: '',
+          destination: null,
           style: [],
           opinion: 0,
           oncommand: function oncommand(aic) {},
@@ -1414,7 +1414,7 @@ get_events = function get_events(aic) {
         style: [],
         options: [{
           text: null,
-          destination: '',
+          destination: null,
           style: [],
           opinion: 0,
           oncommand: function oncommand(aic) {},
@@ -1431,7 +1431,7 @@ get_events = function get_events(aic) {
         style: [],
         options: [{
           text: null,
-          destination: '',
+          destination: null,
           style: [],
           opinion: 0,
           oncommand: function oncommand(aic) {},
@@ -1448,7 +1448,7 @@ get_events = function get_events(aic) {
         style: [],
         options: [{
           text: null,
-          destination: '',
+          destination: null,
           style: [],
           opinion: 0,
           oncommand: function oncommand(aic) {},
@@ -1465,7 +1465,7 @@ get_events = function get_events(aic) {
         style: [],
         options: [{
           text: null,
-          destination: '',
+          destination: null,
           style: [],
           opinion: 0,
           oncommand: function oncommand(aic) {},
@@ -1518,7 +1518,7 @@ get_events = function get_events(aic) {
         style: [],
         options: [{
           text: null,
-          destination: '',
+          destination: null,
           style: [],
           opinion: 0,
           oncommand: function oncommand(aic) {},
@@ -1533,7 +1533,7 @@ get_events = function get_events(aic) {
         style: [],
         options: [{
           text: null,
-          destination: '',
+          destination: null,
           style: [],
           opinion: 0,
           oncommand: function oncommand(aic) {},
@@ -1548,7 +1548,7 @@ get_events = function get_events(aic) {
         style: [],
         options: [{
           text: null,
-          destination: '',
+          destination: null,
           style: [],
           opinion: 0,
           oncommand: function oncommand(aic) {},
@@ -1563,7 +1563,7 @@ get_events = function get_events(aic) {
         style: [],
         options: [{
           text: null,
-          destination: '',
+          destination: null,
           style: [],
           opinion: 0,
           oncommand: function oncommand(aic) {},
@@ -1597,7 +1597,7 @@ get_events = function get_events(aic) {
         style: [],
         options: [{
           text: null,
-          destination: '',
+          destination: null,
           style: [],
           opinion: 0,
           oncommand: function oncommand(aic) {},
@@ -1610,7 +1610,7 @@ get_events = function get_events(aic) {
         style: [],
         options: [{
           text: null,
-          destination: '',
+          destination: null,
           style: [],
           opinion: 0,
           oncommand: function oncommand(aic) {},
@@ -1642,7 +1642,7 @@ get_events = function get_events(aic) {
         style: [],
         options: [{
           text: null,
-          destination: '',
+          destination: null,
           style: [],
           opinion: 0,
           oncommand: function oncommand(aic) {},
@@ -1655,7 +1655,7 @@ get_events = function get_events(aic) {
         style: [],
         options: [{
           text: null,
-          destination: '',
+          destination: null,
           style: [],
           opinion: 0,
           oncommand: function oncommand(aic) {},
@@ -1687,7 +1687,7 @@ get_events = function get_events(aic) {
         style: [],
         options: [{
           text: null,
-          destination: '',
+          destination: null,
           style: [],
           opinion: 0,
           oncommand: function oncommand(aic) {},
@@ -1700,7 +1700,7 @@ get_events = function get_events(aic) {
         style: [],
         options: [{
           text: null,
-          destination: '',
+          destination: null,
           style: [],
           opinion: 0,
           oncommand: function oncommand(aic) {},
@@ -1732,7 +1732,7 @@ get_events = function get_events(aic) {
         style: [],
         options: [{
           text: null,
-          destination: '',
+          destination: null,
           style: [],
           opinion: 0,
           oncommand: function oncommand(aic) {},
@@ -1745,7 +1745,7 @@ get_events = function get_events(aic) {
         style: [],
         options: [{
           text: null,
-          destination: '',
+          destination: null,
           style: [],
           opinion: 0,
           oncommand: function oncommand(aic) {},

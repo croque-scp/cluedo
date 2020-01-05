@@ -73,7 +73,10 @@ shuffle = function shuffle(array) {
     aic.cheats = {}; // possibly merge with vars
 
     aic.start = null;
-    aic.wipe_between_events = false;
+    aic.config = {
+      clear_log_between_events: false,
+      add_to_log_in_reverse_order: true
+    };
     aic.chatLog = {
       log: [],
       options: []
@@ -137,7 +140,14 @@ shuffle = function shuffle(array) {
           lines.push(line);
         }
       } // lines is now all the lines that will appear
-      // write the lines, one by one, and display options of the final
+      // If the option is given, clear the message log
+
+
+      if (aic.config['clear_log_between_events']) {
+        aic.chatLog.log = aic.chatLog.log.filter(function (line) {
+          return line['conversation'] !== event['conversation'];
+        });
+      } // write the lines, one by one, and display options of the final
 
 
       return writeDialogue(event_name, lines);
@@ -160,6 +170,7 @@ shuffle = function shuffle(array) {
       }
 
       ref = line['options']; // TODO skip this if option is null and skip is true
+      // TODO null destination should not present options
 
       results = [];
 
@@ -182,8 +193,9 @@ shuffle = function shuffle(array) {
 
       event_name = option['event_name']; // Clear remaining options for this conversation
 
-      aic.present_options(event_name, 'CLEAR'); // Execute oncommands TODO
-      // Call the next event
+      aic.present_options(event_name, 'CLEAR'); // Execute oncommands
+
+      option['oncommand'](aic); // Call the next event
 
       return aic.execute_event(option['destination']);
     }; // structure dialogue and calculate timing
@@ -296,7 +308,7 @@ shuffle = function shuffle(array) {
         }
 
         timeOut2 = $timeout(function () {
-          var text;
+          var log, text;
           aic.timeOutList.remove(timeOut2); // now we need to check to see if any other messages are still coming through (HINT: they shouldn't be, but just in case)
           //# XXX what is this check? what does it mean?
 
@@ -322,11 +334,17 @@ shuffle = function shuffle(array) {
 
           if (text.length > 0) {
             // don't push the message if it's empty
-            aic.chatLog.log.unshift({
+            log = {
               conversation: conversation,
               cssClass: message['cssClass'],
               text: text.wikidot_format()
-            });
+            };
+
+            if (aic.config['add_to_log_in_reverse_order']) {
+              aic.chatLog.log.unshift(log);
+            } else {
+              aic.chatLog.log.push(log);
+            }
           }
 
           if (messages.length > 0) {
@@ -383,4 +401,8 @@ Array.prototype.remove = function (thing) {
   if (index > -1) {
     return this.splice(index, 1);
   }
+};
+
+Array.prototype.sample = function () {
+  return this[Math.floor(Math.random() * this.length)];
 };

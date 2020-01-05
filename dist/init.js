@@ -16,16 +16,16 @@ aic_init = function aic_init(aic) {
   // The following variables will be preserved on save/load
 
   aic.vars = {
-    green: "",
     know_green_id: false,
-    hosen_method: "",
-    murder_method: "",
-    murder_location: "",
-    murder_person: ""
+    chosen_method: null
   }; // The following variables should not be changed
 
   aic.wipe_between_events = true;
   aic.conversations = ['default'];
+  aic.murder_methods = ["car", "vase", "bl", "bear", "pizza", "choke"];
+  aic.vars['murder_method'] = aic.murder_methods.sample();
+  aic.config['clear_log_between_events'] = true;
+  aic.config['add_to_log_in_reverse_order'] = false;
   console.log("Done initialising variables");
   return aic;
 };
