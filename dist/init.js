@@ -17,12 +17,15 @@ aic_init = function aic_init(aic) {
 
   aic.vars = {
     green: "",
+    know_green_id: false,
+    hosen_method: "",
     murder_method: "",
     murder_location: "",
-    murder_person: "",
-    chosen_method: "",
-    know_green_id: false
-  };
+    murder_person: ""
+  }; // The following variables should not be changed
+
+  aic.wipe_between_events = true;
+  aic.conversations = ['default'];
   console.log("Done initialising variables");
   return aic;
 };

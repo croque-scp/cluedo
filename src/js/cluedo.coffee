@@ -42,7 +42,7 @@ do ->
     aic.typingDelay = 0.3
     aic.typingSpeed = 0.04 # seconds per letter
     aic.wipeTimer = false # timer for hard wiping
-    aic.timeOutList = {}
+    aic.timeOutList = []
     aic.isSpeaking = {}
     aic.isProcessing = {}
     ## XXX what actually is the difference between isSpeaking and isProcessing?
@@ -51,9 +51,17 @@ do ->
     # character
     aic.notifications = {}
     aic.timers = {} # holds special timers for events and the like
-    aic.chatLog = {} # should be added to in reverse order
     aic.currentDialogue = []
     aic.vars = {}
+    aic.cheats = {} # possibly merge with vars
+    aic.start = null
+
+    aic.wipe_between_events = false
+
+    aic.chatLog = {
+      log: []
+      options: []
+    }
 
     # Initial setup for once the page has loaded
     $(document).ready ->
@@ -63,19 +71,21 @@ do ->
         aic.lang = get_lang(aic) # from lang.js
         aic.events = get_events() # from events.js
       console.log "Ready to go"
+      aic.bootUp() # XXX TEMPORARY
 
     # called when "BOOT UP" is clicked from preload
     aic.bootUp = =>
       console.log "Booting up..."
       aic.preload = false
       # Here we go boys
-      aic.start[0] aic.start[1], aic.start[2]
+      execute_event aic.start
       return null
 
     execute_event = (event_name) ->
       # Function for executing a single event.
       console.log "Event: #{event_name}"
-      event = aic.events['event_name']
+      event = aic.events[event_name]
+      assert event?, "#{event_name} doesn't exist"
 
       # Work out which of the lines have options.
       lines = []
@@ -94,24 +104,31 @@ do ->
     ### PROCESSING FUNCTIONS ###
 
     # pass options to chatLog for presentation to the user
-    presentOptions = (line) ->
+    presentOptions = (event_name, line) ->
       # present the options for this line
 
       # options list may not be empty:
-      aic.chatLog[conversation].options = []
+      aic.chatLog.options = aic.chatLog.options.filter (option) =>
+        option['conversation'] isnt event['conversation']
       # if ids is "CLEAR", stop here, we only want to clear the array
       if line is 'CLEAR'
         return null
 
       #$scope.$apply(() ->
-      aic.chatLog[conversation].options = line['options']
+      for option in line['options']
+        aic.chatLog.options.push {
+          conversation: event['conversation']
+          cssClass: option['style']
+          text: option['text']
+          destination: option['destination']
+        }
       #)
 
     # structure dialogue and calculate timing
     # writeDialogue = (conversation, dialogueList, speaker, event_name) ->
     writeDialogue = (event_name, lines) ->
       ## An event is a list of lines
-      event = aic.events['event_name']
+      event = aic.events[event_name]
       conversation = event['conversation']
       messages = []
       totalDelay = 0
@@ -126,14 +143,14 @@ do ->
         # obviously maitreya also always speaks instantly
         # correction: maitreya does not speak instantly, because that fucking sucks
         ## TODO XXX TODO XXX TODO change 'maitreya' to 'player' or similar
-        if speaker is 'maitreya'
-          # but we want the first message to be instant
-          if i is 0 then duration = 0
-          else if duration > 1
-            # and then make her speak a little bit faster anyway
-            duration *= 0.5
+        # if speaker is 'maitreya'
+        #   # but we want the first message to be instant
+        #   if i is 0 then duration = 0
+        #   else if duration > 1
+        #     # and then make her speak a little bit faster anyway
+        #     duration *= 0.5
 
-        if aic.cheats.impatientMode
+        if aic.cheats['impatientMode']
           delay = 0
           duration = 0.1 # if 0 then messages appear in wrong order
         mode = 'default'
@@ -161,9 +178,6 @@ do ->
           line: line
         }
         totalDelay += delay + duration
-        # record the previous speaker, but only if there was actually a message
-        if text.length > 0
-          aic.vars.lastSpeaker = event['conversation']
       pushToLog event_name, messages
       # the total length of all messages gets passed back to the mainloop
       return totalDelay
@@ -178,32 +192,35 @@ do ->
 
       # pushToLog is recursive: processes the first message only
 
-      event = aic.events['event_name']
+      event = aic.events[event_name]
       conversation = event['conversation']
 
-      delay = messages[0]['delay']
-      duration = messages[0]['duration']
+      message = messages.shift()
+      delay = message['delay']
+      duration = message['duration']
 
       timeOut1 = $timeout((->
-        aic.timeOutList[conversation].remove(timeOut1)
+        aic.timeOutList.remove(timeOut1)
 
         if duration > 0
           # we only want to trigger the wait at all if duration > 0
-          if messages[0][2].speaker is 'maitreya' and messages.length > 0
+          if message['speaker'] is 'maitreya' and messages.length > 0
             aic.isProcessing[conversation] = true
           else
             aic.isSpeaking[conversation] = true
             aic.isProcessing[conversation] = false
             # check to see whether breach is speaking or typing
-            if messages[0][2].speaker is 'breach'
-              aic.vars.breachEntryMode = messages[0][2].mode or 'speaking'
+            if message['speaker'] is 'breach'
+              aic.vars.breachEntryMode = message['mode'] or 'speaking'
         timeOut2 = $timeout((->
-          aic.timeOutList[conversation].remove(timeOut2)
+          aic.timeOutList.remove(timeOut2)
           # now we need to check to see if any other messages are still coming through (HINT: they shouldn't be, but just in case)
-          if aic.timeOutList[conversation].length is 0
+          ## XXX what is this check? what does it mean?
+          if aic.timeOutList.length is 0
             aic.isSpeaking[conversation] = false
             # check if the next message is ours for marker smoothness
-            if messages.length > 1
+            ## XXX WHAT THE FUCK IS THIS HOT MESS
+            if messages.length > 1 and false
               if messages[1][2].speaker is not 'maitreya'
                 aic.isProcessing[conversation] = false
               # XXX so this is making the processing icon hang for a moment after maitreya's last message
@@ -213,24 +230,28 @@ do ->
             else
               aic.isProcessing[conversation] = false
               # this fixes the above
-          if messages[0][2].text.length > 0
+          text = message['line']['text']
+          if text.length > 0
             # don't push the message if it's empty
 
-            aic.chatLog[conversation].log.unshift messages[0][2]
-            addNotification conversation
+            aic.chatLog.log.unshift {
+              conversation: conversation
+              cssClass: message['cssClass']
+              text: text.wikidot_format()
+            }
 
-          messages.shift()
           if messages.length > 0
             # send the next message
             pushToLog event_name, messages
           else
             # no more messages. we're done here
+            aic.isSpeaking[conversation] = false
             aic.isProcessing[conversation] = false # just in case!
 
         ), duration * 1000, true)
-        aic.timeOutList[conversation].push timeOut2
+        aic.timeOutList.push timeOut2
       ), delay * 1000, true)
-      aic.timeOutList[conversation].push timeOut1
+      aic.timeOutList.push timeOut1
 
     return null
 
@@ -279,6 +300,6 @@ String::wikidot_format = ->
       return "<span class=\'article-link\'>#{text}</span>"
 
 Array::remove = (thing) ->
-  index = array.indexOf thing
+  index = this.indexOf thing
   if index > -1
-      array.splice index, 1
+      this.splice index, 1

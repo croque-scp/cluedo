@@ -38,9 +38,9 @@
       <div id="frame">
         <div class="background"></div>
         <div class="line"
-             ng-repeat="line in aic.chatLog['default'].log"
+             ng-repeat="line in aic.chatLog.log"
              ng-class="line['cssClass']">
-          <p class="text" ng-bind-html="{line['text']}"></p>
+          <p class="text" ng-bind-html="line['text']"></p>
         </div>
       </div>
 

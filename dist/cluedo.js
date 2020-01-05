@@ -58,7 +58,7 @@ shuffle = function shuffle(array) {
 
     aic.wipeTimer = false; // timer for hard wiping
 
-    aic.timeOutList = {};
+    aic.timeOutList = [];
     aic.isSpeaking = {};
     aic.isProcessing = {}; //# XXX what actually is the difference between isSpeaking and isProcessing?
     // theory: speaking is for characters, processing is for the player
@@ -68,10 +68,16 @@ shuffle = function shuffle(array) {
     aic.notifications = {};
     aic.timers = {}; // holds special timers for events and the like
 
-    aic.chatLog = {}; // should be added to in reverse order
-
     aic.currentDialogue = [];
-    aic.vars = {}; // Initial setup for once the page has loaded
+    aic.vars = {};
+    aic.cheats = {}; // possibly merge with vars
+
+    aic.start = null;
+    aic.wipe_between_events = false;
+    aic.chatLog = {
+      log: [],
+      options: []
+    }; // Initial setup for once the page has loaded
 
     $(document).ready(function () {
       aic.onMobile = $('body').width() < 700;
@@ -82,14 +88,15 @@ shuffle = function shuffle(array) {
 
         return aic.events = get_events(); // from events.js
       });
-      return console.log("Ready to go");
+      console.log("Ready to go");
+      return aic.bootUp(); // XXX TEMPORARY
     }); // called when "BOOT UP" is clicked from preload
 
     aic.bootUp = function () {
       console.log("Booting up...");
       aic.preload = false; // Here we go boys
 
-      aic.start[0](aic.start[1], aic.start[2]);
+      execute_event(aic.start);
       return null;
     };
 
@@ -97,7 +104,8 @@ shuffle = function shuffle(array) {
       var condition, conditions, event, j, k, l, len, len1, len2, line, lines, option, options, ref, ref1, ref2; // Function for executing a single event.
 
       console.log("Event: " + event_name);
-      event = aic.events['event_name']; // Work out which of the lines have options.
+      event = aic.events[event_name];
+      assert(event != null, event_name + " doesn't exist"); // Work out which of the lines have options.
 
       lines = [];
       ref = event['lines'];
@@ -137,17 +145,33 @@ shuffle = function shuffle(array) {
     // pass options to chatLog for presentation to the user
 
 
-    presentOptions = function presentOptions(line) {
-      // present the options for this line
+    presentOptions = function presentOptions(event_name, line) {
+      var j, len, option, ref, results; // present the options for this line
       // options list may not be empty:
-      aic.chatLog[conversation].options = []; // if ids is "CLEAR", stop here, we only want to clear the array
+
+      aic.chatLog.options = aic.chatLog.options.filter(function (option) {
+        return option['conversation'] !== event['conversation'];
+      }); // if ids is "CLEAR", stop here, we only want to clear the array
 
       if (line === 'CLEAR') {
         return null;
-      } //$scope.$apply(() ->
+      }
 
+      ref = line['options']; //$scope.$apply(() ->
 
-      return aic.chatLog[conversation].options = line['options'];
+      results = [];
+
+      for (j = 0, len = ref.length; j < len; j++) {
+        option = ref[j];
+        results.push(aic.chatLog.options.push({
+          conversation: event['conversation'],
+          cssClass: option['style'],
+          text: option['text'],
+          destination: option['destination']
+        }));
+      }
+
+      return results;
     }; //)
     // structure dialogue and calculate timing
     // writeDialogue = (conversation, dialogueList, speaker, event_name) ->
@@ -156,7 +180,7 @@ shuffle = function shuffle(array) {
     writeDialogue = function writeDialogue(event_name, lines) {
       var conversation, delay, duration, event, j, len, line, messages, mode, totalDelay; //# An event is a list of lines
 
-      event = aic.events['event_name'];
+      event = aic.events[event_name];
       conversation = event['conversation'];
       messages = [];
       totalDelay = 0; // emote = undefined
@@ -178,18 +202,14 @@ shuffle = function shuffle(array) {
         // obviously maitreya also always speaks instantly
         // correction: maitreya does not speak instantly, because that fucking sucks
         //# TODO XXX TODO XXX TODO change 'maitreya' to 'player' or similar
+        // if speaker is 'maitreya'
+        //   # but we want the first message to be instant
+        //   if i is 0 then duration = 0
+        //   else if duration > 1
+        //     # and then make her speak a little bit faster anyway
+        //     duration *= 0.5
 
-        if (speaker === 'maitreya') {
-          // but we want the first message to be instant
-          if (i === 0) {
-            duration = 0;
-          } else if (duration > 1) {
-            // and then make her speak a little bit faster anyway
-            duration *= 0.5;
-          }
-        }
-
-        if (aic.cheats.impatientMode) {
+        if (aic.cheats['impatientMode']) {
           delay = 0;
           duration = 0.1; // if 0 then messages appear in wrong order
         }
@@ -221,11 +241,7 @@ shuffle = function shuffle(array) {
           // emote: emote
           line: line
         });
-        totalDelay += delay + duration; // record the previous speaker, but only if there was actually a message
-
-        if (text.length > 0) {
-          aic.vars.lastSpeaker = event['conversation'];
-        }
+        totalDelay += delay + duration;
       }
 
       _pushToLog(event_name, messages); // the total length of all messages gets passed back to the mainloop
@@ -237,41 +253,45 @@ shuffle = function shuffle(array) {
 
 
     _pushToLog = function pushToLog(event_name, messages) {
-      var conversation, delay, duration, event, timeOut1; // messages: a list of dicts:
+      var conversation, delay, duration, event, message, timeOut1; // messages: a list of dicts:
       // delay: time before message, int, seconds
       // duration: time before message with indicator, int, seconds
       // line: the line of this message, dict
       // pushToLog is recursive: processes the first message only
 
-      event = aic.events['event_name'];
+      event = aic.events[event_name];
       conversation = event['conversation'];
-      delay = messages[0]['delay'];
-      duration = messages[0]['duration'];
+      message = messages.shift();
+      delay = message['delay'];
+      duration = message['duration'];
       timeOut1 = $timeout(function () {
         var timeOut2;
-        aic.timeOutList[conversation].remove(timeOut1);
+        aic.timeOutList.remove(timeOut1);
 
         if (duration > 0) {
           // we only want to trigger the wait at all if duration > 0
-          if (messages[0][2].speaker === 'maitreya' && messages.length > 0) {
+          if (message['speaker'] === 'maitreya' && messages.length > 0) {
             aic.isProcessing[conversation] = true;
           } else {
             aic.isSpeaking[conversation] = true;
             aic.isProcessing[conversation] = false; // check to see whether breach is speaking or typing
 
-            if (messages[0][2].speaker === 'breach') {
-              aic.vars.breachEntryMode = messages[0][2].mode || 'speaking';
+            if (message['speaker'] === 'breach') {
+              aic.vars.breachEntryMode = message['mode'] || 'speaking';
             }
           }
         }
 
         timeOut2 = $timeout(function () {
-          aic.timeOutList[conversation].remove(timeOut2); // now we need to check to see if any other messages are still coming through (HINT: they shouldn't be, but just in case)
+          var text;
+          aic.timeOutList.remove(timeOut2); // now we need to check to see if any other messages are still coming through (HINT: they shouldn't be, but just in case)
+          //# XXX what is this check? what does it mean?
 
-          if (aic.timeOutList[conversation].length === 0) {
+          if (aic.timeOutList.length === 0) {
             aic.isSpeaking[conversation] = false; // check if the next message is ours for marker smoothness
+            //# XXX WHAT THE FUCK IS THIS HOT MESS
 
-            if (messages.length > 1) {
+            if (messages.length > 1 && false) {
               if (messages[1][2].speaker === !'maitreya') {
                 aic.isProcessing[conversation] = false;
               }
@@ -285,25 +305,29 @@ shuffle = function shuffle(array) {
           } // this fixes the above
 
 
-          if (messages[0][2].text.length > 0) {
-            // don't push the message if it's empty
-            aic.chatLog[conversation].log.unshift(messages[0][2]);
-            addNotification(conversation);
-          }
+          text = message['line']['text'];
 
-          messages.shift();
+          if (text.length > 0) {
+            // don't push the message if it's empty
+            aic.chatLog.log.unshift({
+              conversation: conversation,
+              cssClass: message['cssClass'],
+              text: text.wikidot_format()
+            });
+          }
 
           if (messages.length > 0) {
             // send the next message
             return _pushToLog(event_name, messages);
           } else {
             // no more messages. we're done here
+            aic.isSpeaking[conversation] = false;
             return aic.isProcessing[conversation] = false; // just in case!
           }
         }, duration * 1000, true);
-        return aic.timeOutList[conversation].push(timeOut2);
+        return aic.timeOutList.push(timeOut2);
       }, delay * 1000, true);
-      return aic.timeOutList[conversation].push(timeOut1);
+      return aic.timeOutList.push(timeOut1);
     };
 
     return null;
@@ -338,9 +362,9 @@ String.prototype.wikidot_format = function () {
 
 Array.prototype.remove = function (thing) {
   var index;
-  index = array.indexOf(thing);
+  index = this.indexOf(thing);
 
   if (index > -1) {
-    return array.splice(index, 1);
+    return this.splice(index, 1);
   }
 };
