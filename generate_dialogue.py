@@ -142,7 +142,7 @@ frames = frames_
 
 format = {
     'start': '''\
-getEvents = (aic) ->
+get_events = (aic) ->
   events = {
 ''',
     'event_start': '''\

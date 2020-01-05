@@ -60,8 +60,8 @@ do ->
       aic.onMobile = $('body').width() < 700
       $scope.$apply ->
         aic = aic_init(aic) # from init.js
-        aic.lang = getBaseLexicon(aic)['lang'] # from lang.js
-        aic.events = getEvents() # from events.js
+        aic.lang = get_lang(aic) # from lang.js
+        aic.events = get_events() # from events.js
       console.log "Ready to go"
 
     # called when "BOOT UP" is clicked from preload

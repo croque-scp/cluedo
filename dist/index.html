@@ -2,17 +2,16 @@
 
 <html ng-app="wrapper" ng-controller="WrapController as wrap">
   <head>
-    <title>SCP-4000</title>
+    <title>cluedo</title>
     <meta charset="UTF-8">
     <meta name=viewport content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/png" href="favicon-16x16.png" sizes="16x16" />
-    <link rel="icon" type="image/png" href="favicon-32x32.png" sizes="32x32" />
 
     <style>
       html, body {
         overflow-x: hidden;
         padding: 0;
         margin: 0;
+        background: rgb(153,153,153);
       }
       #container {
         margin: auto;
@@ -29,21 +28,17 @@
         background: linear-gradient(to right,
                       transparent 0%,
                       transparent calc(50% - 500px),
-                      rgba(255,255,255,0.7) calc(50% - 420px),
-                      rgba(255,255,255,1) calc(50% - 375px),
-                      rgba(255,255,255,1) calc(50% + 375px),
-                      rgba(255,255,255,0.7) calc(50% + 420px),
+                      rgba(153,153,153,0.7) calc(50% - 420px),
+                      rgba(153,153,153,1) calc(50% - 375px),
+                      rgba(153,153,153,1) calc(50% + 375px),
+                      rgba(153,153,153,0.7) calc(50% + 420px),
                       transparent calc(50% + 500px),
                       transparent 100%),
-                    repeating-linear-gradient(45deg,
-                      rgba(20,136,204,0.05),
-                      rgba(20,136,204,0.05) 15px,
-                      transparent 15px,
-                      transparent 30px,
-                      rgba(43,50,178,0.05) 30px,
-                      rgba(43,50,178,0.05) 45px,
-                      transparent 45px,
-                      transparent 60px);
+                    radial-gradient(rgb(170,170,170) 25%, transparent 0), 
+                    radial-gradient(rgb(136,136,136) 25%, transparent 0);
+
+        background-size: auto, 70px 70px, 70px 70px;
+        background-position: 0% 0%, 0 0, 35px 35px;
       }
       #interface iframe {
         border: none;

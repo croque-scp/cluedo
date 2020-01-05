@@ -78,8 +78,9 @@ shuffle = function shuffle(array) {
       $scope.$apply(function () {
         aic = aic_init(aic); // from init.js
 
-        aic.lang = getBaseLexicon(aic)['lang'];
-        return aic.events = getEvents(); // from events.js
+        aic.lang = get_lang(aic); // from lang.js
+
+        return aic.events = get_events(); // from events.js
       });
       return console.log("Ready to go");
     }); // called when "BOOT UP" is clicked from preload
