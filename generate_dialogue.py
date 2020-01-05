@@ -207,8 +207,8 @@ for frame in frames:
     for line in frame:
         line_output = format['line_start'].format(
             # TODO delay and duration
-            delay="auto",
-            duration="auto",
+            delay="\"auto\"",
+            duration="\"auto\"",
             text="" if pd.isna(line[0]['Lines']) else
                  "\\n".join(line[0]['Lines'].splitlines()),
             style="" if pd.isna(line[0]['lc']) else
