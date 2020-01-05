@@ -1,5 +1,5 @@
 get_lang = (aic) ->
   lang = {
-    next_option: "Next"
+    default_option: "Next"
   }
   return lang

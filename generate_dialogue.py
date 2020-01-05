@@ -158,13 +158,13 @@ get_events = (aic) ->
         {{
           delay: {delay}
           duration: {duration}
-          text: "{text}"
+          text: {text}
           style: [{style}]
           options: [
 ''',
     'option_start': '''\
             {{
-              text: "{text}"
+              text: {text}
               destination: '{destination}'
               style: [{style}]
               opinion: {opinion}
@@ -209,16 +209,16 @@ for frame in frames:
             # TODO delay and duration
             delay="\"auto\"",
             duration="\"auto\"",
-            text="" if pd.isna(line[0]['Lines']) else
-                 "\\n".join(line[0]['Lines'].splitlines()),
+            text="null" if pd.isna(line[0]['Lines']) else
+                 "\"{}\"".format("\\n".join(line[0]['Lines'].splitlines())),
             style="" if pd.isna(line[0]['lc']) else
                   str(line[0]['lc'].splitlines())[1:-1])
         for option in line:
             oncommands = option['oncommands']
             conditions = option['Appears If']
             option_output = format['option_start'].format(
-                text="" if pd.isna(option['Options'])
-                        else option['Options'],
+                text="null" if pd.isna(option['Options']) else
+                     "\"{}\"".format(option['Options']),
                 destination="" if pd.isna(option['ID out'])
                                else option['ID out'],
                 opinion=0,

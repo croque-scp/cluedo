@@ -104,8 +104,9 @@ do ->
     ### PROCESSING FUNCTIONS ###
 
     # pass options to chatLog for presentation to the user
-    presentOptions = (event_name, line) ->
+    aic.presentOptions = (event_name, line) ->
       # present the options for this line
+      event = aic.events[event_name]
 
       # options list may not be empty:
       aic.chatLog.options = aic.chatLog.options.filter (option) =>
@@ -119,7 +120,7 @@ do ->
         aic.chatLog.options.push {
           conversation: event['conversation']
           cssClass: option['style']
-          text: option['text']
+          text: option['text'] ? aic.lang['default_option']
           destination: option['destination']
         }
       #)
@@ -247,6 +248,8 @@ do ->
             # no more messages. we're done here
             aic.isSpeaking[conversation] = false
             aic.isProcessing[conversation] = false # just in case!
+            # present the options from the last message
+            aic.presentOptions event_name, message['line']
 
         ), duration * 1000, true)
         aic.timeOutList.push timeOut2
@@ -279,7 +282,7 @@ String::toCamelCase = ->
 String::wikidot_format = ->
   # pass article argument only if this is an article
   this
-    .replace(/<([\w\s])|(.*?)>/g, "<span class='$1'>$2</span>")
+    .replace(/<([\w\s])\|(.*?)>/g, "<span class='$1'>$2</span>")
     .replace(/\|\|\|\||\r\n|\r|\n/g, "<br>")
     .replace(/\*\*(.*?)\*\*/g, "<b>$1</b>")
     .replace(/\/\/(.*?)\/\//g, "<i>$1</i>")

@@ -16,7 +16,7 @@ get_events = function get_events(aic) {
         text: "Act 1 of 9\nIn which (??? this seems pretentious)",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: '',
           style: [],
           opinion: 0,
@@ -29,7 +29,7 @@ get_events = function get_events(aic) {
         text: "The evening is misty, foggy and cold.\nAnother long night of doing what you're told.",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: 'drive_there',
           style: [],
           opinion: 0,
@@ -48,7 +48,7 @@ get_events = function get_events(aic) {
         text: "Your car starts slowly, its engine does sputter,\nYour exhausted complaint is barely a mutter.",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: '',
           style: [],
           opinion: 0,
@@ -61,7 +61,7 @@ get_events = function get_events(aic) {
         text: "The drive there is lonely. The sky's growing dark.\nYou like it. The contrast with daytime is stark.",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: 'guard',
           style: [],
           opinion: 0,
@@ -80,7 +80,7 @@ get_events = function get_events(aic) {
         text: "Your card beeps at the gate, and though your face is glum,\nThe guard greets you with gusto. <char sky|\"Hi, Dr. Plum!\">",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: '',
           style: [],
           opinion: 0,
@@ -93,7 +93,7 @@ get_events = function get_events(aic) {
         text: "You nod a response and park up your car.\nFrom here to your office, the walk's not that far.",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: 'sit_in_office',
           style: [],
           opinion: 0,
@@ -112,7 +112,7 @@ get_events = function get_events(aic) {
         text: "You open your door and put down your case.\nYou sit for a while, hands raised to your face.",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: '',
           style: [],
           opinion: 0,
@@ -125,7 +125,7 @@ get_events = function get_events(aic) {
         text: "...until your bladder speaks up. You need a piss.\nThe extra distraction would not go amiss.",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: 'discover_crime',
           style: [],
           opinion: 0,
@@ -144,7 +144,7 @@ get_events = function get_events(aic) {
         text: "But while making your way through Site-39,\nYou discover the scene of a terrible crime!",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: 'find_body',
           style: [],
           opinion: 0,
@@ -163,7 +163,7 @@ get_events = function get_events(aic) {
         text: "You see, near the basement, atop the staircase,\nThe lifeless frame of a featureless face.",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: '',
           style: [],
           opinion: 0,
@@ -176,7 +176,7 @@ get_events = function get_events(aic) {
         text: "A smoothened head with no mouth and no eyes,\nAn inhuman receptacle built to store lies.",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: '',
           style: [],
           opinion: 0,
@@ -189,7 +189,7 @@ get_events = function get_events(aic) {
         text: "It's O5-1. The head of command,\nThe highest position this Foundation demands.",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: 'examine_body',
           style: [],
           opinion: 0,
@@ -208,7 +208,7 @@ get_events = function get_events(aic) {
         text: "Your heart skips a beat but your face doesn't twitch.\nSurely no-one could have slain this witch?",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: '',
           style: [],
           opinion: 0,
@@ -221,7 +221,7 @@ get_events = function get_events(aic) {
         text: "And yet, here it is. The thing's cold and dead.\nBut how could this happen? You look closely instead:",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: 'examine_body_2',
           style: [],
           opinion: 0,
@@ -234,7 +234,7 @@ get_events = function get_events(aic) {
         text: "The smooth face is... blue? Did it suffocate?\nYes! It choked on something, then met its fate.",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: 'examine_body_2',
           style: [],
           opinion: 0,
@@ -249,7 +249,7 @@ get_events = function get_events(aic) {
         text: "A spattering of dirt, and shards of ceramic,\nSomething hit it in the head - how tragic!",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: 'examine_body_2',
           style: [],
           opinion: 0,
@@ -264,7 +264,7 @@ get_events = function get_events(aic) {
         text: "...and find nothing at all. No hint, no trace,\nA smidgen't of evidence as to what here took place.",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: 'examine_body_2',
           style: [],
           opinion: 0,
@@ -279,7 +279,7 @@ get_events = function get_events(aic) {
         text: "Its chest is collapsed. It was hit with great force!\nBy an object far larger than it, of course.",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: 'examine_body_2',
           style: [],
           opinion: 0,
@@ -294,7 +294,7 @@ get_events = function get_events(aic) {
         text: "Its stomach is swollen and seems to have burst.\nIt's been pumped full of something. Must be the worst.",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: 'examine_body_2',
           style: [],
           opinion: 0,
@@ -309,7 +309,7 @@ get_events = function get_events(aic) {
         text: "Its hands are missing, shorn off at the wrist,\nYou wonder who took them, or why they did this.",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: 'examine_body_2',
           style: [],
           opinion: 0,
@@ -330,7 +330,7 @@ get_events = function get_events(aic) {
         text: "But how could this happen? You look side to side,\nAnd see a faint path of blood, one body wide.",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: '',
           style: [],
           opinion: 0,
@@ -343,7 +343,7 @@ get_events = function get_events(aic) {
         text: "You follow it back to whence it once came.\nAnd find, to your utmost horror and shame...",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: 'trail_to_office',
           style: [],
           opinion: 0,
@@ -358,7 +358,7 @@ get_events = function get_events(aic) {
         text: "You follow it back to whence it once came.\nAnd find, to your utmost horror and shame...",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: 'trail_to_cafeteria',
           style: [],
           opinion: 0,
@@ -373,7 +373,7 @@ get_events = function get_events(aic) {
         text: "You follow it back to whence it once came.\nAnd find, to your utmost horror and shame...",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: 'trail_to_containment',
           style: [],
           opinion: 0,
@@ -388,7 +388,7 @@ get_events = function get_events(aic) {
         text: "You follow it back to whence it once came.\nAnd find, to your utmost horror and shame...",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: 'trail_to_carpark',
           style: [],
           opinion: 0,
@@ -403,7 +403,7 @@ get_events = function get_events(aic) {
         text: "You follow it back to whence it once came.\nAnd find, to your utmost horror and shame...",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: 'trail_to_corridor',
           style: [],
           opinion: 0,
@@ -418,7 +418,7 @@ get_events = function get_events(aic) {
         text: "You follow it back to whence it once came.\nAnd find, to your utmost horror and shame...",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: 'trail_to_study',
           style: [],
           opinion: 0,
@@ -439,7 +439,7 @@ get_events = function get_events(aic) {
         text: "Your own office! Its door still ajar,\nYou can't believe you didn't see it before.",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: '',
           style: [],
           opinion: 0,
@@ -452,7 +452,7 @@ get_events = function get_events(aic) {
         text: "They'll think it was you. But no, that can't be!\nYou couldn't do this. Could you? We'll see.",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: 'alert_everyone',
           style: [],
           opinion: 0,
@@ -471,7 +471,7 @@ get_events = function get_events(aic) {
         text: "The Site cafeteria! An odd choice for killing,\nThe public space would make it a little too thrilling?",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: '',
           style: [],
           opinion: 0,
@@ -484,7 +484,7 @@ get_events = function get_events(aic) {
         text: "Yet the blood starts here, and it's more than a hunch.\nYou mentally note to go elsewhere for lunch.",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: 'alert_everyone',
           style: [],
           opinion: 0,
@@ -503,7 +503,7 @@ get_events = function get_events(aic) {
         text: "Containment Cell 8, door locked tightly shut.\nThe trail of blood leads underneath the door's butt.",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: '',
           style: [],
           opinion: 0,
@@ -516,7 +516,7 @@ get_events = function get_events(aic) {
         text: "With no access card, you've no way of knowing\nWhich SCP hides here, and no clue is showing.",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: 'alert_everyone',
           style: [],
           opinion: 0,
@@ -535,7 +535,7 @@ get_events = function get_events(aic) {
         text: "car park",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: 'alert_everyone',
           style: [],
           opinion: 0,
@@ -554,7 +554,7 @@ get_events = function get_events(aic) {
         text: "corridor",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: 'alert_everyone',
           style: [],
           opinion: 0,
@@ -573,7 +573,7 @@ get_events = function get_events(aic) {
         text: "reading room",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: 'alert_everyone',
           style: [],
           opinion: 0,
@@ -592,7 +592,7 @@ get_events = function get_events(aic) {
         text: "You shake from your stupor. No time to waste,\nYou retrieve your phone and bring it to your face.",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: '',
           style: [],
           opinion: 0,
@@ -605,7 +605,7 @@ get_events = function get_events(aic) {
         text: "<char plum|\"O5-1 is dead,\"> you say, a little too eager,\nYour voice is repeated over the Site's speakers.",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: '',
           style: [],
           opinion: 0,
@@ -637,7 +637,7 @@ get_events = function get_events(aic) {
         text: "It's still early evening. Most workers are gone.\nOf those employed here, only six stayed long.",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: '',
           style: [],
           opinion: 0,
@@ -650,7 +650,7 @@ get_events = function get_events(aic) {
         text: "(Except for you, of course, you've just arrived.\nYou find that you work much better at night.)",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: 'gathering_corpse',
           style: [],
           opinion: 0,
@@ -669,7 +669,7 @@ get_events = function get_events(aic) {
         text: "The body's surrounded by six owls of night.\nThe entire population of this blasted Site.",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: '',
           style: [],
           opinion: 0,
@@ -682,7 +682,7 @@ get_events = function get_events(aic) {
         text: "(Learn these names, for this is the cast.\nWhen this is done you'll forget them quite fast.)",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: 'blood_corpse',
           style: [],
           opinion: 0,
@@ -701,7 +701,7 @@ get_events = function get_events(aic) {
         text: "The first's the new intern, <char blood|Jamey-James Blood!>\nThe young Operator's a bit of a spud.",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: '',
           style: [],
           opinion: 0,
@@ -714,7 +714,7 @@ get_events = function get_events(aic) {
         text: "He commands operations out in the field,\nBetween there and the office, he acts as a shield.",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: '',
           style: [],
           opinion: 0,
@@ -727,7 +727,7 @@ get_events = function get_events(aic) {
         text: "He struggles with focus, and at his job he's bad,\nHe's lost every MTF that he's had.",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: 'clementine_corpse',
           style: [],
           opinion: 0,
@@ -746,7 +746,7 @@ get_events = function get_events(aic) {
         text: "The second is <char clem|Mr Andrew Clementine>.\nA man known for spotting details most fine.",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: '',
           style: [],
           opinion: 0,
@@ -759,7 +759,7 @@ get_events = function get_events(aic) {
         text: "You've never seen him without his coffee cup.\nOr asleep, for that matter. He's constantly up.",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: '',
           style: [],
           opinion: 0,
@@ -772,7 +772,7 @@ get_events = function get_events(aic) {
         text: "He's eyeing you up with wisdom and rigour.\nA skill he requires as HMCL Supervisor.",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: 'ochre_corpse',
           style: [],
           opinion: 0,
@@ -791,7 +791,7 @@ get_events = function get_events(aic) {
         text: "The third is - you shudder - the Site Director.\nThe antithesis of a conscientious objector.",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: '',
           style: [],
           opinion: 0,
@@ -804,7 +804,7 @@ get_events = function get_events(aic) {
         text: "She's really good fun, a practical joker!\n**NOT**. One does //not// fuck with <char ochre|S.D. Molly Ochre>.",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: '',
           style: [],
           opinion: 0,
@@ -817,7 +817,7 @@ get_events = function get_events(aic) {
         text: "They say just one glare is enough to dissever.\nA \"trip\" to her office will change you forever.",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: 'green_corpse',
           style: [],
           opinion: 0,
@@ -836,7 +836,7 @@ get_events = function get_events(aic) {
         text: "The fourth's... you're not sure. One of the twins.\nEither Barry or Gary. Does it matter? They're kin.",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: '',
           style: [],
           opinion: 0,
@@ -849,7 +849,7 @@ get_events = function get_events(aic) {
         text: "<char green|Researcher Green> - his name's that, you're sure -\nEither's described as a workaholic bore.",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: '',
           style: [],
           opinion: 0,
@@ -862,7 +862,7 @@ get_events = function get_events(aic) {
         text: "They're both due promotions, en route to the top.\nYou remember when Gary's job was a mop.",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: 'sky_corpse',
           style: [],
           opinion: 0,
@@ -881,7 +881,7 @@ get_events = function get_events(aic) {
         text: "The fifth's <char sky|Leia Sky>, the security guard.\nShe always greets you when you beep your card.",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: '',
           style: [],
           opinion: 0,
@@ -894,7 +894,7 @@ get_events = function get_events(aic) {
         text: "Her visor obscures her, but just underneath\nYou know there's a cheery smile rearing its teeth.",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: '',
           style: [],
           opinion: 0,
@@ -907,7 +907,7 @@ get_events = function get_events(aic) {
         text: "Whoever killed it - O5-1 - it's not her.\nA dark enough day just cannot occur.",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: 'plum_corpse',
           style: [],
           opinion: 0,
@@ -926,7 +926,7 @@ get_events = function get_events(aic) {
         text: "Sixth but not least is yourself, <char plum|Dr. Plum>.\nPersonal problems not yet overcome.",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: '',
           style: [],
           opinion: 0,
@@ -939,7 +939,7 @@ get_events = function get_events(aic) {
         text: "A cranial injury binds you to your job.\nYou can't be promoted. What else did it rob?",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: '',
           style: [],
           opinion: 0,
@@ -952,7 +952,7 @@ get_events = function get_events(aic) {
         text: "You're confined to the dullest, menial tasks.\nThings you're ashamed to admit - but nobody asks.",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: 'wait_on_ochre',
           style: [],
           opinion: 0,
@@ -971,7 +971,7 @@ get_events = function get_events(aic) {
         text: "The group remains silent, waiting on Ochre\nTo decide when this dark lull will be over.",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: 'ochre_panic',
           style: [],
           opinion: 0,
@@ -990,7 +990,7 @@ get_events = function get_events(aic) {
         text: "She snaps. <char ochre|\"What the FUCK happened here?\">\nNobody answers, stricken with fear.",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: '',
           style: [],
           opinion: 0,
@@ -1003,7 +1003,7 @@ get_events = function get_events(aic) {
         text: "<char ochre|\"The O5s are gods. Far beyond one of us.\nHow the fuck'd someone throw it under the bus?\">",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: '',
           style: [],
           opinion: 0,
@@ -1016,7 +1016,7 @@ get_events = function get_events(aic) {
         text: "Her eyes pan the group and settle on you.\n<char ochre|\"Plum, you found it. What did you do?\">",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: 'plum_defend',
           style: [],
           opinion: 0,
@@ -1035,7 +1035,7 @@ get_events = function get_events(aic) {
         text: "You try not to stutter, nor hold your breath.\n<char plum|\"I only found it. I did not cause its death.\">",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: '',
           style: [],
           opinion: 0,
@@ -1048,7 +1048,7 @@ get_events = function get_events(aic) {
         text: "She snorts, a sound of derisive disgust.\nShe'll never believe you. You're unsure she //can// trust.",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: 'alex_appear',
           style: [],
           opinion: 0,
@@ -1067,7 +1067,7 @@ get_events = function get_events(aic) {
         text: "<char ochre|\"Alex!\"> she shouts, to the Site's AIC,\nAn artificial intelligence whose face we now see.",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: '',
           style: [],
           opinion: 0,
@@ -1080,7 +1080,7 @@ get_events = function get_events(aic) {
         text: "<char alex|\"Yes, Site Director?\"> replies her lilting voice.\n<char ochre|\"Tell me what happened. At once! You've no choice!\">",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: '',
           style: [],
           opinion: 0,
@@ -1093,7 +1093,7 @@ get_events = function get_events(aic) {
         text: "<char alex|\"Very well, Site Director. Based on the evidence,\nI.... uh. Hm.\"> This is unusual hesitance.",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: 'alex_explain_1',
           style: [],
           opinion: 0,
@@ -1112,7 +1112,7 @@ get_events = function get_events(aic) {
         text: "<char ochre|\"What's wrong?\"> demands Ochre, eyes full of rage.\nAlexandra sighs. <char alex|\"My explanation will not assuage…>",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: '',
           style: [],
           opinion: 0,
@@ -1125,7 +1125,7 @@ get_events = function get_events(aic) {
         text: "<char alex|I can narrow it down to six possibilities.\nIt's up to you to determine which one it be.>",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: 'alex_explain_2',
           style: [],
           opinion: 0,
@@ -1144,7 +1144,7 @@ get_events = function get_events(aic) {
         text: "The first: O5-1 was hit by a car.\nThe simplest explanation I have by far.",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: '',
           style: [],
           opinion: 0,
@@ -1157,7 +1157,7 @@ get_events = function get_events(aic) {
         text: "The second: it was hit on the head by a vase\nWith more injuries caused by the shattering glass.",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: '',
           style: [],
           opinion: 0,
@@ -1170,7 +1170,7 @@ get_events = function get_events(aic) {
         text: "The third: exposure to something you can't comprehend.\nBerryman-Langford brings a swift end.",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: '',
           style: [],
           opinion: 0,
@@ -1183,7 +1183,7 @@ get_events = function get_events(aic) {
         text: "The fourth: a teddy bear came, seeking new parts\nFor a child it was making by a gruesome art.",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: '',
           style: [],
           opinion: 0,
@@ -1196,7 +1196,7 @@ get_events = function get_events(aic) {
         text: "The fifth: SOMETHING ABOUT PIZZA",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: '',
           style: [],
           opinion: 0,
@@ -1209,7 +1209,7 @@ get_events = function get_events(aic) {
         text: "The sixth: it choked on a piece of SCP-5000.\nBut I can't rhyme with that, because it's not the final number.",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: '',
           style: [],
           opinion: 0,
@@ -1222,7 +1222,7 @@ get_events = function get_events(aic) {
         text: "My quantum computing makes it impossible to see\nWhich of these choices matches reality.\"",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: 'choose_method',
           style: [],
           opinion: 0,
@@ -1309,7 +1309,7 @@ get_events = function get_events(aic) {
         text: "<char ochre|\"Obviously right. The chest has been crushed,\nThe bones and organs inside have been mushed.>",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: '',
           style: [],
           opinion: 0,
@@ -1326,7 +1326,7 @@ get_events = function get_events(aic) {
         text: "<char ochre|As if O5-1 had been pinned to a wall,\nWhile someone in front put the pedal to floor.\">",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: '',
           style: [],
           opinion: 0,
@@ -1343,7 +1343,7 @@ get_events = function get_events(aic) {
         text: "<char ochre|\"Obviously right. There's shards everywhere,\nAnd dirt, too - there was a plant somewhere.\">",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: '',
           style: [],
           opinion: 0,
@@ -1360,7 +1360,7 @@ get_events = function get_events(aic) {
         text: "<char ochre|\"Obviously right. There's no sign of damage.\nOnly mental injuries are this hard to manage.\">",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: '',
           style: [],
           opinion: 0,
@@ -1377,7 +1377,7 @@ get_events = function get_events(aic) {
         text: "<char ochre|\"Obviously right. It's missing its hands.\nStolen to fuel 1048's demands.\">",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: '',
           style: [],
           opinion: 0,
@@ -1394,7 +1394,7 @@ get_events = function get_events(aic) {
         text: "<char green|\"I think I saw a hand-based teddy somewhere!\">\nSays Barry (or Gary). Ochre doesn't care.",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: '',
           style: [],
           opinion: 0,
@@ -1411,7 +1411,7 @@ get_events = function get_events(aic) {
         text: "<char ochre|\"Obviously right. Its stomach's exploded.\nThe digestive system has been overloaded.\">",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: '',
           style: [],
           opinion: 0,
@@ -1428,7 +1428,7 @@ get_events = function get_events(aic) {
         text: "<char ochre|\"Obviously right SOMETHING ABOUT CHOKING>",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: '',
           style: [],
           opinion: 0,
@@ -1445,7 +1445,7 @@ get_events = function get_events(aic) {
         text: "Ochre's glare narrows to a fearsome ray.\nShe thinks for a moment, then says <char ochre|\"Okay.\">",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: '',
           style: [],
           opinion: 0,
@@ -1460,7 +1460,7 @@ get_events = function get_events(aic) {
         text: "She points to the body. <char ochre|\"It wasn't killed there.\nPlum, you were the first - this blood trail leads where?\">",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: 'plum_location',
           style: [],
           opinion: 0,
@@ -1479,7 +1479,7 @@ get_events = function get_events(aic) {
         text: "!!\nSomething about each location\n!!",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: 'ochre_ok_loc',
           style: [],
           opinion: 0,
@@ -1498,7 +1498,7 @@ get_events = function get_events(aic) {
         text: "She nods. <char ochre|\"Very well. Thanks for the recap and\nWe can decisively say that that's where it happened.\">",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: '',
           style: [],
           opinion: 0,
@@ -1513,7 +1513,7 @@ get_events = function get_events(aic) {
         text: "She nods. <char ochre|\"Very well. And let's all agree\nThat it was killed there without further enquiry.>",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: '',
           style: [],
           opinion: 0,
@@ -1528,7 +1528,7 @@ get_events = function get_events(aic) {
         text: "<char ochre|Because apparently some of us turn a blind eye\nTo evidence that's obvious. I don't know why.\">",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: '',
           style: [],
           opinion: 0,
@@ -1543,7 +1543,7 @@ get_events = function get_events(aic) {
         text: "She looks right at you and a chill chills your spine.\nYou have a feeling she's talking about you this time.",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: '',
           style: [],
           opinion: 0,
@@ -1558,7 +1558,7 @@ get_events = function get_events(aic) {
         text: "<char ochre|\"We know //how// and //where//. What question remains?\nWe need the //who//. And //why//, if it's not inane.\">",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: 'group_accept',
           style: [],
           opinion: 0,
@@ -1577,7 +1577,7 @@ get_events = function get_events(aic) {
         text: "Her face pans the group. All gazes align.\n<char ochre|\"Someone here knows they committed this crime.\">",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: '',
           style: [],
           opinion: 0,
@@ -1590,7 +1590,7 @@ get_events = function get_events(aic) {
         text: "It's true. The killer is one of the six.\nBut there's no possible way to know which.",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: '',
           style: [],
           opinion: 0,
@@ -1603,7 +1603,7 @@ get_events = function get_events(aic) {
         text: "Everyone knows it. Glances are shared.\nBut someone's deceit is as yet undeclared.",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: 'ochre_queue',
           style: [],
           opinion: 0,
@@ -1622,7 +1622,7 @@ get_events = function get_events(aic) {
         text: "Ochre instructs <char ochre|\"Everyone, form a queue.\nThen one by one I will interview you.\">",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: '',
           style: [],
           opinion: 0,
@@ -1635,7 +1635,7 @@ get_events = function get_events(aic) {
         text: "Blood stammers out <char blood|\"B-but what if it's you?\nA one-sided debate won't tell us the truth.\">",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: '',
           style: [],
           opinion: 0,
@@ -1648,7 +1648,7 @@ get_events = function get_events(aic) {
         text: "<char ochre|\"You DARE defy your Site Director?\">\nBlood's face turns to that of a spectre. ",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: 'clem_support',
           style: [],
           opinion: 0,
@@ -1667,7 +1667,7 @@ get_events = function get_events(aic) {
         text: "<char clem|\"The lad has a point.\"> agrees Clementine.\n<char clem|\"Assumed innocence puts us all on the line.\">",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: '',
           style: [],
           opinion: 0,
@@ -1680,7 +1680,7 @@ get_events = function get_events(aic) {
         text: "Ochre's face ripples but she doesn't complain.\n<char ochre|\"Very well. I suppose we can make this a game.>",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: '',
           style: [],
           opinion: 0,
@@ -1693,7 +1693,7 @@ get_events = function get_events(aic) {
         text: "<char ochre|You will all speak to everyone who isn't you. \nThen we'll work out who's to be accused.\">",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: 'ochre_ask_plum',
           style: [],
           opinion: 0,
@@ -1712,7 +1712,7 @@ get_events = function get_events(aic) {
         text: "Everyone nods. This seems like it's fair.\nBlood is still shaking from avoiding her snare. ",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: '',
           style: [],
           opinion: 0,
@@ -1725,7 +1725,7 @@ get_events = function get_events(aic) {
         text: "<char ochre|\"Good,\"> says Ochre. <char ochre|\"Plum, you can go first.\nYou found the body so you likely feel worst.\">",
         style: [],
         options: [{
-          text: "",
+          text: null,
           destination: '',
           style: [],
           opinion: 0,
