@@ -48,8 +48,8 @@
              ng-repeat="option in aic.chatLog.options | filter: {conversation: 'default'}"
              ng-animate-children="true">
           <button class="option"
-                  ng-class="option.cssClass"
-                  ng-click="aic.execute_event(option.destination)">
+                  ng-class="option['cssClass']"
+                  ng-click="aic.select_option(option)">
             {{option.text}}
           </button>
         </div>

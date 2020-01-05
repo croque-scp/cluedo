@@ -15,7 +15,6 @@ const plumber = require('gulp-plumber');
 const path = require('path');
 
 gulp.task('events', function(done) {
-  log("Handling events");
   // Convert spreadsheet to events
   gulp.src('./src/events.xlsm')
     .pipe(plumber())
@@ -24,6 +23,7 @@ gulp.task('events', function(done) {
       exec("./generate_dialogue.py", (err, stdout, stderr) => {
         if (err) { gutil.log(err); }
         file.contents = new Buffer(stdout);
+        console.log(stderr);
         cb(err, file);
       });
     }))
@@ -35,7 +35,6 @@ gulp.task('events', function(done) {
 });
 
 gulp.task('js', function(done) {
-  log("Handling JS");
   // Pipe any js files (should be none in final build)
   gulp.src('./src/js/*.js')
     .pipe(gulp.dest('./dist/'))
@@ -52,12 +51,10 @@ gulp.task('js', function(done) {
     .pipe(babel({presets: ['env']}))
     .on('end', () => log("Piped coffee through Babel"))
     .pipe(gulp.dest('./dist/'))
-    .on('end', () => log("Finished processing JS"))
     .on('end', () => done());
 });
 
 gulp.task('css', function(done) {
-  log("Handling CSS");
   // XXX while css is not yet added
   done();
   return;
@@ -74,12 +71,10 @@ gulp.task('css', function(done) {
     .on('end', () => log("Post-processing CSS"))
     .pipe(rename("maitreya.css"))
     .pipe(gulp.dest('./dist/'))
-    .on('end', () => log("Finished processing CSS"))
     .on('end', () => done());
 });
 
 gulp.task('static', function(done) {
-  log("Handling static files");
   // Pipe images, html, json
   gulp.src('./src/images/*.*')
     .pipe(gulp.dest('./dist/'));

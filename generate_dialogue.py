@@ -41,7 +41,6 @@ print(dialogue_sheet, file=sys.stderr)
         # options which becomes the "next" button.
 
 # Split the dataframe into a list of FRAMES
-print("Splitting sheet into frames", file=sys.stderr)
 frames = []
 frame = []
 for index,row in dialogue_sheet.iterrows():
@@ -78,7 +77,6 @@ if len(unwritten_ids) > 0:
         ", ".join(unwritten_ids)), file=sys.stderr)
 
 # Solit each frame into a list of LINES
-print("Splitting frames into lines", file=sys.stderr)
 frames_ = []
 for frame in frames:
     lines = []
@@ -97,7 +95,6 @@ frames = frames_
 
 # Split each line into a list of OPTIONS
 # It is expected that the vast majority of lines will have one, empty option.
-print("Splitting lines into options", file=sys.stderr)
 frames_ = []
 for frame in frames:
     lines_ = []

@@ -41,7 +41,7 @@ shuffle = function shuffle(array) {
   var EncodeURIComponentFilter, MaitreyaController, maitreya;
 
   MaitreyaController = function MaitreyaController($scope, $timeout, $sce, $http) {
-    var aic, execute_event, _pushToLog, writeDialogue;
+    var aic, _pushToLog, writeDialogue;
 
     aic = this;
 
@@ -96,15 +96,15 @@ shuffle = function shuffle(array) {
       console.log("Booting up...");
       aic.preload = false; // Here we go boys
 
-      execute_event(aic.start);
-      return null;
+      return aic.execute_event(aic.start);
     };
 
-    execute_event = function execute_event(event_name) {
+    aic.execute_event = function (event_name) {
       var condition, conditions, event, j, k, l, len, len1, len2, line, lines, option, options, ref, ref1, ref2; // Function for executing a single event.
 
       console.log("Event: " + event_name);
-      event = aic.events[event_name];
+      event = aic.events[event_name]; // clear the options for this conversation
+
       assert(event != null, event_name + " doesn't exist"); // Work out which of the lines have options.
 
       lines = [];
@@ -122,13 +122,14 @@ shuffle = function shuffle(array) {
 
           for (l = 0, len2 = ref2.length; l < len2; l++) {
             condition = ref2[l];
-            conditions.push(condition());
+            conditions.push(condition(aic));
           }
 
           options.push(conditions.every(function (v) {
             return v === true;
           }));
-        }
+        } // XXX pretty sure this removes lines where ANY option is false
+
 
         if (options.every(function (v) {
           return v === true;
@@ -145,8 +146,8 @@ shuffle = function shuffle(array) {
     // pass options to chatLog for presentation to the user
 
 
-    aic.presentOptions = function (event_name, line) {
-      var event, j, len, option, ref, ref1, results; // present the options for this line
+    aic.present_options = function (event_name, line) {
+      var event, j, len, option, option_modifier, ref, ref1, results; // present the options for this line
 
       event = aic.events[event_name]; // options list may not be empty:
 
@@ -158,23 +159,34 @@ shuffle = function shuffle(array) {
         return null;
       }
 
-      ref = line['options']; //$scope.$apply(() ->
+      ref = line['options']; // TODO skip this if option is null and skip is true
 
       results = [];
 
       for (j = 0, len = ref.length; j < len; j++) {
-        option = ref[j];
-        results.push(aic.chatLog.options.push({
+        option = ref[j]; // Modify the option so that it knows its context
+
+        option_modifier = {
+          event_name: event_name,
           conversation: event['conversation'],
-          cssClass: option['style'],
-          text: (ref1 = option['text']) != null ? ref1 : aic.lang['default_option'],
-          destination: option['destination']
-        }));
+          text: (ref1 = option['text']) != null ? ref1 : aic.lang['default_option']
+        };
+        results.push(aic.chatLog.options.push(Object.assign({}, option, option_modifier)));
       }
 
       return results;
-    }; //)
-    // structure dialogue and calculate timing
+    };
+
+    aic.select_option = function (option) {
+      var event_name; // Recieves a modified option that knows its context
+
+      event_name = option['event_name']; // Clear remaining options for this conversation
+
+      aic.present_options(event_name, 'CLEAR'); // Execute oncommands TODO
+      // Call the next event
+
+      return aic.execute_event(option['destination']);
+    }; // structure dialogue and calculate timing
     // writeDialogue = (conversation, dialogueList, speaker, event_name) ->
 
 
@@ -326,7 +338,7 @@ shuffle = function shuffle(array) {
             aic.isProcessing[conversation] = false; // just in case!
             // present the options from the last message
 
-            return aic.presentOptions(event_name, message['line']);
+            return aic.present_options(event_name, message['line']);
           }
         }, duration * 1000, true);
         return aic.timeOutList.push(timeOut2);
@@ -357,7 +369,7 @@ String.prototype.wikidot_format = function () {
   // pass article argument only if this is an article
   // .replace(/\?\?(.*?)\?\?/g, "<span dynamic class=\'statement false\' data-bool=\'TRUE\'>$1</span>")
   // .replace(/!!(.*?)!!/g, "<span class=\'statement true\' data-bool=\'FALSE\'>$1</span>")
-  return this.replace(/<([\w\s])\|(.*?)>/g, "<span class='$1'>$2</span>").replace(/\|\|\|\||\r\n|\r|\n/g, "<br>").replace(/\*\*(.*?)\*\*/g, "<b>$1</b>").replace(/\/\/(.*?)\/\//g, "<i>$1</i>").replace(/{{(.*?)}}/g, "<tt>$1</tt>").replace(/\^\^(.*?)\^\^/g, "<sup>$1</sup>").replace(/^-{3,}$/g, "<hr>").replace(/--/g, "—").replace(/^=\s(.*)$/g, "<div style='text-align: center;'>$1</div>").replace(/(>|^)\!\s([^<]*)/g, "$1<div class='fake-title'>$2</div>").replace(/(>|^)\+{3}\s([^<]*)/g, "$1<h3>$2</h3>").replace(/(>|^)\+{2}\s([^<]*)/g, "$1<h2>$2</h2>").replace(/(>|^)\+{1}\s([^<]*)/g, "$1<h1>$2</h1>").replace(/^\[\[IMAGE\]\]\s([^\s]*)\s(.*)$/g, "<div class=\'scp-image-block block-right\'><img src=\'$1\'><div class=\'scp-image-caption\'><p>$2</p></div></div>").replace(/\[{3}(.*?)\|(.*?)\]{3}/, function (match, article, text) {
+  return this.replace(/<([\w\s]*?)\|(.*?)>/g, "<span class='$1'>$2</span>").replace(/\|\|\|\||\r\n|\r|\n/g, "<br>").replace(/\*\*(.*?)\*\*/g, "<b>$1</b>").replace(/\/\/(.*?)\/\//g, "<i>$1</i>").replace(/{{(.*?)}}/g, "<tt>$1</tt>").replace(/\^\^(.*?)\^\^/g, "<sup>$1</sup>").replace(/^-{3,}$/g, "<hr>").replace(/--/g, "—").replace(/^=\s(.*)$/g, "<div style='text-align: center;'>$1</div>").replace(/(>|^)\!\s([^<]*)/g, "$1<div class='fake-title'>$2</div>").replace(/(>|^)\+{3}\s([^<]*)/g, "$1<h3>$2</h3>").replace(/(>|^)\+{2}\s([^<]*)/g, "$1<h2>$2</h2>").replace(/(>|^)\+{1}\s([^<]*)/g, "$1<h1>$2</h1>").replace(/^\[\[IMAGE\]\]\s([^\s]*)\s(.*)$/g, "<div class=\'scp-image-block block-right\'><img src=\'$1\'><div class=\'scp-image-caption\'><p>$2</p></div></div>").replace(/\[{3}(.*?)\|(.*?)\]{3}/, function (match, article, text) {
     // please ready your butts for the single worst line of code I have ever written
     angular.element(document.documentElement).scope().aic.lang.articles[article].available = true;
     return "<span class='article-link'>" + text + "</span>";

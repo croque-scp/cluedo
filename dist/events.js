@@ -222,7 +222,7 @@ get_events = function get_events(aic) {
         style: [],
         options: [{
           text: null,
-          destination: 'examine_body_2',
+          destination: 'undefined_method',
           style: [],
           opinion: 0,
           oncommand: function oncommand(aic) {},
@@ -317,6 +317,25 @@ get_events = function get_events(aic) {
           conditions: [function (aic) {
             return aic.vars.murder_method === "bear";
           }]
+        }]
+      }]
+    },
+    undefined_method: {
+      conversation: 'default',
+      precommand: function precommand(aic) {},
+      postcommand: function postcommand(aic) {},
+      lines: [{
+        delay: "auto",
+        duration: "auto",
+        text: "Error: the murder method has not been defined.",
+        style: [],
+        options: [{
+          text: null,
+          destination: '',
+          style: [],
+          opinion: 0,
+          oncommand: function oncommand(aic) {},
+          conditions: []
         }]
       }]
     },

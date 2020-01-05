@@ -12,7 +12,7 @@ aic_init = (aic) ->
   # The following variables can be changed to make adjustments
 
   aic.typingDelay = 0.1
-  aic.typingSpeed = 0.04 # seconds per letter
+  aic.typingSpeed = 0.0 # seconds per letter
   # TODO make these 0, probably
 
   # The following variables will be preserved on save/load

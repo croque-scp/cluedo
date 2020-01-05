@@ -78,13 +78,14 @@ do ->
       console.log "Booting up..."
       aic.preload = false
       # Here we go boys
-      execute_event aic.start
-      return null
+      aic.execute_event aic.start
 
-    execute_event = (event_name) ->
+    aic.execute_event = (event_name) ->
       # Function for executing a single event.
       console.log "Event: #{event_name}"
       event = aic.events[event_name]
+      # clear the options for this conversation
+
       assert event?, "#{event_name} doesn't exist"
 
       # Work out which of the lines have options.
@@ -94,8 +95,9 @@ do ->
         for option in line['options']
           conditions = []
           for condition in option['conditions']
-            conditions.push condition()
+            conditions.push condition aic
           options.push conditions.every((v) => v is true)
+        # XXX pretty sure this removes lines where ANY option is false
         if options.every((v) => v is true) then lines.push line
       # lines is now all the lines that will appear
       # write the lines, one by one, and display options of the final
@@ -104,7 +106,7 @@ do ->
     ### PROCESSING FUNCTIONS ###
 
     # pass options to chatLog for presentation to the user
-    aic.presentOptions = (event_name, line) ->
+    aic.present_options = (event_name, line) ->
       # present the options for this line
       event = aic.events[event_name]
 
@@ -115,15 +117,24 @@ do ->
       if line is 'CLEAR'
         return null
 
-      #$scope.$apply(() ->
+      # TODO skip this if option is null and skip is true
       for option in line['options']
-        aic.chatLog.options.push {
+        # Modify the option so that it knows its context
+        option_modifier = {
+          event_name: event_name
           conversation: event['conversation']
-          cssClass: option['style']
           text: option['text'] ? aic.lang['default_option']
-          destination: option['destination']
         }
-      #)
+        aic.chatLog.options.push Object.assign({}, option, option_modifier)
+
+    aic.select_option = (option) ->
+      # Recieves a modified option that knows its context
+      event_name = option['event_name']
+      # Clear remaining options for this conversation
+      aic.present_options event_name, 'CLEAR'
+      # Execute oncommands TODO
+      # Call the next event
+      aic.execute_event option['destination']
 
     # structure dialogue and calculate timing
     # writeDialogue = (conversation, dialogueList, speaker, event_name) ->
@@ -249,7 +260,7 @@ do ->
             aic.isSpeaking[conversation] = false
             aic.isProcessing[conversation] = false # just in case!
             # present the options from the last message
-            aic.presentOptions event_name, message['line']
+            aic.present_options event_name, message['line']
 
         ), duration * 1000, true)
         aic.timeOutList.push timeOut2
@@ -282,7 +293,7 @@ String::toCamelCase = ->
 String::wikidot_format = ->
   # pass article argument only if this is an article
   this
-    .replace(/<([\w\s])\|(.*?)>/g, "<span class='$1'>$2</span>")
+    .replace(/<([\w\s]*?)\|(.*?)>/g, "<span class='$1'>$2</span>")
     .replace(/\|\|\|\||\r\n|\r|\n/g, "<br>")
     .replace(/\*\*(.*?)\*\*/g, "<b>$1</b>")
     .replace(/\/\/(.*?)\/\//g, "<i>$1</i>")
