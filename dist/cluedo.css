@@ -1,0 +1,21 @@
+.light, .dark { padding: 1rem; }
+.light { background: white; }
+.dark { background: black; }
+
+.light p, :not(.dark) p { --h: 0; --s: 0%; --l: 0%; }
+.dark p { --h: 0; --s: 0%; --l: 100%; }
+
+.blood { --h: 0; --s: 95%; }
+.clem { --h: 24; --s: 100%; }
+.ochre { --h: 39; --s: 79%; }
+.green { --h: 120; --s: 61%; }
+.sky { --h: 197; --s: 71%; }
+.plum { --h: 307; --s: 24%; }
+
+.light .char, :not(.dark) .char { --l: 40%; }
+.dark .char { --l: 80% }
+.char { font-weight: bold; }
+
+.light p, .light .char { color: hsl(var(--h), var(--s), var(--l)); }
+.dark p, .dark .char { color: hsl(var(--h), var(--s), var(--l)); }
+p, .char { color: hsl(var(--h), var(--s), var(--l)); }

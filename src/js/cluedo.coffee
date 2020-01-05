@@ -100,15 +100,18 @@ do ->
           for condition in option['conditions']
             conditions.push condition aic
           options.push conditions.every((v) => v is true)
-        # XXX pretty sure this removes lines where ANY option is false
-        if options.every((v) => v is true) then lines.push line
+        if options.some((v) => v is true) then lines.push line
       # lines is now all the lines that will appear
       # If the option is given, clear the message log
       if aic.config['clear_log_between_events']
         aic.chatLog.log = aic.chatLog.log.filter (line) =>
           line['conversation'] isnt event['conversation']
+      # Execute any precommands
+      event['precommand'] aic
       # write the lines, one by one, and display options of the final
       writeDialogue event_name, lines
+      # Execute any postcommands
+      event['postcommand'] aic
 
     ### PROCESSING FUNCTIONS ###
 
@@ -127,6 +130,9 @@ do ->
       # TODO skip this if option is null and skip is true
       # TODO null destination should not present options
       for option in line['options']
+        # Only options with true Appears If appears
+        unless option['conditions'].every((c) => c(aic) is true)
+          continue
         # Modify the option so that it knows its context
         option_modifier = {
           event_name: event_name
@@ -134,6 +140,7 @@ do ->
           text: option['text'] ? aic.lang['default_option']
         }
         aic.chatLog.options.push Object.assign({}, option, option_modifier)
+      # XXX what if no options appear?
 
     aic.select_option = (option) ->
       # Recieves a modified option that knows its context
@@ -306,7 +313,7 @@ String::toCamelCase = ->
 String::wikidot_format = ->
   # pass article argument only if this is an article
   this
-    .replace(/<([\w\s]*?)\|(.*?)>/g, "<span class='$1'>$2</span>")
+    .replace(/<([\w\s]*?)\|(.*?)>/gs, "<span class='$1'>$2</span>")
     .replace(/\|\|\|\||\r\n|\r|\n/g, "<br>")
     .replace(/\*\*(.*?)\*\*/g, "<b>$1</b>")
     .replace(/\/\/(.*?)\/\//g, "<i>$1</i>")

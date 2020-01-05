@@ -22,8 +22,15 @@ aic_init = function aic_init(aic) {
 
   aic.wipe_between_events = true;
   aic.conversations = ['default'];
-  aic.murder_methods = ["car", "vase", "bl", "bear", "pizza", "choke"];
+  aic.murder_methods = ['car', 'vase', 'bl', 'bear', 'pizza', 'choke'];
+  aic.murder_locations = ['corridor', 'cafeteria', 'containment', 'study', 'office', 'carpark'];
+  aic.greens = ['barry', 'gary'];
+  aic.vars['green'] = aic.greens.sample();
+  aic.vars['chars'] = ['blood', 'clem', 'ochre', aic.vars['green'], 'sky', 'plum']; // TODO valid combinations
+
   aic.vars['murder_method'] = aic.murder_methods.sample();
+  aic.vars['murder_location'] = aic.murder_locations.sample();
+  aic.vars['murder_person'] = aic.vars['chars'].sample();
   aic.config['clear_log_between_events'] = true;
   aic.config['add_to_log_in_reverse_order'] = false;
   console.log("Done initialising variables");

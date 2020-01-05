@@ -55,21 +55,17 @@ gulp.task('js', function(done) {
 });
 
 gulp.task('css', function(done) {
-  // XXX while css is not yet added
-  done();
-  return;
-  // XXX
   // Post-process, minify and concatenate css files
   gulp.src('./src/css/root.css')
     .pipe(cssimport())
     .on('end', () => log("Resolving CSS imports"))
     .pipe(postcss([
-      postcssCssVariables(),
+      // postcssCssVariables(),
       postcssGridKiss(),
       // cssnano(),
     ]))
     .on('end', () => log("Post-processing CSS"))
-    .pipe(rename("maitreya.css"))
+    .pipe(rename("cluedo.css"))
     .pipe(gulp.dest('./dist/'))
     .on('end', () => done());
 });

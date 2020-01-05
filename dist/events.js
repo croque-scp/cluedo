@@ -222,7 +222,7 @@ get_events = function get_events(aic) {
         style: [],
         options: [{
           text: null,
-          destination: 'undefined_method',
+          destination: null,
           style: [],
           opinion: 0,
           oncommand: function oncommand(aic) {},
@@ -317,25 +317,6 @@ get_events = function get_events(aic) {
           conditions: [function (aic) {
             return aic.vars.murder_method === "bear";
           }]
-        }]
-      }]
-    },
-    undefined_method: {
-      conversation: 'default',
-      precommand: function precommand(aic) {},
-      postcommand: function postcommand(aic) {},
-      lines: [{
-        delay: "auto",
-        duration: "auto",
-        text: "Error: the murder method has not been defined.",
-        style: [],
-        options: [{
-          text: null,
-          destination: null,
-          style: [],
-          opinion: 0,
-          oncommand: function oncommand(aic) {},
-          conditions: []
         }]
       }]
     },
@@ -717,7 +698,7 @@ get_events = function get_events(aic) {
       lines: [{
         delay: "auto",
         duration: "auto",
-        text: "The first's the new intern, <char blood|Jamey-James Blood!>\nThe young Operator's a bit of a spud.",
+        text: "The first's the new intern, <char blood|Jamey-James Blood>!\nThe young Operator's a bit of a spud.",
         style: [],
         options: [{
           text: null,
@@ -1265,7 +1246,7 @@ get_events = function get_events(aic) {
           style: [],
           opinion: 0,
           oncommand: function oncommand(aic) {
-            return aic.aic.vars.chosen_method = "car";
+            return aic.vars.chosen_method = "car";
           },
           conditions: []
         }, {
@@ -1274,7 +1255,7 @@ get_events = function get_events(aic) {
           style: [],
           opinion: 0,
           oncommand: function oncommand(aic) {
-            return aic.aic.vars.chosen_method = "vase";
+            return aic.vars.chosen_method = "vase";
           },
           conditions: []
         }, {
@@ -1283,7 +1264,7 @@ get_events = function get_events(aic) {
           style: [],
           opinion: 0,
           oncommand: function oncommand(aic) {
-            return aic.aic.vars.chosen_method = "bl";
+            return aic.vars.chosen_method = "bl";
           },
           conditions: []
         }, {
@@ -1292,7 +1273,7 @@ get_events = function get_events(aic) {
           style: [],
           opinion: 0,
           oncommand: function oncommand(aic) {
-            return aic.aic.vars.chosen_method = "bear";
+            return aic.vars.chosen_method = "bear";
           },
           conditions: []
         }, {
@@ -1301,7 +1282,7 @@ get_events = function get_events(aic) {
           style: [],
           opinion: 0,
           oncommand: function oncommand(aic) {
-            return aic.aic.vars.chosen_method = "pizza";
+            return aic.vars.chosen_method = "pizza";
           },
           conditions: []
         }, {
@@ -1310,7 +1291,7 @@ get_events = function get_events(aic) {
           style: [],
           opinion: 0,
           oncommand: function oncommand(aic) {
-            return aic.aic.vars.chosen_method = "choke";
+            return aic.vars.chosen_method = "choke";
           },
           conditions: []
         }]
@@ -1713,7 +1694,7 @@ get_events = function get_events(aic) {
         style: [],
         options: [{
           text: null,
-          destination: 'ochre_ask_plum',
+          destination: 'choose_int_1',
           style: [],
           opinion: 0,
           oncommand: function oncommand(aic) {},

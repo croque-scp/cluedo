@@ -131,10 +131,9 @@ shuffle = function shuffle(array) {
           options.push(conditions.every(function (v) {
             return v === true;
           }));
-        } // XXX pretty sure this removes lines where ANY option is false
+        }
 
-
-        if (options.every(function (v) {
+        if (options.some(function (v) {
           return v === true;
         })) {
           lines.push(line);
@@ -147,10 +146,14 @@ shuffle = function shuffle(array) {
         aic.chatLog.log = aic.chatLog.log.filter(function (line) {
           return line['conversation'] !== event['conversation'];
         });
-      } // write the lines, one by one, and display options of the final
+      } // Execute any precommands
 
 
-      return writeDialogue(event_name, lines);
+      event['precommand'](aic); // write the lines, one by one, and display options of the final
+
+      writeDialogue(event_name, lines); // Execute any postcommands
+
+      return event['postcommand'](aic);
     };
     /* PROCESSING FUNCTIONS */
     // pass options to chatLog for presentation to the user
@@ -175,7 +178,14 @@ shuffle = function shuffle(array) {
       results = [];
 
       for (j = 0, len = ref.length; j < len; j++) {
-        option = ref[j]; // Modify the option so that it knows its context
+        option = ref[j]; // Only options with true Appears If appears
+
+        if (!option['conditions'].every(function (c) {
+          return c(aic) === true;
+        })) {
+          continue;
+        } // Modify the option so that it knows its context
+
 
         option_modifier = {
           event_name: event_name,
@@ -186,7 +196,8 @@ shuffle = function shuffle(array) {
       }
 
       return results;
-    };
+    }; // XXX what if no options appear?
+
 
     aic.select_option = function (option) {
       var event_name; // Recieves a modified option that knows its context
@@ -387,7 +398,7 @@ String.prototype.wikidot_format = function () {
   // pass article argument only if this is an article
   // .replace(/\?\?(.*?)\?\?/g, "<span dynamic class=\'statement false\' data-bool=\'TRUE\'>$1</span>")
   // .replace(/!!(.*?)!!/g, "<span class=\'statement true\' data-bool=\'FALSE\'>$1</span>")
-  return this.replace(/<([\w\s]*?)\|(.*?)>/g, "<span class='$1'>$2</span>").replace(/\|\|\|\||\r\n|\r|\n/g, "<br>").replace(/\*\*(.*?)\*\*/g, "<b>$1</b>").replace(/\/\/(.*?)\/\//g, "<i>$1</i>").replace(/{{(.*?)}}/g, "<tt>$1</tt>").replace(/\^\^(.*?)\^\^/g, "<sup>$1</sup>").replace(/^-{3,}$/g, "<hr>").replace(/--/g, "—").replace(/^=\s(.*)$/g, "<div style='text-align: center;'>$1</div>").replace(/(>|^)\!\s([^<]*)/g, "$1<div class='fake-title'>$2</div>").replace(/(>|^)\+{3}\s([^<]*)/g, "$1<h3>$2</h3>").replace(/(>|^)\+{2}\s([^<]*)/g, "$1<h2>$2</h2>").replace(/(>|^)\+{1}\s([^<]*)/g, "$1<h1>$2</h1>").replace(/^\[\[IMAGE\]\]\s([^\s]*)\s(.*)$/g, "<div class=\'scp-image-block block-right\'><img src=\'$1\'><div class=\'scp-image-caption\'><p>$2</p></div></div>").replace(/\[{3}(.*?)\|(.*?)\]{3}/, function (match, article, text) {
+  return this.replace(/<([\w\s]*?)\|(.*?)>/gs, "<span class='$1'>$2</span>").replace(/\|\|\|\||\r\n|\r|\n/g, "<br>").replace(/\*\*(.*?)\*\*/g, "<b>$1</b>").replace(/\/\/(.*?)\/\//g, "<i>$1</i>").replace(/{{(.*?)}}/g, "<tt>$1</tt>").replace(/\^\^(.*?)\^\^/g, "<sup>$1</sup>").replace(/^-{3,}$/g, "<hr>").replace(/--/g, "—").replace(/^=\s(.*)$/g, "<div style='text-align: center;'>$1</div>").replace(/(>|^)\!\s([^<]*)/g, "$1<div class='fake-title'>$2</div>").replace(/(>|^)\+{3}\s([^<]*)/g, "$1<h3>$2</h3>").replace(/(>|^)\+{2}\s([^<]*)/g, "$1<h2>$2</h2>").replace(/(>|^)\+{1}\s([^<]*)/g, "$1<h1>$2</h1>").replace(/^\[\[IMAGE\]\]\s([^\s]*)\s(.*)$/g, "<div class=\'scp-image-block block-right\'><img src=\'$1\'><div class=\'scp-image-caption\'><p>$2</p></div></div>").replace(/\[{3}(.*?)\|(.*?)\]{3}/, function (match, article, text) {
     // please ready your butts for the single worst line of code I have ever written
     angular.element(document.documentElement).scope().aic.lang.articles[article].available = true;
     return "<span class='article-link'>" + text + "</span>";
