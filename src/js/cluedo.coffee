@@ -278,7 +278,9 @@ String::toCamelCase = ->
 
 String::wikidot_format = ->
   # pass article argument only if this is an article
-  this.replace(/\|\|\|\||\n/g, "<br>")
+  this
+    .replace(/<([\w\s])|(.*?)>/g, "<span class='$1'>$2</span>")
+    .replace(/\|\|\|\||\r\n|\r|\n/g, "<br>")
     .replace(/\*\*(.*?)\*\*/g, "<b>$1</b>")
     .replace(/\/\/(.*?)\/\//g, "<i>$1</i>")
     .replace(/{{(.*?)}}/g, "<tt>$1</tt>")
@@ -292,7 +294,6 @@ String::wikidot_format = ->
     .replace(/(>|^)\+{3}\s([^<]*)/g, "$1<h3>$2</h3>")
     .replace(/(>|^)\+{2}\s([^<]*)/g, "$1<h2>$2</h2>")
     .replace(/(>|^)\+{1}\s([^<]*)/g, "$1<h1>$2</h1>")
-    .replace(/<([\w\s])|(.*?)>/g, "<span class='$1'>$2</span>")
     .replace(/^\[\[IMAGE\]\]\s([^\s]*)\s(.*)$/g, "<div class=\'scp-image-block block-right\'><img src=\'$1\'><div class=\'scp-image-caption\'><p>$2</p></div></div>")
     .replace /\[{3}(.*?)\|(.*?)\]{3}/, (match, article, text) ->
       # please ready your butts for the single worst line of code I have ever written
