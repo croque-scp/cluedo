@@ -743,7 +743,7 @@ get_events = function get_events(aic) {
       lines: [{
         delay: "auto",
         duration: "auto",
-        text: "The second is <char clem|Mr Andrew Clementine>.\nA man known for spotting details most fine.",
+        text: "The second is <char clem|Mx Aubrey Clementine>.\nA person who's known to spot details most fine.",
         style: [],
         options: [{
           text: null,
@@ -756,7 +756,7 @@ get_events = function get_events(aic) {
       }, {
         delay: "auto",
         duration: "auto",
-        text: "You've never seen him without his coffee cup.\nOr asleep, for that matter. He's constantly up.",
+        text: "You've never seen them without their coffee cup.\nOr asleep, for that matter. They're constantly up.",
         style: [],
         options: [{
           text: null,
@@ -769,7 +769,7 @@ get_events = function get_events(aic) {
       }, {
         delay: "auto",
         duration: "auto",
-        text: "He's eyeing you up with wisdom and rigour.\nA skill he requires as HMCL Supervisor.",
+        text: "They're eyeing you up with wisdom and rigour.\nA skill they require as HMCL Supervisor.",
         style: [],
         options: [{
           text: null,
@@ -1268,7 +1268,7 @@ get_events = function get_events(aic) {
           },
           conditions: []
         }, {
-          text: "Reassembled into a child's toy",
+          text: "Reassembly into a child's toy",
           destination: 'ochre_confirm',
           style: [],
           opinion: 0,
