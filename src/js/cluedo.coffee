@@ -33,6 +33,25 @@ do ->
   MaitreyaController = ($scope, $timeout, $sce, $http) ->
     aic = this
 
+    # Change these settings in init.coffee
+    aic.config = {
+      # Should the whole message log be wiped between events, or should the
+      # user be able to see all messages?
+      clear_log_between_events: false
+      # Should the message log be in reverse? Useful with `flex-direction:
+      # column-reverse` for making a terminal-like UI
+      add_to_log_in_reverse_order: true
+      # If an option's text is `null`, and it is the only option that would be
+      # presented, should the next event happen automatically?
+      empty_option_proceeds_immediately: true
+      # If the above is false, if an option's text is `null`, what should it
+      # appear as to the user?
+      default_option_name: "Undefined option"
+      # If the above is false, if an option's text is `null` and it has no CSS
+      # class, what should its class be? (list of strings)
+      default_option_class: []
+    }
+
     $scope.trustAsHtml = (string) ->
       $sce.trustAsHtml string
 
@@ -55,11 +74,7 @@ do ->
     aic.vars = {}
     aic.cheats = {} # possibly merge with vars
     aic.start = null
-
-    aic.config = {
-      clear_log_between_events: false
-      add_to_log_in_reverse_order: true
-    }
+    aic.preload = true
 
     aic.chatLog = {
       log: []
@@ -70,9 +85,9 @@ do ->
     $(document).ready ->
       aic.onMobile = $('body').width() < 700
       $scope.$apply ->
-        aic = aic_init(aic) # from init.js
         aic.lang = get_lang(aic) # from lang.js
         aic.events = get_events() # from events.js
+        aic = aic_init(aic) # from init.js
       console.log "Ready to go"
       aic.bootUp() # XXX TEMPORARY
 
@@ -319,8 +334,6 @@ String::wikidot_format = ->
     .replace(/\/\/(.*?)\/\//g, "<i>$1</i>")
     .replace(/{{(.*?)}}/g, "<tt>$1</tt>")
     .replace(/\^\^(.*?)\^\^/g, "<sup>$1</sup>")
-    # .replace(/\?\?(.*?)\?\?/g, "<span dynamic class=\'statement false\' data-bool=\'TRUE\'>$1</span>")
-    # .replace(/!!(.*?)!!/g, "<span class=\'statement true\' data-bool=\'FALSE\'>$1</span>")
     .replace(/^-{3,}$/g, "<hr>")
     .replace(/--/g, "—")
     .replace(/^=\s(.*)$/g, "<div style='text-align: center;'>$1</div>")
@@ -328,11 +341,6 @@ String::wikidot_format = ->
     .replace(/(>|^)\+{3}\s([^<]*)/g, "$1<h3>$2</h3>")
     .replace(/(>|^)\+{2}\s([^<]*)/g, "$1<h2>$2</h2>")
     .replace(/(>|^)\+{1}\s([^<]*)/g, "$1<h1>$2</h1>")
-    .replace(/^\[\[IMAGE\]\]\s([^\s]*)\s(.*)$/g, "<div class=\'scp-image-block block-right\'><img src=\'$1\'><div class=\'scp-image-caption\'><p>$2</p></div></div>")
-    .replace /\[{3}(.*?)\|(.*?)\]{3}/, (match, article, text) ->
-      # please ready your butts for the single worst line of code I have ever written
-      angular.element(document.documentElement).scope().aic.lang.articles[article].available = true
-      return "<span class=\'article-link\'>#{text}</span>"
 
 Array::remove = (thing) ->
   index = this.indexOf thing

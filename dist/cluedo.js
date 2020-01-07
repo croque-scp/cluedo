@@ -43,7 +43,25 @@ shuffle = function shuffle(array) {
   MaitreyaController = function MaitreyaController($scope, $timeout, $sce, $http) {
     var aic, _pushToLog, writeDialogue;
 
-    aic = this;
+    aic = this; // Change these settings in init.coffee
+
+    aic.config = {
+      // Should the whole message log be wiped between events, or should the
+      // user be able to see all messages?
+      clear_log_between_events: false,
+      // Should the message log be in reverse? Useful with `flex-direction:
+      // column-reverse` for making a terminal-like UI
+      add_to_log_in_reverse_order: true,
+      // If an option's text is `null`, and it is the only option that would be
+      // presented, should the next event happen automatically?
+      empty_option_proceeds_immediately: true,
+      // If the above is false, if an option's text is `null`, what should it
+      // appear as to the user?
+      default_option_name: "Undefined option",
+      // If the above is false, if an option's text is `null` and it has no CSS
+      // class, what should its class be? (list of strings)
+      default_option_class: []
+    };
 
     $scope.trustAsHtml = function (string) {
       return $sce.trustAsHtml(string);
@@ -73,10 +91,7 @@ shuffle = function shuffle(array) {
     aic.cheats = {}; // possibly merge with vars
 
     aic.start = null;
-    aic.config = {
-      clear_log_between_events: false,
-      add_to_log_in_reverse_order: true
-    };
+    aic.preload = true;
     aic.chatLog = {
       log: [],
       options: []
@@ -85,11 +100,11 @@ shuffle = function shuffle(array) {
     $(document).ready(function () {
       aic.onMobile = $('body').width() < 700;
       $scope.$apply(function () {
-        aic = aic_init(aic); // from init.js
-
         aic.lang = get_lang(aic); // from lang.js
 
-        return aic.events = get_events(); // from events.js
+        aic.events = get_events(); // from events.js
+
+        return aic = aic_init(aic); // from init.js
       });
       console.log("Ready to go");
       return aic.bootUp(); // XXX TEMPORARY
@@ -396,13 +411,7 @@ String.prototype.toCamelCase = function () {
 
 String.prototype.wikidot_format = function () {
   // pass article argument only if this is an article
-  // .replace(/\?\?(.*?)\?\?/g, "<span dynamic class=\'statement false\' data-bool=\'TRUE\'>$1</span>")
-  // .replace(/!!(.*?)!!/g, "<span class=\'statement true\' data-bool=\'FALSE\'>$1</span>")
-  return this.replace(/<([\w\s]*?)\|(.*?)>/gs, "<span class='$1'>$2</span>").replace(/\|\|\|\||\r\n|\r|\n/g, "<br>").replace(/\*\*(.*?)\*\*/g, "<b>$1</b>").replace(/\/\/(.*?)\/\//g, "<i>$1</i>").replace(/{{(.*?)}}/g, "<tt>$1</tt>").replace(/\^\^(.*?)\^\^/g, "<sup>$1</sup>").replace(/^-{3,}$/g, "<hr>").replace(/--/g, "—").replace(/^=\s(.*)$/g, "<div style='text-align: center;'>$1</div>").replace(/(>|^)\!\s([^<]*)/g, "$1<div class='fake-title'>$2</div>").replace(/(>|^)\+{3}\s([^<]*)/g, "$1<h3>$2</h3>").replace(/(>|^)\+{2}\s([^<]*)/g, "$1<h2>$2</h2>").replace(/(>|^)\+{1}\s([^<]*)/g, "$1<h1>$2</h1>").replace(/^\[\[IMAGE\]\]\s([^\s]*)\s(.*)$/g, "<div class=\'scp-image-block block-right\'><img src=\'$1\'><div class=\'scp-image-caption\'><p>$2</p></div></div>").replace(/\[{3}(.*?)\|(.*?)\]{3}/, function (match, article, text) {
-    // please ready your butts for the single worst line of code I have ever written
-    angular.element(document.documentElement).scope().aic.lang.articles[article].available = true;
-    return "<span class='article-link'>" + text + "</span>";
-  });
+  return this.replace(/<([\w\s]*?)\|(.*?)>/gs, "<span class='$1'>$2</span>").replace(/\|\|\|\||\r\n|\r|\n/g, "<br>").replace(/\*\*(.*?)\*\*/g, "<b>$1</b>").replace(/\/\/(.*?)\/\//g, "<i>$1</i>").replace(/{{(.*?)}}/g, "<tt>$1</tt>").replace(/\^\^(.*?)\^\^/g, "<sup>$1</sup>").replace(/^-{3,}$/g, "<hr>").replace(/--/g, "—").replace(/^=\s(.*)$/g, "<div style='text-align: center;'>$1</div>").replace(/(>|^)\!\s([^<]*)/g, "$1<div class='fake-title'>$2</div>").replace(/(>|^)\+{3}\s([^<]*)/g, "$1<h3>$2</h3>").replace(/(>|^)\+{2}\s([^<]*)/g, "$1<h2>$2</h2>").replace(/(>|^)\+{1}\s([^<]*)/g, "$1<h1>$2</h1>");
 };
 
 Array.prototype.remove = function (thing) {

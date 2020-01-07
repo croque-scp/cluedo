@@ -11,9 +11,8 @@ aic_init = (aic) ->
 
   # The following variables can be changed to make adjustments
 
-  aic.typingDelay = 0.1
+  aic.typingDelay = 0.0
   aic.typingSpeed = 0.0 # seconds per letter
-  # TODO make these 0, probably
 
   # The following variables will be preserved on save/load
 
@@ -23,7 +22,6 @@ aic_init = (aic) ->
 
   # The following variables should not be changed
 
-  aic.wipe_between_events = true
   aic.conversations = ['default']
   aic.murder_methods = ['car','vase','bl','bear','pizza','choke']
   aic.murder_locations = ['corridor','cafeteria','containment',
@@ -39,6 +37,9 @@ aic_init = (aic) ->
 
   aic.config['clear_log_between_events'] = true
   aic.config['add_to_log_in_reverse_order'] = false
+  aic.config['default_option_name'] = aic.lang['default_option_name']
+  aic.config['default_option_class'] = ["next_option"]
+  aic.config['empty_option_proceeds_immediately'] = true
 
   console.log "Done initialising variables"
   return aic
