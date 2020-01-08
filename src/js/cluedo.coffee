@@ -12,22 +12,6 @@ reimplemented pending a re-think of how the mechanism should work.
 
 ### global $, angular ###
 
-assert = (condition, message) ->
-  unless condition
-    throw new Error(message ? "AssertionError")
-
-# randomise an array
-shuffle = (array) ->
-  m = array.length
-  t = undefined
-  i = undefined
-  while m
-    i = Math.floor(Math.random() * m--)
-    t = array[m]
-    array[m] = array[i]
-    array[i] = t
-  return array
-
 do ->
 
   MaitreyaController = ($scope, $timeout, $sce, $http) ->
@@ -152,7 +136,9 @@ do ->
         option_modifier = {
           event_name: event_name
           conversation: event['conversation']
-          text: option['text'] ? aic.lang['default_option']
+          text: option['text'] ? aic.config['default_option_name']
+          cssClass: option['cssClass'] ? aic.config['default_option_class']
+          # XXX does ? check for empty list?
         }
         aic.chatLog.options.push Object.assign({}, option, option_modifier)
       # XXX what if no options appear?
@@ -304,14 +290,10 @@ do ->
 
     return null
 
-  EncodeURIComponentFilter = ->
-    return window.encodeURIComponent
-
   maitreya = angular
     .module("maitreya", ['ngSanitize', 'ngAnimate'])
     .controller("MaitreyaController",
                 ['$scope', '$timeout', '$sce', '$http', MaitreyaController])
-    .filter("encode", [EncodeURIComponentFilter])
 
   return null
 
@@ -324,7 +306,6 @@ String::toCamelCase = ->
     .replace(/\s(.)/g, (match, group) -> group.toUpperCase())
 
 # prototype function to format dialogue strings from wikidot format to HTML
-
 String::wikidot_format = ->
   # pass article argument only if this is an article
   this
@@ -349,3 +330,19 @@ Array::remove = (thing) ->
 
 Array::sample = ->
   this[Math.floor(Math.random()*this.length)]
+
+assert = (condition, message) ->
+  unless condition
+    throw new Error(message ? "AssertionError")
+
+# randomise an array
+shuffle = (array) ->
+  m = array.length
+  t = undefined
+  i = undefined
+  while m
+    i = Math.floor(Math.random() * m--)
+    t = array[m]
+    array[m] = array[i]
+    array[i] = t
+  return array

@@ -41,7 +41,9 @@ get_events = function get_events(aic) {
     drive_there: {
       conversation: 'default',
       precommand: function precommand(aic) {},
-      postcommand: function postcommand(aic) {},
+      postcommand: function postcommand(aic) {
+        return console.log(aic);
+      },
       lines: [{
         delay: "auto",
         duration: "auto",

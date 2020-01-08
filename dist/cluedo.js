@@ -8,37 +8,14 @@ For maitreya, where event cancellation is needed, it will need to be
 reimplemented pending a re-think of how the mechanism should work.
 */
 "use strict";
-/* global $, angular */
 
 var assert,
     shuffle,
     indexOf = [].indexOf;
 
-assert = function assert(condition, message) {
-  if (!condition) {
-    throw new Error(message != null ? message : "AssertionError");
-  }
-}; // randomise an array
-
-
-shuffle = function shuffle(array) {
-  var i, m, t;
-  m = array.length;
-  t = void 0;
-  i = void 0;
-
-  while (m) {
-    i = Math.floor(Math.random() * m--);
-    t = array[m];
-    array[m] = array[i];
-    array[i] = t;
-  }
-
-  return array;
-};
-
 (function () {
-  var EncodeURIComponentFilter, MaitreyaController, maitreya;
+  /* global $, angular */
+  var MaitreyaController, maitreya;
 
   MaitreyaController = function MaitreyaController($scope, $timeout, $sce, $http) {
     var aic, _pushToLog, writeDialogue;
@@ -175,7 +152,7 @@ shuffle = function shuffle(array) {
 
 
     aic.present_options = function (event_name, line) {
-      var event, j, len, option, option_modifier, ref, ref1, results; // present the options for this line
+      var event, j, len, option, option_modifier, ref, ref1, ref2, results; // present the options for this line
 
       event = aic.events[event_name]; // options list may not be empty:
 
@@ -205,8 +182,10 @@ shuffle = function shuffle(array) {
         option_modifier = {
           event_name: event_name,
           conversation: event['conversation'],
-          text: (ref1 = option['text']) != null ? ref1 : aic.lang['default_option']
-        };
+          text: (ref1 = option['text']) != null ? ref1 : aic.config['default_option_name'],
+          cssClass: (ref2 = option['cssClass']) != null ? ref2 : aic.config['default_option_class']
+        }; // XXX does ? check for empty list?
+
         results.push(aic.chatLog.options.push(Object.assign({}, option, option_modifier)));
       }
 
@@ -393,11 +372,7 @@ shuffle = function shuffle(array) {
     return null;
   };
 
-  EncodeURIComponentFilter = function EncodeURIComponentFilter() {
-    return window.encodeURIComponent;
-  };
-
-  maitreya = angular.module("maitreya", ['ngSanitize', 'ngAnimate']).controller("MaitreyaController", ['$scope', '$timeout', '$sce', '$http', MaitreyaController]).filter("encode", [EncodeURIComponentFilter]);
+  maitreya = angular.module("maitreya", ['ngSanitize', 'ngAnimate']).controller("MaitreyaController", ['$scope', '$timeout', '$sce', '$http', MaitreyaController]);
   return null;
 })(); // prototype functuon to turn kebab-case to camelCase
 
@@ -425,4 +400,27 @@ Array.prototype.remove = function (thing) {
 
 Array.prototype.sample = function () {
   return this[Math.floor(Math.random() * this.length)];
+};
+
+assert = function assert(condition, message) {
+  if (!condition) {
+    throw new Error(message != null ? message : "AssertionError");
+  }
+}; // randomise an array
+
+
+shuffle = function shuffle(array) {
+  var i, m, t;
+  m = array.length;
+  t = void 0;
+  i = void 0;
+
+  while (m) {
+    i = Math.floor(Math.random() * m--);
+    t = array[m];
+    array[m] = array[i];
+    array[i] = t;
+  }
+
+  return array;
 };

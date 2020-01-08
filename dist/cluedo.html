@@ -36,23 +36,31 @@
     <div id="container">
 
       <div id="frame">
-        <div class="background"></div>
-        <div class="line"
-             ng-repeat="line in aic.chatLog.log"
-             ng-class="line['cssClass']">
-          <p class="text"
-             ng-bind-html="line['text']">
-          </p>
+
+        <div class="lines">
+          <div class="line"
+               ng-repeat="line in aic.chatLog.log"
+               ng-class="line['cssClass']">
+            <p class="text"
+               ng-bind-html="line['text']">
+            </p>
+          </div>
         </div>
-        <div class="option-wrapper"
-             ng-repeat="option in aic.chatLog.options | filter: {conversation: 'default'}"
-             ng-animate-children="true">
-          <button class="option"
-                  ng-class="option['cssClass']"
-                  ng-click="aic.select_option(option)">
-            {{option.text}}
-          </button>
+
+        <div class="options">
+          <div class="option-wrapper"
+               ng-repeat="option in aic.chatLog.options
+                          | filter: {conversation: 'default'}"
+               ng-animate-children="true">
+            <div class="option"
+                 ng-class="option['cssClass']"
+                 ng-click="aic.select_option(option)">
+              <img ng-src="{{::aic.lang.images['px']}}">
+              <span>{{option['text']}}</span>
+            </div>
+          </div>
         </div>
+
       </div>
 
     </div>

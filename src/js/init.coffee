@@ -7,7 +7,8 @@ aic_init = (aic) ->
 
   # The following variable determines what the initial event is
 
-  aic.start = 'wake_up'
+  # aic.start = 'wake_up'
+  aic.start = 'alex_appear'
 
   # The following variables can be changed to make adjustments
 
@@ -39,7 +40,7 @@ aic_init = (aic) ->
   aic.config['add_to_log_in_reverse_order'] = false
   aic.config['default_option_name'] = aic.lang['default_option_name']
   aic.config['default_option_class'] = ["next_option"]
-  aic.config['empty_option_proceeds_immediately'] = true
+  aic.config['empty_option_proceeds_immediately'] = false
 
   console.log "Done initialising variables"
   return aic
