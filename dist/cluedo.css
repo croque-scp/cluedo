@@ -18,13 +18,10 @@ html, body, #container {
   justify-content: space-around;
 }
 
+.line { padding: 1rem; }
 
-.light, .dark { padding: 1rem; }
-.light { background: white; }
-.dark { background: black; }
-
-.light p, :not(.dark) p { --h: 0; --s: 0%; --l: 0%; }
-.dark p { --h: 0; --s: 0%; --l: 100%; }
+.line.light p, .line:not(.dark) p { --h: 0; --s: 0%; --l: 0%; }
+.line.dark p { --h: 0; --s: 0%; --l: 100%; }
 
 .blood { --h: 0; --s: 95%; }
 .clem { --h: 24; --s: 100%; }
@@ -32,6 +29,7 @@ html, body, #container {
 .green { --h: 120; --s: 61%; }
 .sky { --h: 197; --s: 71%; }
 .plum { --h: 307; --s: 24%; }
+.alex { --h: 195; --s: 100%; }
 
 .light .char, :not(.dark) .char { --l: 40%; }
 .dark .char { --l: 80% }
@@ -40,6 +38,8 @@ html, body, #container {
 p, .char { color: hsl(var(--h), var(--s), var(--l)); }
 
 .option {
+  --bg: hsl(var(--h), var(--s), 90%);
+  --border: hsl(var(--h), var(--s), 40%);
   display: inline-flex;
   justify-content: center;
   align-items: center;
@@ -48,18 +48,22 @@ p, .char { color: hsl(var(--h), var(--s), var(--l)); }
   clear: both;
   font-weight: bold;
   position: relative;
-  max-width: 50%;
   border: 2px var(--border,grey) solid;
   border-right: none;
-  background-color: var(--bg,transparent);
+  background-color: var(--bg,white);
+  color: var(--border,grey);
   cursor: pointer;
+  transition: all 0.1s ease-in-out;
 }
-.option span {
+.option p {
   margin: 0 0.4em 0 0.8em;
   position: relative;
 }
+.option span {
+  color: hsl(var(--h), var(--s), 50%)
+}
 .option img {
-  background-color: var(--bg,transparent);
+  background-color: var(--bg,white);
   height: 100%;
   width: auto;
   position: absolute;
@@ -69,4 +73,15 @@ p, .char { color: hsl(var(--h), var(--s), var(--l)); }
   transform: scale(0.707) rotate(45deg);
   border-width: 2.8px 2.8px 0 0;
   transform-origin: 100% 100%;
+  transition: all 0.1s ease-in-out;
+}
+.option:hover {
+  background-color: var(--border,grey);
+  color: var(--bg,white);
+}
+.option:hover img {
+  background-color: var(--border,grey);
+}
+.option:hover p, .option:hover span {
+  color: white;
 }

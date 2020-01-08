@@ -41,9 +41,7 @@ get_events = function get_events(aic) {
     drive_there: {
       conversation: 'default',
       precommand: function precommand(aic) {},
-      postcommand: function postcommand(aic) {
-        return console.log(aic);
-      },
+      postcommand: function postcommand(aic) {},
       lines: [{
         delay: "auto",
         duration: "auto",
@@ -622,7 +620,7 @@ get_events = function get_events(aic) {
         options: [{
           text: "Gather everyone",
           destination: 'night_sky',
-          style: [],
+          style: ['plum'],
           opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
@@ -1018,9 +1016,9 @@ get_events = function get_events(aic) {
         text: "Her eyes pan the group and settle on you.\n<char ochre|\"Plum, you found it. What did you do?\">",
         style: [],
         options: [{
-          text: null,
+          text: "<plum|I didn't do anything>",
           destination: 'plum_defend',
-          style: [],
+          style: ['ochre'],
           opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
@@ -1138,12 +1136,59 @@ get_events = function get_events(aic) {
     },
     alex_explain_2: {
       conversation: 'default',
+      precommand: function precommand(aic) {
+        return console.log(aic);
+      },
+      postcommand: function postcommand(aic) {},
+      lines: [{
+        delay: "auto",
+        duration: "auto",
+        text: "<char alex|The first: O5-1 was hit by a car.\nThe simplest explanation I have by far.>",
+        style: [],
+        options: [{
+          text: null,
+          destination: null,
+          style: [],
+          opinion: 0,
+          oncommand: function oncommand(aic) {},
+          conditions: []
+        }]
+      }, {
+        delay: "auto",
+        duration: "auto",
+        text: "<char alex|The second: it was hit on the head by a vase\nWith more injuries caused by the shattering glass.>",
+        style: [],
+        options: [{
+          text: null,
+          destination: null,
+          style: [],
+          opinion: 0,
+          oncommand: function oncommand(aic) {},
+          conditions: []
+        }]
+      }, {
+        delay: "auto",
+        duration: "auto",
+        text: "<char alex|The third: exposure to something you can't comprehend.\nBerryman-Langford brings a swift end.>",
+        style: [],
+        options: [{
+          text: null,
+          destination: 'alex_explain_3',
+          style: [],
+          opinion: 0,
+          oncommand: function oncommand(aic) {},
+          conditions: []
+        }]
+      }]
+    },
+    alex_explain_3: {
+      conversation: 'default',
       precommand: function precommand(aic) {},
       postcommand: function postcommand(aic) {},
       lines: [{
         delay: "auto",
         duration: "auto",
-        text: "The first: O5-1 was hit by a car.\nThe simplest explanation I have by far.",
+        text: "<char alex|The fourth: a teddy bear came, seeking new parts\nFor a child it was making by a gruesome art.>",
         style: [],
         options: [{
           text: null,
@@ -1156,7 +1201,7 @@ get_events = function get_events(aic) {
       }, {
         delay: "auto",
         duration: "auto",
-        text: "The second: it was hit on the head by a vase\nWith more injuries caused by the shattering glass.",
+        text: "<char alex|The fifth: SOMETHING ABOUT PIZZA>",
         style: [],
         options: [{
           text: null,
@@ -1169,59 +1214,7 @@ get_events = function get_events(aic) {
       }, {
         delay: "auto",
         duration: "auto",
-        text: "The third: exposure to something you can't comprehend.\nBerryman-Langford brings a swift end.",
-        style: [],
-        options: [{
-          text: null,
-          destination: null,
-          style: [],
-          opinion: 0,
-          oncommand: function oncommand(aic) {},
-          conditions: []
-        }]
-      }, {
-        delay: "auto",
-        duration: "auto",
-        text: "The fourth: a teddy bear came, seeking new parts\nFor a child it was making by a gruesome art.",
-        style: [],
-        options: [{
-          text: null,
-          destination: null,
-          style: [],
-          opinion: 0,
-          oncommand: function oncommand(aic) {},
-          conditions: []
-        }]
-      }, {
-        delay: "auto",
-        duration: "auto",
-        text: "The fifth: SOMETHING ABOUT PIZZA",
-        style: [],
-        options: [{
-          text: null,
-          destination: null,
-          style: [],
-          opinion: 0,
-          oncommand: function oncommand(aic) {},
-          conditions: []
-        }]
-      }, {
-        delay: "auto",
-        duration: "auto",
-        text: "The sixth: it choked on a piece of SCP-5000.\nBut I can't rhyme with that, because it's not the final number.",
-        style: [],
-        options: [{
-          text: null,
-          destination: null,
-          style: [],
-          opinion: 0,
-          oncommand: function oncommand(aic) {},
-          conditions: []
-        }]
-      }, {
-        delay: "auto",
-        duration: "auto",
-        text: "My quantum computing makes it impossible to see\nWhich of these choices matches reality.\"",
+        text: "<char alex|The sixth: it choked on a piece of SCP-5000.\nBut I can't rhyme with that, because it's not the final number.>",
         style: [],
         options: [{
           text: null,
@@ -1240,57 +1233,70 @@ get_events = function get_events(aic) {
       lines: [{
         delay: "auto",
         duration: "auto",
+        text: "<char alex|My quantum computing makes it impossible to see\nWhich of these choices matches reality.\">",
+        style: [],
+        options: [{
+          text: null,
+          destination: null,
+          style: [],
+          opinion: 0,
+          oncommand: function oncommand(aic) {},
+          conditions: []
+        }]
+      }, {
+        delay: "auto",
+        duration: "auto",
         text: "Ochre turns to you. <char ochre|\"Well? Which will it be?\nWhich of those choices looks best to ye?\">",
         style: [],
         options: [{
-          text: "Vehicular manslaughter",
+          text: "<plum|Vehicular manslaughter>",
           destination: 'ochre_confirm',
-          style: [],
+          style: ['ochre'],
           opinion: 0,
           oncommand: function oncommand(aic) {
             return aic.vars.chosen_method = "car";
           },
           conditions: []
         }, {
-          text: "Blunt force injury",
+          text: "<plum|Blunt force injury>",
           destination: 'ochre_confirm',
-          style: [],
+          style: ['ochre'],
           opinion: 0,
           oncommand: function oncommand(aic) {
             return aic.vars.chosen_method = "vase";
           },
           conditions: []
         }, {
-          text: "Fatal exposure to a memetic agent",
+          text: "<plum|Fatal exposure to a memetic agent>",
           destination: 'ochre_confirm',
-          style: [],
+          style: ['ochre'],
           opinion: 0,
           oncommand: function oncommand(aic) {
             return aic.vars.chosen_method = "bl";
           },
           conditions: []
         }, {
-          text: "Reassembly into a child's toy",
+          text: "<plum|Reassembly into a child's toy>",
           destination: 'ochre_confirm',
-          style: [],
+          style: ['ochre'],
           opinion: 0,
           oncommand: function oncommand(aic) {
             return aic.vars.chosen_method = "bear";
           },
           conditions: []
         }, {
-          text: "Force-fed pizza",
+          text: "<plum|Force-fed pizza>",
           destination: 'ochre_confirm',
-          style: [],
+          style: ['ochre'],
           opinion: 0,
           oncommand: function oncommand(aic) {
             return aic.vars.chosen_method = "pizza";
           },
           conditions: []
         }, {
-          text: "Choked on a small object",
+          text: "<plum|Choked on a small object>",
           destination: 'ochre_confirm',
-          style: [],
+          style: ['ochre'],
           opinion: 0,
           oncommand: function oncommand(aic) {
             return aic.vars.chosen_method = "choke";
@@ -1462,9 +1468,9 @@ get_events = function get_events(aic) {
         text: "She points to the body. <char ochre|\"It wasn't killed there.\nPlum, you were the first - this blood trail leads where?\">",
         style: [],
         options: [{
-          text: null,
+          text: "<plum|Uhhh…>",
           destination: 'plum_location',
-          style: [],
+          style: ['ochre'],
           opinion: 0,
           oncommand: function oncommand(aic) {},
           conditions: []
@@ -1747,7 +1753,7 @@ get_events = function get_events(aic) {
           oncommand: function oncommand(aic) {},
           conditions: []
         }, {
-          text: "HMCL Supervisor Andrew Clementine",
+          text: "HMCL Supervisor Aubrey Clementine",
           destination: 'int_clem_start',
           style: ['clem'],
           opinion: 0,

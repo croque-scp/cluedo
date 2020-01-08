@@ -42,8 +42,7 @@
                ng-repeat="line in aic.chatLog.log"
                ng-class="line['cssClass']">
             <p class="text"
-               ng-bind-html="line['text']">
-            </p>
+               ng-bind-html="line['text']"></p>
           </div>
         </div>
 
@@ -56,7 +55,7 @@
                  ng-class="option['cssClass']"
                  ng-click="aic.select_option(option)">
               <img ng-src="{{::aic.lang.images['px']}}">
-              <span>{{option['text']}}</span>
+              <p ng-bind-html="option['text']"></p>
             </div>
           </div>
         </div>

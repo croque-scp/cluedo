@@ -7,9 +7,8 @@ aic_init = function aic_init(aic) {
 
   aic.preload = true; // MUST BE TRUE
   // The following variable determines what the initial event is
-  // aic.start = 'wake_up'
 
-  aic.start = 'alex_appear'; // The following variables can be changed to make adjustments
+  aic.start = 'wake_up'; // The following variables can be changed to make adjustments
 
   aic.typingDelay = 0.0;
   aic.typingSpeed = 0.0; // seconds per letter
@@ -33,7 +32,7 @@ aic_init = function aic_init(aic) {
   aic.config['clear_log_between_events'] = true;
   aic.config['add_to_log_in_reverse_order'] = false;
   aic.config['default_option_name'] = aic.lang['default_option_name'];
-  aic.config['default_option_class'] = ["next_option"];
+  aic.config['default_option_class'] = ["plum"];
   aic.config['empty_option_proceeds_immediately'] = false;
   console.log("Done initialising variables");
   return aic;

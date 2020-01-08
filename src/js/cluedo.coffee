@@ -136,8 +136,8 @@ do ->
         option_modifier = {
           event_name: event_name
           conversation: event['conversation']
-          text: option['text'] ? aic.config['default_option_name']
-          cssClass: option['cssClass'] ? aic.config['default_option_class']
+          text: (option['text'] ? aic.config['default_option_name']).wikidot_format()
+          cssClass: if option['style'].length > 0 then option['style'] else aic.config['default_option_class']
           # XXX does ? check for empty list?
         }
         aic.chatLog.options.push Object.assign({}, option, option_modifier)

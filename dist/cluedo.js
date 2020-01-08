@@ -152,7 +152,7 @@ var assert,
 
 
     aic.present_options = function (event_name, line) {
-      var event, j, len, option, option_modifier, ref, ref1, ref2, results; // present the options for this line
+      var event, j, len, option, option_modifier, ref, ref1, results; // present the options for this line
 
       event = aic.events[event_name]; // options list may not be empty:
 
@@ -182,8 +182,8 @@ var assert,
         option_modifier = {
           event_name: event_name,
           conversation: event['conversation'],
-          text: (ref1 = option['text']) != null ? ref1 : aic.config['default_option_name'],
-          cssClass: (ref2 = option['cssClass']) != null ? ref2 : aic.config['default_option_class']
+          text: ((ref1 = option['text']) != null ? ref1 : aic.config['default_option_name']).wikidot_format(),
+          cssClass: option['style'].length > 0 ? option['style'] : aic.config['default_option_class']
         }; // XXX does ? check for empty list?
 
         results.push(aic.chatLog.options.push(Object.assign({}, option, option_modifier)));
