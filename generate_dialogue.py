@@ -153,6 +153,7 @@ get_events = (aic) ->
     'postcommand': "\n        {}",
     'line_start': '''\
         {{
+          index: {index}
           delay: {delay}
           duration: {duration}
           text: {text}
@@ -161,6 +162,7 @@ get_events = (aic) ->
 ''',
     'option_start': '''\
             {{
+              index: {index}
               text: {text}
               destination: {destination}
               style: [{style}]
@@ -201,19 +203,20 @@ for frame in frames:
         postcommands="return" if pd.isna(postcommands) else
                      "".join([format['postcommand'].format(c)
                               for c in postcommands.splitlines()]))
-    for line in frame:
+    for index,line in enumerate(frame):
         line_output = format['line_start'].format(
-            # TODO delay and duration
+            index=index,
             delay="\"auto\"",
             duration="\"auto\"",
             text="null" if pd.isna(line[0]['Lines']) else
                  "\"{}\"".format("\\n".join(line[0]['Lines'].splitlines())),
             style="" if pd.isna(line[0]['lc']) else
                   str(line[0]['lc'].splitlines())[1:-1])
-        for option in line:
+        for index,option in enumerate(line):
             oncommands = option['oncommands']
             conditions = option['Appears If']
             option_output = format['option_start'].format(
+                index=index,
                 text="null" if pd.isna(option['Options']) else
                      "\"{}\"".format(option['Options']),
                 destination="null" if pd.isna(option['ID out']) else

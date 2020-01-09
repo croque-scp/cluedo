@@ -34,6 +34,15 @@ do ->
       # If the above is false, if an option's text is `null` and it has no CSS
       # class, what should its class be? (list of strings)
       default_option_class: []
+      # A static delay before each event. precommands happen first. In seconds.
+      event_delay: 0.0
+      # A static delay between each message. Does not show indicator. In
+      # seconds.
+      typing_delay: 0.3
+      # A dynamic delay between each message, effective delay is this value
+      # multipled by the number of letters in the message. Shows indicator. In
+      # seconds.
+      typing_speed: 0.04
     }
 
     $scope.trustAsHtml = (string) ->
@@ -42,9 +51,8 @@ do ->
     aic.lang = {} # All strings that aren't dialogue
     aic.events = {} # All events
 
-    aic.typingDelay = 0.3
-    aic.typingSpeed = 0.04 # seconds per letter
     aic.wipeTimer = false # timer for hard wiping
+    # XXX /\ what actually is this?
     aic.timeOutList = []
     aic.isSpeaking = {}
     aic.isProcessing = {}
@@ -107,10 +115,13 @@ do ->
           line['conversation'] isnt event['conversation']
       # Execute any precommands
       event['precommand'] aic
-      # write the lines, one by one, and display options of the final
-      writeDialogue event_name, lines
-      # Execute any postcommands
-      event['postcommand'] aic
+      # Wait the event_delay, if there is one
+      $timeout((->
+        # write the lines, one by one, and display options of the final
+        writeDialogue event_name, lines
+        # Execute any postcommands
+        event['postcommand'] aic
+      ), (aic.config['event_delay'] ? 0) * 1000, true)
 
     ### PROCESSING FUNCTIONS ###
 
@@ -165,8 +176,10 @@ do ->
       for line in lines
         delay = line['delay']
         duration = line['duration']
-        if delay is 'auto' then delay = aic.typingDelay
-        if duration is 'auto' then duration = aic.typingSpeed * line['text'].length
+        if delay is 'auto'
+          delay = aic.config['typing_delay']
+        if duration is 'auto'
+          duration = aic.config['typing_speed'] * line['text'].length
         assert typeof delay is 'number' and typeof duration is 'number'
         ## XXX check that opinion is propagated, may have just deleted the logic
         # obviously maitreya also always speaks instantly
@@ -265,8 +278,9 @@ do ->
 
             log = {
               conversation: conversation
-              cssClass: message['cssClass']
+              cssClass: message['line']['style']
               text: text.wikidot_format()
+              index: message['line']['index']
             }
             if aic.config['add_to_log_in_reverse_order']
               aic.chatLog.log.unshift log

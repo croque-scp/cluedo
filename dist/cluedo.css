@@ -18,7 +18,27 @@ html, body, #container {
   justify-content: space-around;
 }
 
-.line { padding: 1rem; }
+.line {
+  padding: 1rem;
+}
+.line-wrapper.ng-enter {
+  transition: all 1s ease-in-out;
+  opacity: 0;
+}
+.line-wrapper.ng-enter-stagger {
+  transition-delay: 0.5s;
+  transition-duration: 0;
+}
+.line-wrapper.ng-enter-active {
+  opacity: 1;
+}
+.line-wrapper.ng-leave {
+  transition: all 0.4s ease-in-out;
+  opacity: 1;
+}
+.line-wrapper.ng-leave-active {
+  opacity: 0;
+}
 
 .line.light p, .line:not(.dark) p { --h: 0; --s: 0%; --l: 0%; }
 .line.dark p { --h: 0; --s: 0%; --l: 100%; }

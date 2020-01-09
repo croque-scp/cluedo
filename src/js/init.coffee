@@ -9,11 +9,6 @@ aic_init = (aic) ->
 
   aic.start = 'wake_up'
 
-  # The following variables can be changed to make adjustments
-
-  aic.typingDelay = 0.0
-  aic.typingSpeed = 0.0 # seconds per letter
-
   # The following variables will be preserved on save/load
 
   aic.vars =
@@ -40,6 +35,9 @@ aic_init = (aic) ->
   aic.config['default_option_name'] = aic.lang['default_option_name']
   aic.config['default_option_class'] = ["plum"]
   aic.config['empty_option_proceeds_immediately'] = false
+  aic.config['event_delay'] = 0.5
+  aic.config['typing_delay'] = 0
+  aic.config['typing_speed'] = 0
 
   console.log "Done initialising variables"
   return aic

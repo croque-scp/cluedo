@@ -37,7 +37,16 @@ var assert,
       default_option_name: "Undefined option",
       // If the above is false, if an option's text is `null` and it has no CSS
       // class, what should its class be? (list of strings)
-      default_option_class: []
+      default_option_class: [],
+      // A static delay before each event. precommands happen first. In seconds.
+      event_delay: 0.0,
+      // A static delay between each message. Does not show indicator. In
+      // seconds.
+      typing_delay: 0.3,
+      // A dynamic delay between each message, effective delay is this value
+      // multipled by the number of letters in the message. Shows indicator. In
+      // seconds.
+      typing_speed: 0.04
     };
 
     $scope.trustAsHtml = function (string) {
@@ -48,10 +57,8 @@ var assert,
 
     aic.events = {}; // All events
 
-    aic.typingDelay = 0.3;
-    aic.typingSpeed = 0.04; // seconds per letter
-
     aic.wipeTimer = false; // timer for hard wiping
+    // XXX /\ what actually is this?
 
     aic.timeOutList = [];
     aic.isSpeaking = {};
@@ -95,7 +102,7 @@ var assert,
     };
 
     aic.execute_event = function (event_name) {
-      var condition, conditions, event, j, k, l, len, len1, len2, line, lines, option, options, ref, ref1, ref2; // Function for executing a single event.
+      var condition, conditions, event, j, k, l, len, len1, len2, line, lines, option, options, ref, ref1, ref2, ref3; // Function for executing a single event.
 
       console.log("Event: " + event_name);
       event = aic.events[event_name]; // clear the options for this conversation
@@ -141,11 +148,14 @@ var assert,
       } // Execute any precommands
 
 
-      event['precommand'](aic); // write the lines, one by one, and display options of the final
+      event['precommand'](aic); // Wait the event_delay, if there is one
 
-      writeDialogue(event_name, lines); // Execute any postcommands
+      return $timeout(function () {
+        // write the lines, one by one, and display options of the final
+        writeDialogue(event_name, lines); // Execute any postcommands
 
-      return event['postcommand'](aic);
+        return event['postcommand'](aic);
+      }, ((ref3 = aic.config['event_delay']) != null ? ref3 : 0) * 1000, true);
     };
     /* PROCESSING FUNCTIONS */
     // pass options to chatLog for presentation to the user
@@ -221,11 +231,11 @@ var assert,
         duration = line['duration'];
 
         if (delay === 'auto') {
-          delay = aic.typingDelay;
+          delay = aic.config['typing_delay'];
         }
 
         if (duration === 'auto') {
-          duration = aic.typingSpeed * line['text'].length;
+          duration = aic.config['typing_speed'] * line['text'].length;
         }
 
         assert(typeof delay === 'number' && typeof duration === 'number'); //# XXX check that opinion is propagated, may have just deleted the logic
@@ -341,8 +351,9 @@ var assert,
             // don't push the message if it's empty
             log = {
               conversation: conversation,
-              cssClass: message['cssClass'],
-              text: text.wikidot_format()
+              cssClass: message['line']['style'],
+              text: text.wikidot_format(),
+              index: message['line']['index']
             };
 
             if (aic.config['add_to_log_in_reverse_order']) {
