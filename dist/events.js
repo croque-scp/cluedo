@@ -878,7 +878,7 @@ get_events = function get_events(aic) {
       lines: [{
         delay: "auto",
         duration: "auto",
-        text: "The fifth's <char sky|Leia Sky>, the security guard.\nShe always greets you when you beep your card.",
+        text: "The fifth's <char sky|Lily Sky>, the security guard.\nShe always greets you when you beep your card.",
         style: [],
         options: [{
           text: null,
@@ -1811,7 +1811,7 @@ get_events = function get_events(aic) {
             return aic.vars.green === "gary";
           }]
         }, {
-          text: "Security Guard Leia Sky",
+          text: "Security Guard Lily Sky",
           destination: 'int_sky_start',
           style: ['sky'],
           opinion: 0,
