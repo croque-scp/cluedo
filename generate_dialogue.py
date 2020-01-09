@@ -144,6 +144,7 @@ get_events = (aic) ->
 ''',
     'event_start': '''\
     {event_name}: {{
+      index: {index}
       conversation: '{conversation}'
       precommand: (aic) -> {precommands}
       postcommand: (aic) -> {postcommands}
@@ -189,11 +190,14 @@ get_events = (aic) ->
 '''
 }
 
+index = 0
 final_output = format['start']
 for frame in frames:
+    index += 1
     precommands = frame[0][0]['precommands']
     postcommands = frame[0][0]['postcommands']
     event_output = format['event_start'].format(
+        index=index,
         event_name=frame[0][0]['ID in'],
         conversation="default",
         # XXX the following doesn't preserve indent for multiline
@@ -203,7 +207,8 @@ for frame in frames:
         postcommands="return" if pd.isna(postcommands) else
                      "".join([format['postcommand'].format(c)
                               for c in postcommands.splitlines()]))
-    for index,line in enumerate(frame):
+    for line in frame:
+        index += 1
         line_output = format['line_start'].format(
             index=index,
             delay="\"auto\"",
@@ -212,7 +217,8 @@ for frame in frames:
                  "\"{}\"".format("\\n".join(line[0]['Lines'].splitlines())),
             style="" if pd.isna(line[0]['lc']) else
                   str(line[0]['lc'].splitlines())[1:-1])
-        for index,option in enumerate(line):
+        for option in line:
+            index += 1
             oncommands = option['oncommands']
             conditions = option['Appears If']
             option_output = format['option_start'].format(
