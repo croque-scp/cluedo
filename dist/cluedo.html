@@ -40,8 +40,7 @@
         <div class="lines"
              ng-animate-children="true">
           <div class="line-wrapper"
-               ng-repeat="line in aic.chatLog.log track by line['index']"
-               ng-animate-swap="line">
+               ng-repeat="line in aic.chatLog.log">
             <div class="line"
                  ng-class="line['cssClass']">
               <p class="text"
